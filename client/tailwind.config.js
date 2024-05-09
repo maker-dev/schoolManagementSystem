@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      tahoma: ["Tahoma", "Verdana", "Segoe", "sans-serif"],
+    },
+    
   },
   plugins: [],
 }
