@@ -1,18 +1,21 @@
 import menu_icon from '../../assets/icons/menu_icon.svg';
 import x from '../../assets/icons/x.svg';
 import { useState } from "react";
+import SideBar from './SideBar'
 
 
 export default  function NavBar(){
 
     const [isHidden, setIsHidden] = useState(true);
-    const [isConnect, setIsConnect] = useState(false);
+    const [isConnect, setIsConnect] = useState(true);
     const handleMenu = () => {
         setIsHidden(isHidden ? false:true);
     }
     return (
         <div className="flex flex-col w-full">
-           <div className={isHidden ? "hidden":""}>SideBar component</div>
+           <div className={isHidden ? "hidden":"sm:hidden"}>
+                <SideBar/>
+           </div>
            <div className="flex justify-between px-6 py-4 w-full bg-teal-600 shadow-lg">
                 <div className="flex  justify-between w-1/2">
                     <button onClick={()=>handleMenu()} className="sm:hidden"><img src={isHidden ? menu_icon:x} alt="menu icon" /></button>
