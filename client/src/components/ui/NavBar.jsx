@@ -13,12 +13,12 @@ export default  function NavBar(){
     }
     return (
         <div className="flex flex-col w-full">
-           <div className={isHidden ? "hidden":"sm:hidden"}>
+           <div className={isHidden ? "hidden":"md:hidden"}>
                 <SideBar/>
            </div>
            <div className="flex justify-between px-6 py-4 w-full bg-teal-600 shadow-lg">
                 <div className="flex  justify-between w-1/2">
-                    <button onClick={()=>handleMenu()} className="sm:hidden"><img src={isHidden ? menu_icon:x} alt="menu icon" /></button>
+                    <button onClick={()=>handleMenu()} className="md:hidden"><img src={isHidden ? menu_icon:x} alt="menu icon" /></button>
                     <div className="text-white font-bold text-xl">Logo</div>
                 </div>
                 <div> 

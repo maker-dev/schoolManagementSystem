@@ -22,6 +22,12 @@ export default function SideBar(){
                 <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
                 <MenuItem link="/professeur" icon={teacherIC} content="Professeures"/>
                 <MenuItem link="/abscence" icon={studentPresenceIC} content="Abscence"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
+                <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
                 
             </ul>
         
