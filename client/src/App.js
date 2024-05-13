@@ -1,5 +1,6 @@
 
-import {  Route, Routes, Auth } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
+import Auth from "./global/Auth";
 import './App.css';
 import HomePage from "./components/pages/HomePage";
 import Dashboard from "./components/pages/Dashboard";

@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom';
 import { useAuth } from '../global/Auth.js';
 import LoginTeacher from '../components/pages/LoginTeacher.jsx';
-import HomePage from '../Pages/HomePage.jsx';
+import HomePage from '../components/pages/HomePage.jsx';
 
 function TeacherRoute() {
     const {user} = useAuth();

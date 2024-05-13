@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import api from '../Api/api';
+import api from '../api/api';
 
 const AuthContext = createContext();
 
@@ -47,8 +47,6 @@ function Auth({ children }) {
   const values = {
     user,
     setUser,
-    coordinates,
-    setCoordinates,
     login,
     logout
   };
