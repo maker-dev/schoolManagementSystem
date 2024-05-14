@@ -11,7 +11,7 @@ import TeacherRoute from "./protected_routes/TeacherRote";
 import LoginStudent from "./components/pages/LoginStudent";
 import LoginAdmin from "./components/pages/LoginAdmin";
 import LoginTeacher from "./components/pages/LoginTeacher";
-import SignIn from "./components/pages/SignIn";
+import SignUp from "./components/pages/SignUp";
 // import CardDashboard from "./components/cards/CardDashboard";
 
 
@@ -25,7 +25,7 @@ function App() {
             <Route path="/loginEtudiant" element={<LoginStudent/>}/>
             <Route path="/loginAdmin" element={<LoginAdmin/>}/>
             <Route path="/loginProf" element={<LoginTeacher/>}/>
-            <Route path="/signIn" element={<SignIn/>}/>
+            <Route path="/signUp" element={<SignUp/>}/>
             <Route element={<TeacherRoute />}>
               <Route path="/dashboard" element={<Dashboard/>}/>
             </Route>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from './config'
 
+
 const api = axios.create({
     baseURL: config.apiUrl,
     withCredentials: true,
@@ -11,6 +12,8 @@ const api = axios.create({
     validateStatus: function (status) {
         return status < 500;
     }
+    
 });
+console.log(config.apiKey);
 
 export default api;

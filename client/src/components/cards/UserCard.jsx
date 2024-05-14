@@ -1,6 +1,6 @@
 export default function UserCard({icon , user, desc, link}){
     return(
-        <div className="p-4 max-w-sm">
+        <div className="p-6 max-w-sm">
         <div className="flex rounded-lg h-full bg-gray-800  p-8 flex-col">
             <div className="flex items-center mb-3">
                 <div className="w-10 h-10 mr-3 fill-white inline-flex items-center justify-center rounded-full  bg-indigo-500 text-white flex-shrink-0">
