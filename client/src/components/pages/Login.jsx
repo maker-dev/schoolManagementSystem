@@ -2,7 +2,7 @@ export default function Login({title}){
     return(
         <section className="bg-gray-50 ">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
+            <a href="/" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
                 Logo  
             </a>
             <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
@@ -31,6 +31,9 @@ export default function Login({title}){
                             <a href="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</a>
                         </div>
                         <button type="submit" className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
+                        <p class="text-sm font-light text-gray-500 ">
+                            Vous n'avez pas encore un compte ? <a href="/singIn" class="font-medium text-primary-600 hover:underline">Inscrivez vous!</a>
+                        </p>
                     </form>
                 </div>
             </div>
