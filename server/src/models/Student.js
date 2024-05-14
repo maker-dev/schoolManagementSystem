@@ -42,6 +42,10 @@ const StudentSchema = new mongoose.Schema({
         type: String,
         default: "Student"
     },
+    verified: {
+        type: Boolean,
+        default: false
+    },
     attendance: [{
         date: {
             type: Date,

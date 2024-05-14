@@ -34,6 +34,10 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         default: "Teacher"
     },
+    verified: {
+        type: Boolean,
+        default: false
+    },
     attendance: [{
         date: {
             type: Date,
