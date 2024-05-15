@@ -2,6 +2,7 @@ import express from 'express';
 import {routes} from './routes/routes.js';
 import mongoose from 'mongoose';
 import {config} from 'dotenv';
+import cors from 'cors';
 
 //config env
 config();
@@ -12,8 +13,8 @@ const PORT = 8080;
 
 //middlewares
 app.use(express.json());
+app.use(cors());
 app.use("/", routes);
-
 
 //mongoose
 mongoose.connect(process.env.DATABASE_URL);
