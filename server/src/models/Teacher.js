@@ -17,9 +17,16 @@ const LessonSchema = new mongoose.Schema({
 });
 
 const TeacherSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
         required: true,
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    salary: {
+        type: Number
     },
     email: {
         type: String,

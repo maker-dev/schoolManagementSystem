@@ -16,10 +16,42 @@ const LessonSchema = new mongoose.Schema({
     }
 });
 
+const examSchema = new mongoose.Schema({
+    subName: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "subjects"
+    },
+    semester: {
+        type: Number,
+        required: true
+    },
+    marksObtained: {
+        type: Number,
+        default: 0
+    }
+
+})
+
 const StudentSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
         required: true,
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    tel: {
+        type: String,
+        required: true
+    },
+    typeOfBac: {
+        type: String,
+        required: true
+    },
+    field: {
+        type: String,
+        required: true
     },
     email: {
         type: String,
@@ -30,14 +62,6 @@ const StudentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    age: {
-        type: Number,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
     role: {
         type: String,
         default: "Student"
@@ -46,6 +70,13 @@ const StudentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    examResults: [{
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        examInfo: [examSchema]
+    }],
     attendance: [{
         date: {
             type: Date,

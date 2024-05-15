@@ -20,7 +20,7 @@ const adminLogin = async (req, res) => {
         
         const token = jwt.sign({id: admin._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        return res.json({token, id: admin._id});
+        return res.json({token, user: admin});
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }

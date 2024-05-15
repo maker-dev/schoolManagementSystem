@@ -4,11 +4,11 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 
 const teacherRegister = async (req, res) => {
-    const {name, email, password} = req.body;
+    const {firstName, lastName, email, password} = req.body;
     
     try {
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: "Username, email and password are required." });
+        if (!firstName || !lastName || !email || !password) {
+            return res.status(400).json({ message: "Some fields are missing ." });
         }
         
         const teacher = await TeacherModel.findOne({email});
@@ -19,7 +19,9 @@ const teacherRegister = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
     
         const newTeacher = new TeacherModel({
-            name: name,
+            firstName,
+            lastName,
+            salary: null,
             email,
             password: hashedPassword, 
             attendance: []
@@ -48,7 +50,7 @@ const teacherRegister = async (req, res) => {
             html: `
             <p>Bienvenue dans notre école !</p>
             <p>Merci de vous être inscrit en tant que professeur. Nous sommes ravis de vous accueillir parmi nous.</p>
-            <p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous :</p>
+            <p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous.  Veuillez noter que ce lien expirera dans 20 minutes : :</p>
             <a href="${url}">Vérifier mon compte</a>
             <p>Meilleures salutations,</p>
             <p>Votre équipe</p>
@@ -91,7 +93,7 @@ const teacherLogin = async (req, res) => {
         
         const token = jwt.sign({id: teacher._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        return res.json({token, id: teacher._id});
+        return res.json({token, user: teacher});
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }

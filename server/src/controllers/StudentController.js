@@ -4,11 +4,11 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 
 const studentRegister = async (req, res) => {
-    const {name, email, password, age, address} = req.body;
+    const {firstName, lastName, tel, typeOfBac, field, email, password} = req.body;
 
     try {
-        if (!name || !email || !password || !age || !address) {
-            return res.status(400).json({ message: "Username, email, age, address and password are required." });
+        if (!firstName || !lastName || !tel || !typeOfBac || !field || !email || !password ) {
+            return res.status(400).json({ message: "Some fields are missing ." });
         }
         
         const student = await StudentModel.findOne({email});
@@ -18,12 +18,15 @@ const studentRegister = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
     
         const newStudent = new StudentModel({
-            name: name,
+            firstName,
+            lastName,
+            tel,
+            typeOfBac,
+            field,
             email,
-            age,
-            address,
-            password: hashedPassword, 
-            attendance: []
+            password: hashedPassword,
+            examResults: [], 
+            attendance: [],
         });
     
         await newStudent.save();
@@ -49,7 +52,7 @@ const studentRegister = async (req, res) => {
             html: `
             <p>Bienvenue dans notre école !</p>
             <p>Merci de vous être inscrit en tant qu'étudiant. Nous sommes ravis de vous accueillir parmi nous.</p>
-            <p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous :</p>
+            <p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous.  Veuillez noter que ce lien expirera dans 20 minutes : :</p>
             <a href="${url}">Vérifier mon compte</a>
             <p>Meilleures salutations,</p>
             <p>Votre équipe</p>
@@ -94,7 +97,7 @@ const studentLogin = async (req, res) => {
         
         const token = jwt.sign({id: student._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        return res.json({token, id: student._id});
+        return res.json({token, user: student});
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
