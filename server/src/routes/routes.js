@@ -8,6 +8,7 @@ import verifyKey from "../middlewares/verifyKey.js";
 import { validateTeacherRegister, validateTeacherLogin } from '../middlewares/validation/teacher.js';
 import { validateStudentRegister, validateStudentLogin } from "../middlewares/validation/student.js";
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
+import {user} from '../controllers/UserController.js';
 
 const routes = Router();
 
@@ -23,5 +24,8 @@ routes.get("/teacherConfirmation/:token", teacherConfirmation);
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
 routes.post("/studentLogin", verifyKey, validateStudentLogin, studentLogin);
 routes.get("/studentConfirmation/:token", studentConfirmation);
+
+//user
+routes.post("/user", verifyKey, verifyToken, user);
 
 export {routes};
