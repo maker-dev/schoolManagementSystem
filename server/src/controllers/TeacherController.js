@@ -2,19 +2,18 @@ import { TeacherModel } from "../models/Teacher.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
+import { validationResult } from 'express-validator';
 
 const teacherRegister = async (req, res) => {
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const {firstName, lastName, email, password} = req.body;
     
     try {
-        if (!firstName || !lastName || !email || !password) {
-            return res.status(400).json({ message: "Some fields are missing ." });
-        }
-        
-        const teacher = await TeacherModel.findOne({email});
-        
-        if (teacher) return res.status(401).json({message: "teacher already exists !"});
-        
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
     
@@ -74,26 +73,36 @@ const teacherRegister = async (req, res) => {
 }
 
 const teacherLogin = async (req, res) => {
+
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const {email, password} = req.body;
 
     try {
-        if (!email || !password) {
-            return res.status(400).json({ message: "email and password are required." });
-        }
 
         const teacher = await TeacherModel.findOne({email: email});
-        
-        if (!teacher) return res.status(401).json({message: "User doesn't exists !"});
-
-        if (!teacher.verified) return res.status(401).json({message: "User not verified"});
 
         const isPasswordValid = await bcrypt.compare(password, teacher.password);
 
-        if (!isPasswordValid) return res.status(401).json({message: "Password is incorrect !"});
+        if (!isPasswordValid) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: password,
+                    msg: "Password is Incorrect",
+                    path: "password",
+                    location: "body"
+                }
+            ]
+        });
         
         const token = jwt.sign({id: teacher._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        return res.json({token, user: teacher});
+        return res.json({token});
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
