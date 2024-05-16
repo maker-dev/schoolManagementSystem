@@ -16,19 +16,12 @@ function Auth({ children }) {
     }
   }, []);
 
-  const fetchUser = async () => {
-    try {
-      const response = await api.get("user", {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}` // Include token in request headers
-        }
-      });
-      setUser(response.data.data.user);
-    } catch (error) {
-      // If error, clear token from cookies
-      Cookies.remove('token');
-      console.error('Error fetching user:', error);
-    }
+  const fetchUser =  () => {
+    
+      setUser(Cookies.get("user"));
+      
+      
+    
   };
 
 

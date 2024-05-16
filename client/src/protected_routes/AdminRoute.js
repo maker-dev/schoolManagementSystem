@@ -1,17 +1,18 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../global/Auth.js';
-import LoginAdmin from '../components/pages/LoginAdmin.jsx';
-import HomePage from '../components/pages/HomePage.jsx';
+import Cookies from 'js-cookie';
 
 function AdminRoute() {
-    const {user} = useAuth();
+    const user = Cookies.get('user');
+    console.log(user);
+    
     if (user === null) {
-        return <LoginAdmin />
+        Navigate("/loginAdmin");
     } else if (user.role == "Admin") {
         return <Outlet />
     } else {
-        return <HomePage />
+        Navigate("/userChoice");
     }
 }
 
