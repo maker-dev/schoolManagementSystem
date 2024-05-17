@@ -3,20 +3,21 @@ import {StudentModel} from '../../models/Student.js';
 
 const validateStudentRegister = [
     check('firstName')
-        .notEmpty().withMessage('First name is required')
+        .notEmpty().withMessage('First name is required').bail()
         .isAlpha().withMessage('First name must contain only letters'),
     check('lastName')
-        .notEmpty().withMessage('Last name is required')
+        .notEmpty().withMessage('Last name is required').bail()
         .isAlpha().withMessage('Last name must contain only letters'),
     check('tel')
-        .notEmpty().withMessage('Telephone number is required')
+        .notEmpty().withMessage('Telephone number is required').bail()
         .isMobilePhone().withMessage('Invalid telephone number'),
     check('typeOfBac')
         .notEmpty().withMessage('Type of Bac is required'),
     check('field')
         .notEmpty().withMessage('Field is required'),
     check('email')
-        .isEmail().withMessage('Invalid email address')
+        .notEmpty().withMessage('Email is required').bail()
+        .isEmail().withMessage('Invalid email address').bail()
         .custom(async (email) => {
             const student = await StudentModel.findOne({ email });
             if (student) {
@@ -31,7 +32,8 @@ const validateStudentRegister = [
 
 const validateStudentLogin = [
     check('email')
-        .isEmail().withMessage('Invalid email address')
+        .notEmpty().withMessage("Email is required").bail()
+        .isEmail().withMessage('Invalid email address').bail()
         .custom(async (email) => {
             const existingStudent = await StudentModel.findOne({email});
             if (!existingStudent) throw new Error("User doesn't exists !");
