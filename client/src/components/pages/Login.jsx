@@ -29,7 +29,7 @@ export default function Login({ title }) {
     setValidateCredentials("");
     e.preventDefault();
 
-    try {
+    
       const response = await api.post("adminLogin", JSON.stringify({ email, password }));
 
       if (response.status === 422) {
@@ -42,25 +42,24 @@ export default function Login({ title }) {
             arrErrors.push({key: i, msg: response.data.errors[i].msg});
         }
         setValidateCredentials(arrErrors);
-        console.log(arrErrors);
+        
+       
       } else if (response.status === 200) {
         // setUser(response.data.user);
         Cookies.set('token', response.data.token,{ sameSite: 'Lax' });
-        // No need to set the user state here since it's already managed by the useUser hook
-        Cookies.set('user', user,{ sameSite: 'Lax' });
-       
+        Cookies.set('userRole',user.role, {sameSite: 'Lax' });
+        
         
         navigate("/dashboard");
       }
       
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
+    
+      
   }
-
+  
   return (
-    <section className="bg-gray-50   h-svh pt-4">
-      <div className="flex flex-col items-center justify-center px-8 py-10 mx-auto  lg:py-0 my-4">
+    <section className="bg-gray-50   h-lvh ">
+      <div className="flex flex-col items-center justify-center  mx-auto  lg:py-0 ">
         <a href="/" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
           Logo
         </a>
@@ -70,10 +69,10 @@ export default function Login({ title }) {
               {title}
             </h1>
             <form className="space-y-4 md:space-y-6" >
-              {validateCredentials !== "" &&
+              {validateCredentials.length != 0 &&
                 <div className=' bg-red-300 text-red-900 p-4'>
                     <ul className='list-disc pl-20 pr-20'>
-                        {validateCredentials.map(item => (
+                        { validateCredentials.map(item => (
                           
                         // Use the item's ID as the key for efficient rendering
                         <li key={item.key}>{item.msg}</li>

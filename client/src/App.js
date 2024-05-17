@@ -1,66 +1,49 @@
-
-import {  Route, Routes } from "react-router-dom";
-import Auth from "./global/Auth";
+import { Navigate, Route, useNavigate, Routes } from "react-router-dom";
 import './App.css';
 import HomePage from "./components/pages/HomePage";
 import Dashboard from "./components/pages/Dashboard";
 import UserChoice from "./components/pages/UserChoice";
-import AdminRoute from "./protected_routes/AdminRoute";
-import StudentRoute from "./protected_routes/StudentRoute";
-import TeacherRoute from "./protected_routes/TeacherRote";
 import LoginStudent from "./components/pages/LoginStudent";
 import LoginAdmin from "./components/pages/LoginAdmin";
 import LoginTeacher from "./components/pages/LoginTeacher";
 import SignUp from "./components/pages/SignUp";
-import useUser from "./global/User";
-import Cookies from 'js-cookie';
-// import CardDashboard from "./components/cards/CardDashboard";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
-// const user = User();
-// console.log(user);
+
 
 function App() {
-
-  const user = useUser();
+  
+  const [role] = useState(Cookies.get("userRole"));
+  
+  
+ 
   
   return (
     <div className="App">
       
-   
-        <Routes>
-
-         {user != null && user.role == "Admin" &&
-         <Route path="/dashboard" element={<Dashboard/>}/>
-         }
-            
-       
-        {user === null &&
+      <Routes>
+        {role != null && role == "Admin" &&
         <>
-          <Route path="/userChoice" element={<UserChoice/>}/>
-          <Route path="/loginEtudiant" element={<LoginStudent/>}/>
-          <Route path="/loginAdmin" element={<LoginAdmin/>}/>
-          <Route path="/loginProf" element={<LoginTeacher/>}/>
-          <Route path="/signUp" element={<SignUp/>}/>
-          <Route path="/" element={<HomePage/>}/>
+          <Route path="/*" element={<Navigate to="/dashboard" />} />
+          
+          <Route path="/dashboard" element={<Dashboard />} />
         </>
          
-         }
-            
-            {/* <Route element={<TeacherRoute />}>
-              <Route path="/dashboard" element={<Dashboard/>}/>
-            </Route>
-            <Route element={<StudentRoute />}>
-              <Route path="/dashboard" element={<Dashboard/>}/>
-            </Route> */}
-            {/* <Route element={<AdminRoute />}>
-              <Route path="/dashboard" element={<Dashboard/>}/>
-            </Route> */}
-            
-            {/* <Route path="/test" element={<CardDashboard/>}/> */}
-            <Route path="/*" element={<div>nothing</div>}/>
-        </Routes>
-   
-        
+        }
+
+        { (role == null || role == undefined || role == "null"|| role == "") &&
+          <>
+            <Route path="/*" element={<Navigate to="/" />} />
+            <Route path="/userChoice" element={<UserChoice />} />
+            <Route path="/loginEtudiant" element={<LoginStudent />} />
+            <Route path="/loginAdmin" element={<LoginAdmin />} />
+            <Route path="/loginProf" element={<LoginTeacher />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/" element={<HomePage />} />
+          </>
+        }
+      </Routes>
     </div>
   );
 }
