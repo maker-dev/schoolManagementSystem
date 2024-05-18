@@ -46,12 +46,12 @@ const StudentSchema = new mongoose.Schema({
         required: true
     },
     typeOfBac: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "typeofbacs"
     },
     field: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "fields"
     },
     email: {
         type: String,

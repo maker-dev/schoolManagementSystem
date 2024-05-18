@@ -9,6 +9,8 @@ import { validateTeacherRegister, validateTeacherLogin } from '../middlewares/va
 import { validateStudentRegister, validateStudentLogin } from "../middlewares/validation/student.js";
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
 import {user} from '../controllers/UserController.js';
+import { getTypesOfBac } from "../controllers/TypeBacController.js";
+import { getFields } from "../controllers/FieldController.js";
 
 const routes = Router();
 
@@ -27,5 +29,11 @@ routes.get("/studentConfirmation/:token", studentConfirmation);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
+
+//typeOfBac
+routes.get("/typesOfBac", verifyKey, getTypesOfBac)
+
+//field
+routes.get("/getFields", verifyKey, getFields)
 
 export {routes};

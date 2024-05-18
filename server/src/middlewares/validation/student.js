@@ -1,5 +1,7 @@
 import { check } from 'express-validator';
 import {StudentModel} from '../../models/Student.js';
+import { TypeOfBacModel } from '../../models/TypeOfBac.js';
+import { FieldModel } from '../../models/Field.js';
 
 const validateStudentRegister = [
     check('firstName')
@@ -12,17 +14,24 @@ const validateStudentRegister = [
         .notEmpty().withMessage('Telephone number is required').bail()
         .isMobilePhone().withMessage('Invalid telephone number'),
     check('typeOfBac')
-        .notEmpty().withMessage('Type of Bac is required'),
+        .notEmpty().withMessage('Type of Bac is required').bail()
+        .custom(async (typeOfBacId) => {
+            const type = await TypeOfBacModel.findOne({_id: typeOfBacId});
+            if (!type) throw new Error("typeOfBac doesn't exists !"); 
+        }),
     check('field')
-        .notEmpty().withMessage('Field is required'),
+        .notEmpty().withMessage('Field is required').bail()
+        .custom(async (fieldId, {req}) => {
+            const field = await FieldModel.findOne({_id: fieldId});
+            if (!field) throw new Error("field doesn't exists !");
+            if (field.bacRequired.toString() !== req.body.typeOfBac) throw new Error("this field required another typeOfBac !");
+        }),
     check('email')
         .notEmpty().withMessage('Email is required').bail()
         .isEmail().withMessage('Invalid email address').bail()
         .custom(async (email) => {
             const student = await StudentModel.findOne({ email });
-            if (student) {
-                throw new Error('student already exists !');
-            }
+            if (student) throw new Error('student already exists !');
         }),
     check('password')
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
