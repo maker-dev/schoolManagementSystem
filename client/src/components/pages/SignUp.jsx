@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom";
 
 export default function SignUp(){
 
@@ -12,7 +13,7 @@ export default function SignUp(){
     }
     
     const handleChange = (e) => {
-        if(e.target.value == "professeur"){
+        if(e.target.value === "professeur"){
             setIsTeacher(true);
             setRoleTitle("Professeur");
         }
@@ -25,9 +26,9 @@ export default function SignUp(){
         <section className="bg-gray-50 h-full p-8">
         
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0 my-4">
-        <a href="/" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
+        <Link to="/" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
             Logo  
-        </a>
+        </Link>
         <div className="w-full  bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
@@ -92,13 +93,13 @@ export default function SignUp(){
                             </div>
                             <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
                                 <label htmlFor="showpassword" className="text-gray-500 ">Afficher mot de passe</label>
-                                <a href="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</a>
+                                <Link to="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</Link>
                             </div>
                         </div>
                     </div>
                     <button type="submit" className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
                     <p className="text-sm font-light text-gray-500 ">
-                       Avez vous un compte ? <a href="/userChoice" className="font-medium text-primary-600 hover:underline">Connectez vous!</a>
+                       Avez vous un compte ? <Link to="/userChoice" className="font-medium text-primary-600 hover:underline">Connectez vous!</Link>
                     </p>
                 </form>
             </div>

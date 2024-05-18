@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/api';
-
-import useUser from "../../global/User.js";
 import Cookies from 'js-cookie';
 
-export default function Login({ title }) {
+export default function Login({ title , apiName, role}) {
   const navigate = useNavigate();
   
   // Call the useUser hook to get the user state
-  const user = useUser();
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // Validation errors states:
-  const [validateEmail, setValidateEmail] = useState([]);
-  const [validatePassword, setValidatePassword] = useState([]);
   const [validateCredentials, setValidateCredentials] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,19 +20,17 @@ export default function Login({ title }) {
   }
 
   const loginUser = async (e) => {
-    setValidateEmail([]);
-    setValidatePassword([]);
+    
     setValidateCredentials("");
     e.preventDefault();
 
     
-      const response = await api.post("adminLogin", JSON.stringify({ email, password }));
-
-      if (response.status === 422) {
-        setValidateEmail(response.data.message.email || []);
-        setValidatePassword(response.data.message.password || []);
-
-      } else if (response.status === 401 || response.status === 400) {
+      const response = await api.post(apiName, JSON.stringify({ email, password }));
+      if(response.status === 401){
+        console.log(response.data.message);
+      }
+      if ( response.status === 400) {
+        
         let arrErrors = [];
         for(let i = 0; i<response.data.errors.length; i++){
             arrErrors.push({key: i, msg: response.data.errors[i].msg});
@@ -47,7 +41,7 @@ export default function Login({ title }) {
       } else if (response.status === 200) {
         // setUser(response.data.user);
         Cookies.set('token', response.data.token,{ sameSite: 'Lax' });
-        Cookies.set('userRole',user.role, {sameSite: 'Lax' });
+        Cookies.set('userRole',role, {sameSite: 'Lax' });
         
         
         navigate("/dashboard");
@@ -60,16 +54,19 @@ export default function Login({ title }) {
   return (
     <section className="bg-gray-50   h-lvh ">
       <div className="flex flex-col items-center justify-center  mx-auto  lg:py-0 ">
-        <a href="/" className="flex text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
-          Logo
-        </a>
+           <Link
+            to="/"
+            className="flex text-teal-600 items-center mb-6 text-3xl font-semibold text-gray-900"
+            >
+              Logo
+            </Link>
         <div className="w-full  bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               {title}
             </h1>
             <form className="space-y-4 md:space-y-6" >
-              {validateCredentials.length != 0 &&
+              {validateCredentials.length !== 0 &&
                 <div className=' bg-red-300 text-red-900 p-4'>
                     <ul className='list-disc pl-20 pr-20'>
                         { validateCredentials.map(item => (
@@ -113,13 +110,13 @@ export default function Login({ title }) {
                   </div>
                   <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
                     <label htmlFor="showpassword" className="text-gray-500 ">Afficher mot de passe</label>
-                    <a href="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</a>
+                    <Link  to="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</Link>
                   </div>
                 </div>
               </div>
-              <button type="submit" onClick={loginUser} className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
+              <button  onClick={loginUser} className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
               <p className="text-sm font-light text-gray-500 ">
-                Vous n'avez pas encore un compte ? <a href="/signUp" className="font-medium text-primary-600 hover:underline">Inscrivez vous!</a>
+                Vous n'avez pas encore un compte ? <Link to="/signUp" className="font-medium text-primary-600 hover:underline">Inscrivez vous!</Link>
               </p>
             </form>
           </div>
