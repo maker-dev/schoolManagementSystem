@@ -11,4 +11,4 @@ const TeacherRoutes  = () => {
     
 }
 
-export default StudentRoutes;
+export default TeacherRoutes;

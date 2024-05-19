@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/api';
 import Cookies from 'js-cookie';
+import VerifieAccount from './VerifieAccount';
+
 
 export default function Login({ title , apiName, role}) {
+  
   const navigate = useNavigate();
   
-  // Call the useUser hook to get the user state
+  const [requiresVerification, setRequiresVerification] = useState(false);
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +17,7 @@ export default function Login({ title , apiName, role}) {
   // Validation errors states:
   const [validateCredentials, setValidateCredentials] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
+
 
   const handleVisiblePassword = () => {
     setShowPassword(showPassword ? false : true);
@@ -25,38 +29,52 @@ export default function Login({ title , apiName, role}) {
     e.preventDefault();
 
     
-      const response = await api.post(apiName, JSON.stringify({ email, password }));
-      if(response.status === 401){
-        console.log(response.data.message);
-      }
-      if ( response.status === 400) {
-        
-        let arrErrors = [];
-        for(let i = 0; i<response.data.errors.length; i++){
-            arrErrors.push({key: i, msg: response.data.errors[i].msg});
-        }
-        setValidateCredentials(arrErrors);
-        
-       
-      } else if (response.status === 200) {
-        // setUser(response.data.user);
-        Cookies.set('token', response.data.token,{ sameSite: 'Lax' });
-        Cookies.set('userRole',role, {sameSite: 'Lax' });
-        
-        
-        navigate("/dashboard");
-      }
       
-    
+      try{
+        const response = await api.post(apiName, JSON.stringify({ email, password }));
+        if(response.status === 401){
+          console.log("error autorization");
+        }
+        if (response.status === 400) {
+          if(response.data.errors[0].msg == "User Not verified"){
+            
+            setRequiresVerification(true);
+            return;
+          }
+          let arrErrors = [];
+          for(let i = 0; i<response.data.errors.length; i++){
+              arrErrors.push({key: i, msg: response.data.errors[i].msg});
+          }
+          setValidateCredentials(arrErrors);
+          
+         
+        } else if (response.status === 200) {
+          // setUser(response.data.user);
+          Cookies.set('token', response.data.token,{ sameSite: 'Lax' });
+          Cookies.set('userRole',role, {sameSite: 'Lax' });
+          
+          navigate("/dashboard");
+        }
+      }catch(e){
+        console.log("error");
+      }
       
   }
+
+
+  if (requiresVerification && role === "Teacher") {
+    return <VerifieAccount email={email} role={role}/>;
+  }else if(requiresVerification && role === "Student"){
+    return <VerifieAccount email={email} role={role}/>;
+  }
+  
   
   return (
     <section className="bg-gray-50   h-lvh ">
       <div className="flex flex-col items-center justify-center  mx-auto  lg:py-0 ">
            <Link
             to="/"
-            className="flex text-teal-600 items-center mb-6 text-3xl font-semibold text-gray-900"
+            className="flex mt-10 text-teal-600 items-center mb-6 text-3xl font-semibold text-gray-900"
             >
               Logo
             </Link>
