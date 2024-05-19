@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import api from "../../api/api";
 import VerifieAccount from "./VerifieAccount";
+import Loader from "../ui/Loader";
 
 export default function SignUp(){
 
@@ -16,6 +17,7 @@ export default function SignUp(){
     const [field, setFiliere] = useState("");
 
     //Functionalities:
+    const [loading, setLoading] = useState(false);
     const [typesOfBacSelect, setTypesOfBacSelect] = useState([]);
     const [filiereSelect, setFiliereSelect] = useState([]);
     const [isTeacher, setIsTeacher] = useState(false);
@@ -44,13 +46,15 @@ export default function SignUp(){
             
           try {
 
-            if(typeOfBac != ""){
+            if(typeOfBac !== ""){
                 const response = await api.get(`getFields?typeId=${typeOfBac}`);
                 setFiliereSelect(response.data);  
+            }else{
+                setFiliereSelect([]);
             }
             
           } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data:');
           }
         };
     
@@ -73,7 +77,9 @@ export default function SignUp(){
     }
 
     const handleTypeBacChange = (e) =>{
+        setLoading(true);
         setBac(e.target.value);
+        setLoading(false);
     }
     
     const handleTypeFiliereChange = (e) =>{
@@ -81,7 +87,7 @@ export default function SignUp(){
     }
 
     const handleSubmit = async (e) => {
-    
+        setLoading(true);
         setValidateCredentials([]);
         let response;
         e.preventDefault();
@@ -107,6 +113,7 @@ export default function SignUp(){
           } else if (response.status === 200) {
             setRequiresVerification(true);
           }
+          setLoading(false);
       }
     
       if (requiresVerification && isTeacher) {
@@ -144,7 +151,7 @@ export default function SignUp(){
                     <div>
                         <label htmlFor="role" className="block mb-2 text-left text-sm font-medium text-gray-900">Etes vous ?</label>
                         <select name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" onChange={handleChange} required="">
-                            <option value="">Selectionner votre situation</option>
+                            <option >Selectionner votre situation</option>
                             <option value="professeur" selected={isTeacher} defaultValue="prof" >Professeur</option>
                             <option value="etudiant" selected={!isTeacher}>Etudiant</option>
                         </select>
@@ -167,7 +174,7 @@ export default function SignUp(){
                     <div>
                         <label htmlFor="bac" className="block mb-2 text-left text-sm font-medium text-gray-900">Type de bac</label>
                         <select name="bac" id="bac" value={typeOfBac} onChange={handleTypeBacChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700"  required="">
-                            <option >Selectionner type de bac</option>
+                            <option value="">Selectionner type de bac</option>
                             {typesOfBacSelect.length !== 0 && 
                                 typesOfBacSelect.map(typesOfBacSelect =>{
                                     return <option key={typesOfBacSelect._id} value={typesOfBacSelect._id}>{typesOfBacSelect.typeName}</option>
@@ -178,7 +185,7 @@ export default function SignUp(){
                     <div>
                         <label htmlFor="filiere" className="block mb-2 text-left text-sm font-medium text-gray-900">Filière</label>
                         <select name="filiere" id="filiere" value={field} onChange={handleTypeFiliereChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" required="">
-                            <option >Selectionner votre filière</option>
+                            <option>Selectionner votre filière</option>
                             {filiereSelect.length !== 0 && 
                                 filiereSelect.map(filiereSelect =>{
                                     return <option key={filiereSelect._id} value={filiereSelect._id}>{filiereSelect.fieldName}</option>
@@ -218,6 +225,7 @@ export default function SignUp(){
             </div>
         </div>
     </div>
+    {loading && <Loader />}
     </section>
     )
 }

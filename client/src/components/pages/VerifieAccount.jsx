@@ -1,15 +1,20 @@
 import api from "../../api/api";
+import Loader from "../ui/Loader";
+import { useState } from "react";
 
-export default function VerifieAccount({ email, role}){
+export default function VerifieAccount({ email, role }){
+
+    const [loading, setLoading] = useState(false);
     
-   const handleReasendEmail = async (e) => {
-            
+    const handleReasendEmail = async (e) => {
+            setLoading(true);
             e.preventDefault();
             try{
                 const response = await api.post("resendEmail",{email,role});
                 if(response.status === 200){
                     alert("Email sent");
-                }
+                    setLoading(false);
+                } 
             }
             catch(e){
                 console.log("Error");
@@ -40,8 +45,10 @@ export default function VerifieAccount({ email, role}){
                             Renvoyer l'email
                         </button>
                     </div>
+                    {loading && <Loader />}
                 </form>
         </div>
+        
        </div>
         
         

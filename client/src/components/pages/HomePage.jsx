@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import background from '../../assets/images/backgroundss.jpg';
 
 export default function HomePage(){
@@ -11,7 +12,11 @@ export default function HomePage(){
       <div className="relative z-10 flex flex-col justify-center items-center h-full">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">Bienvenue Dans Notre Ecole.</h1>
         <p className="text-lg text-gray-600 mb-4">Application Web Pour Simplifiée La Gestion Scolaire.</p>
-        <a href="/userChoice" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Se connecter</a>
+        <div className='flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-10 '>
+          <Link to="/userChoice" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded">Se connecter</Link>
+          <Link to="/signUp" className="bg-white border-blue-500 border border-2 hover:text-blue-800 hover:border-blue-800 text-blue-500 font-bold py-2 px-4 rounded">Inscription</Link>
+        </div>
+        
       </div>
     </div>
   );

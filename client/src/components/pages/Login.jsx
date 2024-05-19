@@ -3,12 +3,15 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/api';
 import Cookies from 'js-cookie';
 import VerifieAccount from './VerifieAccount';
+import Loader from '../ui/Loader';
 
 
 export default function Login({ title , apiName, role}) {
   
   const navigate = useNavigate();
-  
+
+  //functionalities:
+  const [loading, setLoading] = useState(false);
   const [requiresVerification, setRequiresVerification] = useState(false);
   
   const [email, setEmail] = useState("");
@@ -24,7 +27,7 @@ export default function Login({ title , apiName, role}) {
   }
 
   const loginUser = async (e) => {
-    
+    setLoading(true);
     setValidateCredentials("");
     e.preventDefault();
 
@@ -55,9 +58,11 @@ export default function Login({ title , apiName, role}) {
           
           navigate("/dashboard");
         }
+        setLoading(false);
       }catch(e){
         console.log("error");
       }
+    
       
   }
 
@@ -140,6 +145,8 @@ export default function Login({ title , apiName, role}) {
           </div>
         </div>
       </div>
+      {loading && <Loader />}
+        
     </section>
   )
 }
