@@ -7,8 +7,9 @@ import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
 import { validateTeacherRegister, validateTeacherLogin } from '../middlewares/validation/teacher.js';
 import { validateStudentRegister, validateStudentLogin } from "../middlewares/validation/student.js";
+import { validateEmail } from '../middlewares/validation/resendEmail.js';
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
-import {user} from '../controllers/UserController.js';
+import { user, resendEmail } from '../controllers/UserController.js';
 import { getTypesOfBac } from "../controllers/TypeBacController.js";
 import { getFields } from "../controllers/FieldController.js";
 
@@ -29,7 +30,7 @@ routes.get("/studentConfirmation/:token", studentConfirmation);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
-
+routes.post("/resendEmail", verifyKey, validateEmail, resendEmail)
 //typeOfBac
 routes.get("/typesOfBac", verifyKey, getTypesOfBac)
 
