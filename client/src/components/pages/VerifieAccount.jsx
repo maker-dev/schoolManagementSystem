@@ -1,8 +1,20 @@
-import { useState } from "react";
+import api from "../../api/api";
 
-export default function VerifieAccount({email}){
+export default function VerifieAccount({ email, role}){
     
-   
+   const handleReasendEmail = async (e) => {
+            
+            e.preventDefault();
+            try{
+                const response = await api.post("resendEmail",{email,role});
+                if(response.status === 200){
+                    alert("Email sent");
+                }
+            }
+            catch(e){
+                console.log("Error");
+            }
+   }
     
     return(
        <div className="bg-gray-50 w-full h-screen pt-20">
@@ -21,7 +33,10 @@ export default function VerifieAccount({email}){
                         <label className="block text-red-700 text-xs font-bold mb-4" htmlFor="verify">Verifier votre boite e-mail, un mail de verification sera envoyer. (la duree d'expiration est: 20 mins)</label>
                     </div>
                     <div className="flex items-center justify-between">
-                        <button className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <button 
+                        onClick={handleReasendEmail}
+                        className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                        >
                             Renvoyer l'email
                         </button>
                     </div>
