@@ -150,9 +150,9 @@ export default function SignUp(){
                         }
                     <div>
                         <label htmlFor="role" className="block mb-2 text-left text-sm font-medium text-gray-900">Etes vous ?</label>
-                        <select name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" onChange={handleChange} required="">
+                        <select name="role" id="role" defaultValue="" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" onChange={handleChange} required="">
                             <option >Selectionner votre situation</option>
-                            <option value="professeur" selected={isTeacher} defaultValue="prof" >Professeur</option>
+                            <option value="professeur" selected={isTeacher}  >Professeur</option>
                             <option value="etudiant" selected={!isTeacher}>Etudiant</option>
                         </select>
                     </div>
