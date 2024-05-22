@@ -1,12 +1,8 @@
 const verifyRole = (permissions) => {
     return (req, res, next) => {
-        const {role} = req.body;
+        const user = req.user;
 
-        if (!role) {
-            return res.status(401).json({ message: 'role is required' });
-        }
-
-        if (permissions.includes(role)) {
+        if (permissions.includes(user.role)) {
             next();
         } else {
             return res.status(401).json({message: "you don't have permission !"})

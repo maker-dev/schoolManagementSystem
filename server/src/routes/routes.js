@@ -11,7 +11,8 @@ import { validateEmail } from '../middlewares/validation/resendEmail.js';
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
 import { user, resendEmail } from '../controllers/UserController.js';
 import { getTypesOfBac } from "../controllers/TypeBacController.js";
-import { getFields } from "../controllers/FieldController.js";
+import { getFields, showFields, insertField, deleteField } from "../controllers/FieldController.js";
+import {validateField} from '../middlewares/validation/field.js'
 
 const routes = Router();
 
@@ -30,11 +31,14 @@ routes.get("/studentConfirmation/:token", studentConfirmation);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
-routes.post("/resendEmail", verifyKey, validateEmail, resendEmail)
+routes.post("/resendEmail", verifyKey, validateEmail, resendEmail);
 //typeOfBac
-routes.get("/typesOfBac", verifyKey, getTypesOfBac)
+routes.get("/typesOfBac", verifyKey, getTypesOfBac);
 
 //field
-routes.get("/getFields", verifyKey, getFields)
+routes.get("/getFields", verifyKey, getFields);
+routes.get("/showFields", verifyKey, verifyToken, verifyRole(['Admin']), showFields);
+routes.post("/insertField", verifyKey, verifyToken, verifyRole(["Admin"]), validateField, insertField);
+routes.delete("/deleteField", verifyKey, verifyToken, verifyRole(["Admin"]), deleteField);
 
 export {routes};
