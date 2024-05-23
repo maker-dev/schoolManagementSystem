@@ -5,10 +5,10 @@ const FieldSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    bacRequired: {
+    bacRequired: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "typeofbacs"
-    }
+    }]
 })
 
 const FieldModel = mongoose.model("fields", FieldSchema);

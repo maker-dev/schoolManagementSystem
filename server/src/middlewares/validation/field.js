@@ -2,20 +2,49 @@ import { check } from "express-validator";
 import { TypeOfBacModel } from "../../models/TypeOfBac.js";
 import { FieldModel } from "../../models/Field.js";
 
-
-const validateField = [
+const validateInsertField = [
     check('fieldName')
         .notEmpty().withMessage('fieldName is required').bail()
         .custom(async (fieldName) => {
-            const existingField = await FieldModel.findOne({fieldName});
-            if (existingField) throw new Error("Field is Already exists !");
+            const existingField = await FieldModel.findOne({ fieldName });
+            if (existingField) throw new Error("Field already exists!");
         }),
     check('bacRequired')
-        .notEmpty().withMessage('backRequired is required').bail()
-        .custom(async (bacId) => {
-            const existingBac = await TypeOfBacModel.findOne({_id: bacId})
-            if (!existingBac) throw new Error("TypeOfBac doesn't exists !");
+        .notEmpty().withMessage('bacRequired is required').bail()
+        .custom(async (bacIds) => {
+            if (!Array.isArray(bacIds)) {
+                throw new Error("bacRequired should be an array");
+            }
+
+            for (let bacId of bacIds) {
+                const existingBac = await TypeOfBacModel.findOne({ _id: bacId });
+                if (!existingBac) throw new Error(`TypeOfBac with id ${bacId} doesn't exist!`);
+            }
         })
 ];
 
-export {validateField}
+const validateUpdateField = [
+    check("fieldId")
+        .notEmpty().withMessage("fieldId is required").bail()
+        .custom(async (fieldId) => {
+            const existingField = await FieldModel.findOne({_id: fieldId});
+            if (!existingField) throw new Error("Field is not Registered");
+        }),
+    check("newFieldName")
+        .notEmpty().withMessage("fieldName is required"),
+    check("newBacRequired")
+        .notEmpty().withMessage("bacRequired is required")
+        .custom(async (newBacids) => {
+            if (!Array.isArray(newBacids)) {
+                throw new Error("bacRequired should be an array");
+            }
+
+            for (let bacId of newBacids) {
+                const existingBac = await TypeOfBacModel.findOne({ _id: bacId });
+                if (!existingBac) throw new Error(`TypeOfBac with id ${bacId} doesn't exist!`);
+            }
+        })
+];
+
+
+export {validateInsertField, validateUpdateField}
