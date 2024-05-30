@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
-import api from "../../api/api";
+import api from '../../api/apiToken';
 import VerifieAccount from "./VerifieAccount";
 import Loader from "../ui/Loader";
 
@@ -39,7 +39,7 @@ export default function SignUp(){
         };
     
         fetchBacType();
-      });
+      },[]);
 
       useEffect(() => {
         const fetchFiliere = async () => {

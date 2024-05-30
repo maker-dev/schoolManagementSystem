@@ -16,7 +16,7 @@ export default function SideBar(){
             <ul className='flex flex-col w-full p-2 bg-white'>
                 <MenuItem link="/dashboard" icon={dashboardIC} content="Dashboard"/>
                 <MenuItem link="/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
-                <MenuItem link="/fulliere" icon={filliereIC} content="Filliere"/>
+                <MenuItem link="/filiere" icon={filliereIC} content="Filliere"/>
                 <MenuItem link="/notes" icon={gradesIC} content="Notes"/>
                 <MenuItem link="/classe" icon={classeIC} content="Classe"/>
                 <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../../api/api';
+import api from '../../api/apiToken';
 import Cookies from 'js-cookie';
 import VerifieAccount from './VerifieAccount';
 import Loader from '../ui/Loader';
@@ -39,7 +39,7 @@ export default function Login({ title , apiName, role}) {
           console.log("error autorization");
         }
         if (response.status === 400) {
-          if(response.data.errors[0].msg == "User Not verified"){
+          if(response.data.errors[0].msg === "User Not verified"){
             
             setRequiresVerification(true);
             return;

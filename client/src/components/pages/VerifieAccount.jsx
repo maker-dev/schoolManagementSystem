@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "../../api/apiToken";
 import Loader from "../ui/Loader";
 import { useState } from "react";
 

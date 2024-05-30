@@ -1,6 +1,6 @@
 import UserCard from '../cards/UserCard';
 import studentIC from '../../assets/icons/student_user.svg';
-import profIC from '../../assets/icons/teacher_white.svg';
+import profIC from '../../assets/icons/teacher_white_user.svg';
 import adminIC from '../../assets/icons/admin.svg';
 
 
