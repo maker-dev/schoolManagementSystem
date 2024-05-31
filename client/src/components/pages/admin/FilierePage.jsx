@@ -7,6 +7,10 @@ import api from "../../../api/apiToken";
 import { useNavigate } from "react-router-dom";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 import Loader from "../../ui/Loader";
+import {success, error} from "../../../helpers/Alerts";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -68,7 +72,7 @@ export default function FilierePage(){
         e.preventDefault();
     
         if (checkedArr.length === 0) {
-            setValidateCredentials("Veuillez selectionner au moins une filière");
+            error("Selecionnez une filiere!");
             setLoading(false);
             return;
         }
@@ -104,28 +108,22 @@ export default function FilierePage(){
             }
     
             if (selectionError) {
-                setValidateCredentials("Veuillez selectionner au moins une filière");
+                error("Selecionnez une filiere!");
             } else if (successCount > 0) {
-                setValidateCredentials(`${successCount} filière(s) supprimée(s) avec succès!`);
+                
+                success(`${successCount} supprimeès!` );
+                
+                
             } else {
-                setValidateCredentials("Erreur lors de la suppression des filières.");
+                error("Error!");
             }
         } catch (e) {
             console.log("error", e);
-            setValidateCredentials("Une erreur s'est produite lors de la suppression des filières.");
+            error("Error!");
         }
     
         setLoading(false);
     };
-    
-    // Use useEffect to handle the alert
-    useEffect(() => {
-        if (validateCredentials) {
-            alert(validateCredentials);
-        }
-    }, [validateCredentials]);
-    
-    
 
     const showAddPage = () =>{
             setShowPage('block');
@@ -238,6 +236,8 @@ export default function FilierePage(){
             </div>
         </div>
         {loading && <Loader/>}
+         <ToastContainer />
+        
     </div>
     )
 }

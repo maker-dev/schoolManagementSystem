@@ -3,6 +3,7 @@ import api from "../../api/apiToken";
 import Loader from "../ui/Loader";
 import  {useNavigate} from "react-router-dom";
 import DeconnectUser from "../../helpers/DeconnectUser";
+import { success, error } from "../../helpers/Alerts";
 
 
 export default function AddFiliere({display, eventHide}){
@@ -62,14 +63,14 @@ export default function AddFiliere({display, eventHide}){
               
              
             } else if (response.status === 200) {
-               alert("Vous avez creer un filière avec succe!")
+               success("Insertion affectueé!") 
                setFieldName("");
                setBacOptions([]);
                eventHide();
             }
             setLoading(false);
           }catch(e){
-            console.log("error");
+            error("Error!");
           }
         
           

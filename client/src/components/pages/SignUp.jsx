@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import api from '../../api/apiToken';
 import VerifieAccount from "./VerifieAccount";
 import Loader from "../ui/Loader";
+import { info } from "../../helpers/Alerts";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUp(){
 
@@ -111,6 +114,7 @@ export default function SignUp(){
             }
             setValidateCredentials(arrErrors);
           } else if (response.status === 200) {
+            info("Verifier votre compte!");
             setRequiresVerification(true);
           }
           setLoading(false);
@@ -226,6 +230,7 @@ export default function SignUp(){
         </div>
     </div>
     {loading && <Loader />}
+    <ToastContainer/>
     </section>
     )
 }

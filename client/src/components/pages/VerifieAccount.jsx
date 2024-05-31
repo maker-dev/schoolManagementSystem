@@ -1,6 +1,9 @@
 import api from "../../api/apiToken";
 import Loader from "../ui/Loader";
 import { useState } from "react";
+import { info } from "../../helpers/Alerts";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function VerifieAccount({ email, role }){
 
@@ -12,7 +15,7 @@ export default function VerifieAccount({ email, role }){
             try{
                 const response = await api.post("resendEmail",{email,role});
                 if(response.status === 200){
-                    alert("Email sent");
+                    info("Email renvoyé!");
                     setLoading(false);
                 } 
             }
@@ -46,6 +49,7 @@ export default function VerifieAccount({ email, role }){
                         </button>
                     </div>
                     {loading && <Loader />}
+                    <ToastContainer></ToastContainer>
                 </form>
         </div>
         
