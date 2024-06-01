@@ -1,7 +1,6 @@
 import NavBar from "../../ui/NavBar";
 import SideBar from "../../ui/SideBar";
-import AddFiliere from "../../overflow/AddFIliere";
-import {Link} from "react-router-dom";
+import AddFiliere from "../../overflow/field/AddFIliere";
 import { useEffect, useState } from "react";
 import api from "../../../api/apiToken";
 import { useNavigate } from "react-router-dom";
@@ -10,25 +9,30 @@ import Loader from "../../ui/Loader";
 import {success, error} from "../../../helpers/Alerts";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ShowFiliere from "../../overflow/field/ShowFiliere";
+import UpdateFiliere from "../../overflow/field/UpdateFiliere";
 
 
 
 
 export default function FilierePage(){
-
+    //data:
     const [filieres, setFilieres] = useState([]);
     const [searchedFilieres, setSearchedFilieres] = useState([]);
     const [search, setSearch] = useState("");
-    const [validateCredentials, setValidateCredentials] = useState("");
+    const [idField, setIdField] = useState("");
 
     
     
     //functionalities
-    const [show, setShowPage] = useState('hidden');
+    const [showAdd, setShowAdd] = useState('hidden');
+    const [showInfo,setShowInfo] = useState('hidden');
+    const [showUpdate,setShowUpdate] = useState('hidden');
     const [checkedArr, setCheckedArr] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    //collection field data:
     useEffect(()=>{
             const fetchFiliere = async ()=>{
                 const response = await api.get('showFields');
@@ -49,10 +53,10 @@ export default function FilierePage(){
             }
             fetchFiliere();
             // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[show,loading]);
+    },[showAdd,loading,showUpdate]);
     
 
-    
+    //hadling the checkbox of all rows:
     const handleCheck = (e) => {
         if(e.target.checked === true){
             setCheckedArr(filieres.map((field)=>{
@@ -65,10 +69,9 @@ export default function FilierePage(){
     } 
 
     
-    
+    //deleting field event:
     const deleteFiliere = async (e) => {
         setLoading(true);
-        setValidateCredentials("");
         e.preventDefault();
     
         if (checkedArr.length === 0) {
@@ -124,15 +127,36 @@ export default function FilierePage(){
     
         setLoading(false);
     };
-
+    
+    //handling the show and hide add page:
     const showAddPage = () =>{
-            setShowPage('block');
+            setShowAdd('block');
     }
 
     const hideAddPage = () =>{
-            setShowPage('hidden');
+            setShowAdd('hidden');
+    }
+    //handling the show and hide show page:
+    const showInfoPage = (id) =>{
+            setIdField(id);
+            setShowInfo('block');
     }
 
+    const hideInfoPage = () =>{
+            setIdField("");
+            setShowInfo('hidden');
+    }
+    //handling the show and hide update page:
+    const showUpdatePage = (id) =>{
+            setIdField(id);
+            setShowUpdate('block');
+    }
+
+    const hideUpdatePage = () =>{
+            setIdField("");
+            setShowUpdate('hidden');
+    }
+    //serach event:
     const handleSearch = (e) =>{
         
         const query = e.target.value;
@@ -143,6 +167,7 @@ export default function FilierePage(){
         }));
 
     }
+    //handling checked checkbox solo:
     const handleChangeChild = (e,id) =>{
         if(checkedArr.includes(id) && e.target.checked === false ){
             setCheckedArr(checkedArr.filter((field)=>{
@@ -217,8 +242,11 @@ export default function FilierePage(){
                                                 <label htmlFor="">{field.fieldName}</label> 
                                             </td>
                                             <td className="flex gap-4 px-6 py-4">
-                                                <Link to="#" className="font-bold text-white hover:underline">Voir</Link>
-                                                <Link to="#" className="font-bold text-white hover:underline">Modifier</Link> 
+                                                <button
+                                                onClick={()=>showInfoPage(field._id)}
+                                                className="font-bold text-white hover:underline">Voir</button>
+                                                <button onClick={()=>showUpdatePage(field._id)}
+                                                className="font-bold text-white hover:underline">Modifier</button> 
                                             </td>
                                     
                                     </tr>  
@@ -229,7 +257,9 @@ export default function FilierePage(){
                             } 
                     </table>
                 </div>
-                <AddFiliere display={show} eventHide={hideAddPage}/>
+                <AddFiliere display={showAdd} eventHide={hideAddPage}/>
+                <ShowFiliere display={showInfo} eventHide={hideInfoPage} id={idField}/>
+                <UpdateFiliere display={showUpdate} eventHide={hideUpdatePage} fieldId={idField}/>
             </div>
 
             

@@ -1,23 +1,38 @@
 import { useState , useEffect } from "react";
-import api from "../../api/apiToken";
-import Loader from "../ui/Loader";
+import api from "../../../api/apiToken";
+import Loader from "../../ui/Loader";
 import  {useNavigate} from "react-router-dom";
-import DeconnectUser from "../../helpers/DeconnectUser";
-import { success, error } from "../../helpers/Alerts";
+import DeconnectUser from "../../../helpers/DeconnectUser";
+import { success, error } from "../../../helpers/Alerts";
 
 
-export default function AddFiliere({display, eventHide}){
-    
-    const [fieldName, setFieldName] = useState("");
+export default function UpdateFiliere({display, eventHide, fieldId}){
+    //functionalities
+    const [newFieldName, setNewFieldName] = useState("");
     const [loading, setLoading] = useState(false);
     const [validateCredentials, setValidateCredentials] = useState([]);
     const navigate = useNavigate();
     
-    
-    
+    //data collector:
     const [bacOptions, setBacOptions] = useState([]);
     const [typeBac, setTypeBac] = useState([]);
-
+    
+    //getting field data:
+    useEffect(() => {
+        const fetchField = async () => {
+          try {
+            const response = await api.get(`showField/${fieldId}`);
+            // setOptions(response.data);
+            setBacOptions(response.data.bacRequired === undefined?[]:response.data.bacRequired);
+            setNewFieldName(response.data.fieldName);  
+          } catch (error) {
+            console.error('Error');
+          }
+        };
+    
+        fetchField();
+      },[fieldId]);
+    //getting bac data:
     useEffect(() => {
         const fetchBacType = async () => {
           try {
@@ -31,22 +46,18 @@ export default function AddFiliere({display, eventHide}){
     
         fetchBacType();
       },[]);
-
-    const addFiliere = async (e) => {
+    //Update field event:
+    const updateFiliere = async (e) => {
 
         setLoading(true);
         setValidateCredentials("");
         e.preventDefault();
-    
-        
-          
           try{
-            let bacRequired = bacOptions.map((bac)=>{
-                return bac.value;
+            let newBacRequired = bacOptions.map((bac)=>{
+                return bac._id;
             })
             
-            
-            const response = await api.post("insertField", JSON.stringify({ fieldName, bacRequired }));
+            const response = await api.put("updateField", JSON.stringify({ fieldId, newFieldName, newBacRequired }));
             if(response.status === 401){
                 
                 DeconnectUser();
@@ -63,8 +74,8 @@ export default function AddFiliere({display, eventHide}){
               
              
             } else if (response.status === 200) {
-               success("Insertion affectueé!") 
-               setFieldName("");
+               success("mise à jour effectueé!") 
+               setNewFieldName("");
                setBacOptions([]);
                eventHide();
             }
@@ -76,24 +87,25 @@ export default function AddFiliere({display, eventHide}){
           
       }
 
-
+    //Handling bac select in show list:
     const handleSelectedBac = (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
-        const newOption = { value: selectedOption.value, label: selectedOption.text };
+        const newOption = { _id: selectedOption.value, typeName: selectedOption.text };
 
         setBacOptions((prevOptions) => {
-            const foundIndex = prevOptions.findIndex(bac => bac.value === selectedOption.value);
+            const foundIndex = prevOptions.findIndex(bac => bac._id === selectedOption.value);
             if (foundIndex === -1) {
                 return [...prevOptions, newOption];
             }
             return prevOptions;
         });
     };
-    
+    //handling deleting bac from show list:
     const handleDeletedBac = (value) => {
         
-        setBacOptions((prevItems) => prevItems.filter(item => item.value !== value));
+        setBacOptions((prevItems) => prevItems.filter(item => item._id !== value));
     }
+    console.log(bacOptions);
     
     return(
 
@@ -104,7 +116,7 @@ export default function AddFiliere({display, eventHide}){
             
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-lg font-semibold text-gray-900 ">
-                        Ajouter Filière
+                        Mise à jour Filière
                 </h3>
                 <button 
                 onClick={eventHide}
@@ -132,8 +144,8 @@ export default function AddFiliere({display, eventHide}){
                     <div className="col-span-2">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 text-left ">Nom Filière</label>
                         <input type="text"
-                        value={fieldName}
-                        onChange={(e) => setFieldName(e.target.value) }
+                        value={newFieldName}
+                        onChange={(e) => setNewFieldName(e.target.value) }
                         name="name"
                         id="name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -163,8 +175,8 @@ export default function AddFiliere({display, eventHide}){
                                  bacOptions.map( bac => {
                                     return <li
                                     className="text-sm p-2 hover:bg-gray-100  cursor-pointer text-left"
-                                    onDoubleClick={()=>handleDeletedBac(bac.value)}
-                                    key={bac.value}>{bac.label}</li>
+                                    onDoubleClick={()=>handleDeletedBac(bac._id)}
+                                    key={bac._id}>{bac.typeName}</li>
                                  })
                                     
                                 }
@@ -178,10 +190,12 @@ export default function AddFiliere({display, eventHide}){
                     </div>
                 </div>
                 <button 
-                onClick={addFiliere}
-                className="text-white inline-flex  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" ></path></svg>
-                    Ajouter Filiere
+                onClick={updateFiliere}
+                className="text-white inline-flex  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                    <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" ></path>
+                    </svg>
+                    Mise à jour Filiere
                 </button>
             </form>
         </div>
