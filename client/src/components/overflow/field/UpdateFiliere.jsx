@@ -4,6 +4,7 @@ import Loader from "../../ui/Loader";
 import  {useNavigate} from "react-router-dom";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 import { success, error } from "../../../helpers/Alerts";
+import ShowList from "../../ui/ShowList";
 
 
 export default function UpdateFiliere({display, eventHide, fieldId}){
@@ -21,10 +22,14 @@ export default function UpdateFiliere({display, eventHide, fieldId}){
     useEffect(() => {
         const fetchField = async () => {
           try {
-            const response = await api.get(`showField/${fieldId}`);
-            // setOptions(response.data);
-            setBacOptions(response.data.bacRequired === undefined?[]:response.data.bacRequired);
-            setNewFieldName(response.data.fieldName);  
+            
+            if(fieldId !== ""){
+                
+                const response = await api.get(`showField/${fieldId}`);
+                setBacOptions(response.data.bacRequired === undefined?[]:response.data.bacRequired);
+                setNewFieldName(response.data.fieldName); 
+            }
+             else return;
           } catch (error) {
             console.error('Error');
           }
@@ -45,7 +50,7 @@ export default function UpdateFiliere({display, eventHide, fieldId}){
         };
     
         fetchBacType();
-      },[]);
+      },[display]);
     //Update field event:
     const updateFiliere = async (e) => {
 
@@ -105,7 +110,7 @@ export default function UpdateFiliere({display, eventHide, fieldId}){
         
         setBacOptions((prevItems) => prevItems.filter(item => item._id !== value));
     }
-    console.log(bacOptions);
+    
     
     return(
 
@@ -135,7 +140,6 @@ export default function UpdateFiliere({display, eventHide, fieldId}){
                             <ul className='list-disc pl-20 pr-20'>
                                 { validateCredentials.map(item => (
                                 
-                                // Use the item's ID as the key for efficient rendering
                                 <li key={item.key}>{item.msg}</li>
                             ))}
                             </ul>
@@ -168,32 +172,20 @@ export default function UpdateFiliere({display, eventHide, fieldId}){
                     </div>
                     <div className="col-span-2">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
-                        <div className="border bg-gray-50 p-2">
-                            <ul >
-                                <li className="text-left text-md">Vous avez selectionner:</li>
-                                {bacOptions.length !== 0 &&
-                                 bacOptions.map( bac => {
-                                    return <li
-                                    className="text-sm p-2 hover:bg-gray-100  cursor-pointer text-left"
-                                    onDoubleClick={()=>handleDeletedBac(bac._id)}
-                                    key={bac._id}>{bac.typeName}</li>
-                                 })
-                                    
-                                }
-                                {
-                                    bacOptions.length === 0 &&
-                                    <li className="text-sm p-2 font-bold text-left text-red-600">Rien</li>
-                                }
-                            </ul>
-                            
-                        </div>
+                        <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
                     </div>
                 </div>
                 <button 
                 onClick={updateFiliere}
                 className="text-white inline-flex  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" ></path>
+                    <svg xmlns="http://www.w3.org/2000/svg"className="me-1 -ms-1 w-5 h-5" fill="currentColor"  enableBackground="new 0 0 24 24" viewBox="0 0 24 24" id="reload"><path d="M20.9292,10.8662c-0.0688-0.5479-0.5698-0.9346-1.1172-0.8672c-0.5479,0.0688-0.936,0.5688-0.8672,1.1172
+                        C18.981,11.4053,19,11.7007,19,12c0,3.8599-3.1401,7-7,7s-7-3.1401-7-7s3.1401-7,7-7c1.8568,0,3.6179,0.7455,4.9119,2.0166
+                        c0.062,0.0613,0.1177,0.1297,0.1776,0.1935c0.0279,0.0295,0.0533,0.0613,0.0806,0.0914L15.3794,7.624
+                        c-0.5435,0.0981-0.9048,0.6182-0.8071,1.1616c0.0874,0.4839,0.5088,0.8228,0.9834,0.8228c0.0586,0,0.1182-0.0049,0.1782-0.0156
+                        l4.1753-0.7524c0.5435-0.0981,0.9048-0.6182,0.8071-1.1616l-0.7524-4.1758c-0.0986-0.5439-0.6167-0.9058-1.1616-0.8071
+                        c-0.5435,0.0981-0.9048,0.6182-0.8071,1.1616l0.3109,1.7251C16.6447,3.9421,14.4072,3,12,3c-4.9624,0-9,4.0376-9,9s4.0376,9,9,9
+                        s9-4.0376,9-9C21,11.6216,20.9761,11.2402,20.9292,10.8662z" className="color944cf2 svgShape">       
+                        </path>
                     </svg>
                     Mise à jour Filiere
                 </button>

@@ -4,6 +4,7 @@ import Loader from "../../ui/Loader";
 import  {useNavigate} from "react-router-dom";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 import { success, error } from "../../../helpers/Alerts";
+import ShowList from "../../ui/ShowList";
 
 
 export default function AddFiliere({display, eventHide}){
@@ -30,7 +31,7 @@ export default function AddFiliere({display, eventHide}){
         };
     
         fetchBacType();
-      },[]);
+      },[display]);
 
     const addFiliere = async (e) => {
 
@@ -155,26 +156,8 @@ export default function AddFiliere({display, eventHide}){
                         </select>
                     </div>
                     <div className="col-span-2">
-                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
-                        <div className="border bg-gray-50 p-2">
-                            <ul >
-                                <li className="text-left text-md">Vous avez selectionner:</li>
-                                {bacOptions.length !== 0 &&
-                                 bacOptions.map( bac => {
-                                    return <li
-                                    className="text-sm p-2 hover:bg-gray-100  cursor-pointer text-left"
-                                    onDoubleClick={()=>handleDeletedBac(bac.value)}
-                                    key={bac.value}>{bac.label}</li>
-                                 })
-                                    
-                                }
-                                {
-                                    bacOptions.length === 0 &&
-                                    <li className="text-sm p-2 font-bold text-left text-red-600">Rien</li>
-                                }
-                            </ul>
-                            
-                        </div>
+                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
+                        <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
                     </div>
                 </div>
                 <button 

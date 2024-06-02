@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../../api/apiToken";
+import ShowList from "../../ui/ShowList";
 
 
 
@@ -11,10 +12,11 @@ export default function ShowFiliere({display, eventHide, id}){
     useEffect(() => {
         const fetchField = async () => {
           try {
-            const response = await api.get(`showField/${id}`);
-            // setOptions(response.data);
-            setTypeBacs(response.data.bacRequired === undefined?[]:response.data.bacRequired);
-            setFieldName(response.data.fieldName); 
+            if(id !== ""){
+                const response = await api.get(`showField/${id}`);
+                setTypeBacs(response.data.bacRequired === undefined?[]:response.data.bacRequired);
+                setFieldName(response.data.fieldName); 
+            }
           } catch (error) {
             console.error('Error');
           }
@@ -62,25 +64,7 @@ export default function ShowFiliere({display, eventHide, id}){
                    
                     <div className="col-span-2">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
-                        <div className="border bg-gray-50 p-2">
-                            <ul >
-                                <li className="text-left text-md">Bacs selectionneées:</li>
-                                {typeBacs.length !== 0 &&
-                                 typeBacs.map( bac => {
-                                    return <li
-                                    className="text-sm p-2 hover:bg-gray-100  cursor-pointer text-left"
-                                   
-                                    key={bac._id}>{bac.typeName}</li>
-                                 })
-                                    
-                                }
-                                {
-                                    typeBacs.length === 0 &&
-                                    <li className="text-sm p-2 font-bold text-left text-red-600">Rien</li>
-                                }
-                            </ul>
-                            
-                        </div>
+                        <ShowList array={typeBacs}></ShowList>
                     </div>
                 </div>
             </form>
