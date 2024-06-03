@@ -53,6 +53,10 @@ const StudentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "fields"
     },
+    class: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "classes"
+    },
     email: {
         type: String,
         unique: true,

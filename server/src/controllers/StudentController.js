@@ -104,7 +104,7 @@ const studentLogin = async (req, res) => {
             ]
         });
         
-        const token = jwt.sign({id: student._id, role: student.role}, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({id: student._id, role: student.role}, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         return res.json({token});
     } catch (err) {
