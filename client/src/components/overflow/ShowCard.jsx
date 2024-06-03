@@ -1,11 +1,6 @@
-import { useState } from "react";
-import Loader from "../ui/Loader";
-import AddFiliere from "./field/AddFIliere";
+import ShowFiliere from "./field/ShowFiliere";
 
-export default function AddCard({display,eventHide,id,cardName}){
-
-    const [loading,setLoading] = useState(false);
-    const [validateCredentials, setValidateCredentials] = useState([]);
+export default function ShowCard({display,eventHide,id,cardName}){
 
 
 return(
@@ -17,7 +12,7 @@ return(
             
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-lg font-semibold text-gray-900 ">
-                    Ajouter {cardName}
+                    Informations sur {cardName}
                 </h3>
                 <button 
                 onClick={eventHide}
@@ -31,26 +26,14 @@ return(
            
             <form className="p-4 md:p-5">
                 <div className="grid gap-4 mb-4 grid-cols-2">
-                    {validateCredentials.length !== 0 &&
-                        <div className='col-span-2 bg-red-300 text-red-900 p-4'>
-                            <ul className='list-disc pl-20 pr-20'>
-                                { validateCredentials.map(item => (
-                                
-                                <li key={item.key}>{item.msg}</li>
-                            ))}
-                            </ul>
-                        </div>
-                    }
-                    
                         {cardName === "Filière" && 
-                            <AddFiliere  fieldId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddFiliere>
+                            <ShowFiliere  id={id} ></ShowFiliere>
                         }
                    
                 </div>
             </form>
         </div>
     </div>
-    {loading && <Loader/>} 
 </div> 
 
     );

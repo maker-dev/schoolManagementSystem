@@ -1,6 +1,5 @@
 import NavBar from "../../ui/NavBar";
 import SideBar from "../../ui/SideBar";
-import AddFiliere from "../../overflow/field/AddFIliere";
 import { useEffect, useState } from "react";
 import api from "../../../api/apiToken";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +8,10 @@ import Loader from "../../ui/Loader";
 import {success, error} from "../../../helpers/Alerts";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ShowFiliere from "../../overflow/field/ShowFiliere";
 import UpdateCard from "../../overflow/UpdateCard";
+import AddCard from "../../overflow/AddCard";
 import TitleCard from "../../cards/TitleCard";
+import ShowCard from "../../overflow/ShowCard";
 
 
 
@@ -278,12 +278,10 @@ export default function CrudPage({columns,indexApi,deleteApi,idName,title,object
                             } 
                     </table>
                 </div>
-                <AddFiliere display={showAdd} eventHide={hideAddPage}/>
-                <ShowFiliere display={showInfo} eventHide={hideInfoPage} id={id}/>
+                <AddCard display={showAdd} eventHide={hideAddPage} cardName={objectName}/>
+                <ShowCard display={showInfo} eventHide={hideInfoPage} id={id} cardName={objectName}/>
                 <UpdateCard display={showUpdate} eventHide={hideUpdatePage} id={id} cardName={objectName}/>
             </div>
-
-            
             </div>
         </div>
         {loading && <Loader/>}

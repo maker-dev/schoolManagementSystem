@@ -1,24 +1,18 @@
 import { useState , useEffect } from "react";
 import api from "../../../api/apiToken";
-import Loader from "../../ui/Loader";
-import  {useNavigate} from "react-router-dom";
-import DeconnectUser from "../../../helpers/DeconnectUser";
-import { success, error } from "../../../helpers/Alerts";
 import ShowList from "../../ui/ShowList";
+import AddButton from "../../buttons/AddButton";
+import { useCallback, useMemo } from "react";
 
 
-export default function AddFiliere({display, eventHide}){
+export default function AddFiliere({setValidateCredentials, setLoading, eventHide}){
     
+    // collecting data :
     const [fieldName, setFieldName] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [validateCredentials, setValidateCredentials] = useState([]);
-    const navigate = useNavigate();
-    
-    
-    
     const [bacOptions, setBacOptions] = useState([]);
     const [typeBac, setTypeBac] = useState([]);
 
+    //fetching for bac data:
     useEffect(() => {
         const fetchBacType = async () => {
           try {
@@ -31,53 +25,9 @@ export default function AddFiliere({display, eventHide}){
         };
     
         fetchBacType();
-      },[display]);
-
-    const addFiliere = async (e) => {
-
-        setLoading(true);
-        setValidateCredentials("");
-        e.preventDefault();
+      },[]);
     
-        
-          
-          try{
-            let bacRequired = bacOptions.map((bac)=>{
-                return bac.value;
-            })
-            
-            
-            const response = await api.post("insertField", JSON.stringify({ fieldName, bacRequired }));
-            if(response.status === 401){
-                
-                DeconnectUser();
-                navigate("/");
-                console.log("error autorization");
-
-            }
-            if (response.status === 400) {
-              let arrErrors = [];
-              for(let i = 0; i<response.data.errors.length; i++){
-                  arrErrors.push({key: i, msg: response.data.errors[i].msg});
-              }
-              setValidateCredentials(arrErrors);
-              
-             
-            } else if (response.status === 200) {
-               success("Insertion affectueé!") 
-               setFieldName("");
-               setBacOptions([]);
-               eventHide();
-            }
-            setLoading(false);
-          }catch(e){
-            error("Error!");
-          }
-        
-          
-      }
-
-
+    // Handling bac select in show list
     const handleSelectedBac = (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
         const newOption = { value: selectedOption.value, label: selectedOption.text };
@@ -91,45 +41,20 @@ export default function AddFiliere({display, eventHide}){
         });
     };
     
-    const handleDeletedBac = (value) => {
-        
+    // Handling deleting bac from show list
+    const handleDeletedBac = useCallback((value) => {
         setBacOptions((prevItems) => prevItems.filter(item => item.value !== value));
-    }
-    
-    return(
+    }, []);
 
-<div aria-hidden="true" className={display + ' backdrop-blur overflow-y-auto overflow-x-hidden fixed right-center z-50 justify-center items-center w-full inset-0 h-[calc(100%-1rem)] max-h-full'}>
-    <div className="relative p-4 w-full max-w-md max-h-full  inset-y-10 start-0 md:start-1/3">
-        
-        <div className="relative bg-white rounded-lg shadow ">
-            
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                <h3 className="text-lg font-semibold text-gray-900 ">
-                        Ajouter Filière
-                </h3>
-                <button 
-                onClick={eventHide}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center " data-modal-toggle="crud-modal">
-                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span className="sr-only"></span>
-                </button>
-            </div>
-           
-            <form className="p-4 md:p-5">
-                <div className="grid gap-4 mb-4 grid-cols-2">
-                    {validateCredentials.length !== 0 &&
-                        <div className='col-span-2 bg-red-300 text-red-900 p-4'>
-                            <ul className='list-disc pl-20 pr-20'>
-                                { validateCredentials.map(item => (
-                                
-                                // Use the item's ID as the key for efficient rendering
-                                <li key={item.key}>{item.msg}</li>
-                            ))}
-                            </ul>
-                        </div>
-                    }
+    // Memorize allData to prevent re-renders
+    const allData = useMemo(() => ({
+        fieldName:fieldName,
+        bacRequired: bacOptions.map(bac => bac.value)
+    }), [bacOptions, fieldName]);
+
+    return(
+    <>
+
                     <div className="col-span-2">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 text-left ">Nom Filière</label>
                         <input type="text"
@@ -159,18 +84,18 @@ export default function AddFiliere({display, eventHide}){
                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
                         <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
                     </div>
-                </div>
-                <button 
-                onClick={addFiliere}
-                className="text-white inline-flex  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" ></path></svg>
-                    Ajouter Filiere
-                </button>
-            </form>
-        </div>
-    </div>
-    {loading && <Loader/>} 
-</div> 
+                    <div className="col-span-2">
+                        <AddButton 
+                        setInputs={[setFieldName,setBacOptions]}
+                        setLoading={setLoading} 
+                        addApi="insertField" 
+                        arrayData={allData} 
+                        setValidateCredentials={setValidateCredentials} 
+                        title="Filière" 
+                        eventHide={eventHide}></AddButton>
+                    </div>
 
+
+    </>
     );
 }

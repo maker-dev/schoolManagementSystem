@@ -61,7 +61,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
         setBacOptions((prevItems) => prevItems.filter(item => item._id !== value));
     }, []);
 
-    // Memoize allData to prevent re-renders
+    // Memorize allData to prevent re-renders
     const allData = useMemo(() => ({
         fieldId:fieldId,
         newBacRequired: bacOptions.map(bac => bac._id),
