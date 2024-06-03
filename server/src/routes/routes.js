@@ -12,8 +12,10 @@ import { validateAdminLogin } from "../middlewares/validation/admin.js";
 import { user, resendEmail } from '../controllers/UserController.js';
 import { getTypesOfBac, showType, insertTypeOfBac, updateTypeOfBac, deleteTypeOfBac} from "../controllers/TypeBacController.js";
 import { getFields, showFields, showField, insertField, updateField, deleteField } from "../controllers/FieldController.js";
+import {showClasses, showClass, insertClass, updateClass, deleteClass} from '../controllers/ClassController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
+import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 
 const routes = Router();
 
@@ -48,5 +50,13 @@ routes.get("/showField/:fieldId", verifyKey, verifyToken, verifyRole(["Admin"]),
 routes.post("/insertField", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertField, insertField);
 routes.put("/updateField", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateField, updateField);
 routes.delete("/deleteField", verifyKey, verifyToken, verifyRole(["Admin"]), deleteField);
+
+//class
+routes.get("/showClasses", verifyKey, verifyToken, verifyRole(["Admin"]), showClasses);
+routes.get("/showClass/:classId", verifyKey, verifyToken, verifyRole(['Admin']), showClass);
+routes.post("/insertClass", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertClass, insertClass);
+routes.put("/updateClass", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateClass, updateClass);
+routes.delete("/deleteClass", verifyKey, verifyToken, verifyRole(["Admin"]), deleteClass);
+
 
 export {routes};

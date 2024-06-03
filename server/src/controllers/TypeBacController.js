@@ -115,9 +115,33 @@ const updateTypeOfBac = async (req, res) => {
 const deleteTypeOfBac = async (req, res) => {
     const {typeId} = req.body;
 
+    if (!typeId) return res.status(400).json({
+        errors: [
+            {
+                type: "field",
+                value: typeId,
+                msg: "typeId is required",
+                path: "typeId",
+                location: "body"
+            }
+        ]
+    });
+
     try {
         
         const typeOfBac = await TypeOfBacModel.findOne({_id: typeId});
+
+        if (!typeOfBac) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: typeId,
+                    msg: "typeId doesn't exists !",
+                    path: "typeId",
+                    location: "body"
+                }
+            ]
+        });
 
         await typeOfBac.deleteOne();
 

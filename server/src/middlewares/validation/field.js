@@ -31,7 +31,11 @@ const validateUpdateField = [
             if (!existingField) throw new Error("Field is not Registered");
         }),
     check("newFieldName")
-        .notEmpty().withMessage("fieldName is required"),
+        .notEmpty().withMessage("fieldName is required").bail()
+        .custom(async (newFieldName) => {
+            const existingField = await FieldModel.findOne({fieldName: newFieldName});
+            if (existingField) throw new Error("FieldName already exists !");
+        }),
     check("newBacRequired")
         .notEmpty().withMessage("bacRequired is required")
         .custom(async (newBacids) => {
