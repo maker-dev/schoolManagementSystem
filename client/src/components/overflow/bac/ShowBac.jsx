@@ -27,6 +27,7 @@ export default function ShowBac({ id }) {
             <div className="col-span-2">
                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 text-left">Nom Filière</label>
                 <input type="text"
+                    readOnly
                     value={newTypeName}
                     name="name"
                     id="name"
