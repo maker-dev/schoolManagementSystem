@@ -1,4 +1,5 @@
 import ShowFiliere from "./field/ShowFiliere";
+import ShowBac from "./bac/ShowBac";
 
 export default function ShowCard({display,eventHide,id,cardName}){
 
@@ -28,6 +29,9 @@ return(
                 <div className="grid gap-4 mb-4 grid-cols-2">
                         {cardName === "Filière" && 
                             <ShowFiliere  id={id} ></ShowFiliere>
+                        }
+                        {cardName === "Bac" && 
+                            <ShowBac  id={id} ></ShowBac>
                         }
                    
                 </div>

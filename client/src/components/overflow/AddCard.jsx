@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Loader from "../ui/Loader";
 import AddFiliere from "./field/AddFIliere";
+import AddBac from "./bac/AddBac";
 
 export default function AddCard({display,eventHide,id,cardName}){
 
@@ -44,6 +45,10 @@ return(
                     
                         {cardName === "Filière" && 
                             <AddFiliere  fieldId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddFiliere>
+                        }
+                        {cardName === "Bac" &&
+                            <AddBac setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddBac>
+
                         }
                    
                 </div>

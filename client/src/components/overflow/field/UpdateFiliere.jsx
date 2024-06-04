@@ -46,7 +46,10 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
     const handleSelectedBac = (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
         const newOption = { _id: selectedOption.value, typeName: selectedOption.text };
-
+        console.log(newOption);
+        if(newOption._id === ""){
+            return;
+        }
         setBacOptions((prevOptions) => {
             const foundIndex = prevOptions.findIndex(bac => bac._id === selectedOption.value);
             if (foundIndex === -1) {
@@ -88,7 +91,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                     onChange={handleSelectedBac}
                     required={true}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
-                    <option selected disabled>Seletionner type du Bac</option>
+                    <option value="">Seletionner type du Bac</option>
                     {typeBac.length !== 0 &&
                         typeBac.map(typesOfBacSelect => {
                             return <option key={typesOfBacSelect._id} value={typesOfBacSelect._id}>{typesOfBacSelect.typeName}</option>
@@ -101,7 +104,13 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
             </div>
             <div className="col-span-2">
-            <UpdateButton eventHide={eventHide} updateApi="updateField" title="Filière" arrayData={allData} setValidateCredentials={setValidateCredentials} setLoading={setLoading}></UpdateButton>
+            <UpdateButton 
+            eventHide={eventHide} 
+            updateApi="updateField" 
+            title="Filière" 
+            arrayData={allData} 
+            setValidateCredentials={setValidateCredentials} 
+            setLoading={setLoading}></UpdateButton>
             </div>
             
         </>

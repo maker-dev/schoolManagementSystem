@@ -165,7 +165,8 @@ export default function CrudPage({columns,indexApi,deleteApi,idName,title,object
         const query = e.target.value;
         setSearch(query);
         setSearchedData(data.filter((data)=>{
-            const datas = data.fieldName.toLowerCase().includes(query.toLowerCase());
+            const fieldSearchBy = Object.keys(columns)[0];
+            const datas = data[fieldSearchBy].toLowerCase().includes(query.toLowerCase());
             return datas; 
         }));
 

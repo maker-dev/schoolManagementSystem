@@ -31,7 +31,9 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
     const handleSelectedBac = (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
         const newOption = { value: selectedOption.value, label: selectedOption.text };
-
+        if(newOption.value === ""){
+            return;
+        }
         setBacOptions((prevOptions) => {
             const foundIndex = prevOptions.findIndex(bac => bac.value === selectedOption.value);
             if (foundIndex === -1) {
@@ -72,7 +74,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         onChange={handleSelectedBac}
                         required={true}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
-                            <option selected disabled >Seletionner type du Bac</option>
+                            <option  value="" >Seletionner type du Bac</option>
                             {typeBac.length !== 0 && 
                                 typeBac.map(typesOfBacSelect =>{
                                     return <option key={typesOfBacSelect._id} value={typesOfBacSelect._id}>{typesOfBacSelect.typeName}</option>
