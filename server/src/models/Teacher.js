@@ -37,6 +37,10 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    teacherSubject: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "subjects"
+    },
     role: {
         type: String,
         default: "Teacher"

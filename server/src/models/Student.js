@@ -21,15 +21,10 @@ const examSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "subjects"
     },
-    semester: {
-        type: Number,
-        required: true
-    },
     marksObtained: {
         type: Number,
         default: 0
     }
-
 })
 
 const StudentSchema = new mongoose.Schema({
