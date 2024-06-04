@@ -46,7 +46,7 @@ const getFields = async (req, res) => {
 
 const showFields = async (req, res) => {
     try {
-        const fields = await FieldModel.find({}).populate("bacRequired", "typeName");
+        const fields = await FieldModel.find({}).populate("bacRequired", "typeName").populate("subjects", "subName");
 
         res.json(fields);
     } catch (err) {
@@ -89,7 +89,7 @@ const showField = async (req, res) => {
                 ]
             });
         }
-        const field = await FieldModel.findOne({_id: fieldId}).populate("bacRequired", "typeName");
+        const field = await FieldModel.findOne({_id: fieldId}).populate("bacRequired", "typeName").populate("subjects", "subName");
         
         if (!field) {
             return res.status(400).json({
@@ -119,12 +119,13 @@ const insertField = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {fieldName, bacRequired} = req.body;
+    const {fieldName, bacRequired, subjects} = req.body;
 
     try {
         const field = new FieldModel({
             fieldName,
-            bacRequired
+            bacRequired,
+            subjects
         });
 
         await field.save();
@@ -143,11 +144,11 @@ const updateField = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {fieldId, newFieldName, newBacRequired} = req.body;
+    const {fieldId, newFieldName, newBacRequired, newSubjects} = req.body;
 
     try {
         
-        await FieldModel.updateOne({_id: fieldId}, {fieldName: newFieldName, bacRequired: newBacRequired});
+        await FieldModel.updateOne({_id: fieldId}, {fieldName: newFieldName, bacRequired: newBacRequired, subjects: newSubjects});
 
         return res.json({message: "Field Updated Successfully !"});
 

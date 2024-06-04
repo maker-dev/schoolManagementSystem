@@ -1,6 +1,7 @@
 import { check } from "express-validator";
 import { TypeOfBacModel } from "../../models/TypeOfBac.js";
 import { FieldModel } from "../../models/Field.js";
+import { SubjectModel } from '../../models/Subject.js';
 
 const validateInsertField = [
     check('fieldName')
@@ -20,6 +21,18 @@ const validateInsertField = [
                 const existingBac = await TypeOfBacModel.findOne({ _id: bacId });
                 if (!existingBac) throw new Error(`TypeOfBac with id ${bacId} doesn't exist!`);
             }
+        }),
+    check("subjects")
+        .notEmpty().withMessage('subjects is required').bail()
+        .custom(async (subjectIds) => {
+            if (!Array.isArray(subjectIds)) {
+                throw new Error("subjects should be an array");
+            }
+
+            for (let subjectId of subjectIds) {
+                const existingSubject = await SubjectModel.findOne({_id: subjectId});
+                if (!existingSubject) throw new Error(`Subject with id ${subjectId} doesn't exist!`);
+            }
         })
 ];
 
@@ -32,20 +45,35 @@ const validateUpdateField = [
         }),
     check("newFieldName")
         .notEmpty().withMessage("fieldName is required").bail()
-        .custom(async (newFieldName) => {
+        .custom(async (newFieldName, {req}) => {
             const existingField = await FieldModel.findOne({fieldName: newFieldName});
-            if (existingField) throw new Error("FieldName already exists !");
+            if (existingField) {
+                if (req.body.fieldId !== existingField.id) throw new Error("fieldName already exists !");
+            }
+            
         }),
     check("newBacRequired")
         .notEmpty().withMessage("bacRequired is required")
         .custom(async (newBacids) => {
             if (!Array.isArray(newBacids)) {
-                throw new Error("bacRequired should be an array");
+                throw new Error("newBacRequired should be an array");
             }
 
             for (let bacId of newBacids) {
                 const existingBac = await TypeOfBacModel.findOne({ _id: bacId });
                 if (!existingBac) throw new Error(`TypeOfBac with id ${bacId} doesn't exist!`);
+            }
+        }),
+    check("newSubjects")
+        .notEmpty().withMessage("newSubjects is required")
+        .custom(async (subjectIds) => {
+            if (!Array.isArray(subjectIds)) {
+                throw new Error("subjects should be an array");
+            }
+
+            for (let subjectId of subjectIds) {
+                const existingSubject = await SubjectModel.findOne({_id: subjectId});
+                if (!existingSubject) throw new Error(`Subject with id ${subjectId} doesn't exist!`);
             }
         })
 ];

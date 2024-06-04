@@ -7,7 +7,9 @@ const validateInsertSubject = [
         .custom(async (subName) => {
             const existingSubName = await SubjectModel.findOne({subName});
             if (existingSubName) throw new Error("Subject already exists!");
-        })
+        }),
+    check("labs")
+        .notEmpty().withMessage("labs is required")
 ];
 
 const validateUpdateSubject = [
@@ -19,10 +21,14 @@ const validateUpdateSubject = [
         }),
     check("newSubjectName")
         .notEmpty().withMessage("newSubjectName is required").bail()
-        .custom(async (newSubjectName) => {
+        .custom(async (newSubjectName, {req}) => {
             const existingSubject = await SubjectModel.findOne({subName: newSubjectName});
-            if (existingSubject) throw new Error("subjectName already exists !");
-        })
+            if (existingSubject) {
+                if (req.body.subjectId !== existingSubject.id) throw new Error("subjectName already exists !");
+            }
+        }),
+    check("newLabs")
+        .notEmpty().withMessage("newLabs is required")
 ];
 
 

@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const SubjectSchema = new mongoose.Schema({
     subName: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     labs: {
         type: Number,

@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const ClassSchema = new mongoose.Schema({
     className: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     field: {
         type: mongoose.Schema.Types.ObjectId,

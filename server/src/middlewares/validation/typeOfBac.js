@@ -19,9 +19,11 @@ const validateUpdateType = [
         }),
     check("newTypeName")
         .notEmpty().withMessage("newTypeName is required").bail()
-        .custom(async (newTypeName) => {
+        .custom(async (newTypeName, {req}) => {
             const existingType = await TypeOfBacModel.findOne({typeName: newTypeName});
-            if (existingType) throw new Error("TypeName already exists !");
+            if (existingType) {
+                if (req.body.typeId !== existingType.id) throw new Error("TypeName already exists !");
+            }
         })
 ];
 

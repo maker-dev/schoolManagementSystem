@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const FieldSchema = new mongoose.Schema({
     fieldName: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     bacRequired: [{
         type: mongoose.Schema.Types.ObjectId,
