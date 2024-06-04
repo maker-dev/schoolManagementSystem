@@ -8,6 +8,10 @@ const FieldSchema = new mongoose.Schema({
     bacRequired: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "typeofbacs"
+    }],
+    subjects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "subjects"
     }]
 })
 
