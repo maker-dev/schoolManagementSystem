@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import api from '../../api/apiToken';
 import VerifieAccount from "./VerifieAccount";
 import Loader from "../ui/Loader";
-import { info } from "../../helpers/Alerts";
+import { error, info } from "../../helpers/Alerts";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,8 +23,8 @@ export default function SignUp(){
     const [loading, setLoading] = useState(false);
     const [typesOfBacSelect, setTypesOfBacSelect] = useState([]);
     const [filiereSelect, setFiliereSelect] = useState([]);
-    const [isTeacher, setIsTeacher] = useState(false);
-    const [roleTitle, setRoleTitle] = useState(isTeacher?"Professeur":"Etudiant");
+    const [roleUser, setRoleUser] = useState(false);
+    const [roleTitle, setRoleTitle] = useState(roleUser?"Professeur":"Etudiant");
     const [showPassword, setShowPassword] = useState(false);
     const [ValidateCredentials,setValidateCredentials] = useState([]);
     const [requiresVerification, setRequiresVerification] = useState(false);
@@ -69,14 +69,17 @@ export default function SignUp(){
     }
     
     const handleChange = (e) => {
-        if(e.target.value === "professeur"){
-            setIsTeacher(true);
+
+        if(e.target.value === "Professeur"){
+            setRoleUser("Professeur");
             setRoleTitle("Professeur");
         }
-        else{
-            setIsTeacher(false);
+        else if(e.target.value === "Etudiant"){
+            setRoleUser("Etudiant");
             setRoleTitle("Etudiant");
-        } 
+        }else{
+            return;
+        }
     }
 
     const handleTypeBacChange = (e) =>{
@@ -94,10 +97,10 @@ export default function SignUp(){
         setValidateCredentials([]);
         let response;
         e.preventDefault();
-        if(isTeacher){
+        if(roleUser === "Professeur"){
              response = await api.post("teacherRegister", JSON.stringify({ firstName, lastName, email, password }));
             
-        } else {
+        } else if(roleUser === "Etudiant"){
              response = await api.post("studentRegister", JSON.stringify({ firstName, lastName, tel, typeOfBac, field, email, password }));
         }
     
@@ -116,14 +119,16 @@ export default function SignUp(){
           } else if (response.status === 200) {
             info("Verifier votre compte!");
             setRequiresVerification(true);
+          }else{
+            error("Erreur!");
           }
           setLoading(false);
       }
     
-      if (requiresVerification && isTeacher) {
+      if (requiresVerification && roleUser === "Professeur") {
     
         return <VerifieAccount email={email} role="Teacher"/>;
-      }else if(requiresVerification && !isTeacher){
+      }else if(requiresVerification && roleUser === "Etudiant"){
         return <VerifieAccount email={email} role="Student"/>;
       }
 
@@ -154,10 +159,15 @@ export default function SignUp(){
                         }
                     <div>
                         <label htmlFor="role" className="block mb-2 text-left text-sm font-medium text-gray-900">Etes vous ?</label>
-                        <select name="role" id="role" defaultValue="" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" onChange={handleChange} required="">
-                            <option >Selectionner votre situation</option>
-                            <option value="professeur" selected={isTeacher}  >Professeur</option>
-                            <option value="etudiant" selected={!isTeacher}>Etudiant</option>
+                        <select name="role" 
+                        id="role" 
+                        defaultValue="" 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" 
+                        onChange={handleChange} 
+                        required>
+                            <option value="" >Selectionner votre situation</option>
+                            <option value="Professeur" >Professeur</option>
+                            <option value="Etudiant" >Etudiant</option>
                         </select>
                     </div>
                     <div>
@@ -168,7 +178,7 @@ export default function SignUp(){
                         <label htmlFor="prenom" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Prénom</label>
                         <input type="text" value={lastName} onChange={(e) => setPrenom(e.target.value)} name="prenom" id="prenom" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-teal-600 block w-full p-2.5 :bg-gray-700 " placeholder="prenom" required=""/>
                     </div>
-                    {!isTeacher && 
+                    {roleUser === "Etudiant" && 
                     // Etudiant Info form
                     <>
                     <div>

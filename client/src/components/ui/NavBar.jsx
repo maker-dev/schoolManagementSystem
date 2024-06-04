@@ -4,17 +4,20 @@ import { useState } from "react";
 import SideBar from './SideBar'
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 export default  function NavBar(){
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [isHidden, setIsHidden] = useState(true);
-    const [isConnect, setIsConnect] = useState(true);
+    
 
     const  logOut = () =>{
+        setLoading(true);
         Cookies.remove('token');
         Cookies.set('userRole',null);
         navigate('/');
+        setLoading(false);
     }
 
     const handleMenu = () => {
@@ -31,14 +34,11 @@ export default  function NavBar(){
                     <div className="text-white font-bold text-xl">Logo</div>
                 </div>
                 <div> 
-                    {isConnect ? (
-                    <button className="text-black hover:text-white font-bold py-1 px-2" onClick={logOut}>LogOut</button>
-                    ) : (
-                    <button className="bg-white text-red-600 hover:text-white hover:bg-red-600 font-bold rounded py-1 px-2">LogIn</button>)
-                    }
+                    <button className="text-black hover:text-white font-bold py-1 px-2" onClick={logOut}>Se Déconnecter</button>
                 </div>
 
            </div>
+           {loading && <Loader/>}
         </div>
 
 
