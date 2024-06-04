@@ -4,17 +4,20 @@ import { useState } from "react";
 import SideBar from './SideBar'
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 export default  function NavBar(){
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [isHidden, setIsHidden] = useState(true);
     
 
     const  logOut = () =>{
+        setLoading(true);
         Cookies.remove('token');
         Cookies.set('userRole',null);
         navigate('/');
+        setLoading(false);
     }
 
     const handleMenu = () => {
@@ -35,6 +38,7 @@ export default  function NavBar(){
                 </div>
 
            </div>
+           {loading && <Loader/>}
         </div>
 
 
