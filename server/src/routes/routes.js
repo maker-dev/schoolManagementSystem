@@ -13,9 +13,11 @@ import { user, resendEmail } from '../controllers/UserController.js';
 import { getTypesOfBac, showType, insertTypeOfBac, updateTypeOfBac, deleteTypeOfBac} from "../controllers/TypeBacController.js";
 import { getFields, showFields, showField, insertField, updateField, deleteField } from "../controllers/FieldController.js";
 import {showClasses, showClass, insertClass, updateClass, deleteClass} from '../controllers/ClassController.js';
+import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
+import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
 
 const routes = Router();
 
@@ -58,5 +60,11 @@ routes.post("/insertClass", verifyKey, verifyToken, verifyRole(["Admin"]), valid
 routes.put("/updateClass", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateClass, updateClass);
 routes.delete("/deleteClass", verifyKey, verifyToken, verifyRole(["Admin"]), deleteClass);
 
+//subject
+routes.get("/showSubjects", verifyKey, verifyToken, verifyRole(["Admin"]), showSubjects);
+routes.get("/showSubject/:subjectId", verifyKey, verifyToken, verifyRole(['Admin']), showSubject);
+routes.post("/insertSubject", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertSubject, insertSubject);
+routes.put("/updateSubject", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateSubject, updateSubject);
+routes.delete("/deleteSubject", verifyKey, verifyToken, verifyRole(["Admin"]), deleteSubject);
 
 export {routes};
