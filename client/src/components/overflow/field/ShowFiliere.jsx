@@ -8,6 +8,7 @@ export default function ShowFiliere({id}){
 
     const [fieldName, setFieldName] = useState("");
     const [typeBacs, setTypeBacs] = useState([]);
+    const [subjectList, setSubjectList] = useState([]);
     // fetching for data about the filiere data:
     useEffect(() => {
         const fetchField = async () => {
@@ -16,6 +17,7 @@ export default function ShowFiliere({id}){
                 const response = await api.get(`showField/${id}`);
                 setTypeBacs(response.data.bacRequired === undefined?[]:response.data.bacRequired);
                 setFieldName(response.data.fieldName); 
+                setSubjectList(response.data.subjects); 
             }
           } catch (error) {
             console.error('Error');
@@ -47,6 +49,10 @@ export default function ShowFiliere({id}){
                     <div className="col-span-2">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
                         <ShowList array={typeBacs}></ShowList>
+                    </div>
+                    <div className="col-span-2">
+                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Selectionner</label>
+                        <ShowList array={subjectList}></ShowList>
                     </div>
             </> 
 

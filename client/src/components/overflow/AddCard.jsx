@@ -2,6 +2,7 @@ import { useState } from "react";
 import Loader from "../ui/Loader";
 import AddFiliere from "./field/AddFIliere";
 import AddBac from "./bac/AddBac";
+import AddSubject from "./subject/AddSubject";
 
 export default function AddCard({display,eventHide,id,cardName}){
 
@@ -50,6 +51,11 @@ return(
                             <AddBac setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddBac>
 
                         }
+                        {cardName === "Module" &&
+                            <AddSubject setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddSubject>
+
+                        }
+
                    
                 </div>
             </form>

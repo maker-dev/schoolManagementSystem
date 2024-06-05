@@ -2,6 +2,7 @@ import { useState } from "react";
 import UpdateFiliere from "./field/UpdateFiliere";
 import Loader from "../ui/Loader";
 import UpdateBac from "./bac/UpdateBac";
+import UpdateSubject from "./subject/UpdateSubject";
 
 export default function UpdateCard({display,eventHide,id,cardName}){
 
@@ -48,6 +49,9 @@ return(
                         }
                         {cardName === "Bac" &&
                             <UpdateBac typeId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}/>
+                        }
+                        {cardName === "Module" &&
+                            <UpdateSubject subjectId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}/>
                         }
                    
                 </div>

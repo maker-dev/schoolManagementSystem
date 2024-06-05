@@ -84,6 +84,7 @@ export default function CrudPage({columns,indexApi,deleteApi,idName,title,object
         }
     
         try {
+            
             const deletePromises = checkedArr.map(id =>
                 api.delete(deleteApi, {
                     data: { [idName]: id }
@@ -118,8 +119,7 @@ export default function CrudPage({columns,indexApi,deleteApi,idName,title,object
             } else if (successCount > 0) {
                 
                 success(`${successCount} supprimeès!` );
-                
-                
+                setCheckedArr([]);
             } else {
                 error("Error: somthings went wrong!");
             }

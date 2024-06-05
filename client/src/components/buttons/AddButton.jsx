@@ -33,7 +33,7 @@ export default function AddButton({ setInputs, setLoading, addApi, arrayData, se
                success("Insertion affectueé!"); 
                setInputs.map((setInput)=>{
                     return setInput([]);
-               })
+               });
                eventHide();
             }else{
                 error("une erreur est survenue");

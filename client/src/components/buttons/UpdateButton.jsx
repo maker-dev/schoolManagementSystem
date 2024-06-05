@@ -5,7 +5,6 @@ import { success, error } from "../../helpers/Alerts";
 
 export default function UpdateButton({ setLoading, updateApi, arrayData, setValidateCredentials, title, eventHide }) {
     const navigate = useNavigate();
-
     const updateFiliere = async (e) => {
         setLoading(true);
         setValidateCredentials("");

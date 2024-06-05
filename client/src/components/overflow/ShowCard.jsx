@@ -1,5 +1,6 @@
 import ShowFiliere from "./field/ShowFiliere";
 import ShowBac from "./bac/ShowBac";
+import ShowSubject from "./subject/ShowSubject";
 
 export default function ShowCard({display,eventHide,id,cardName}){
 
@@ -32,6 +33,9 @@ return(
                         }
                         {cardName === "Bac" && 
                             <ShowBac  id={id} ></ShowBac>
+                        }
+                        {cardName === "Module" && 
+                            <ShowSubject id={id} ></ShowSubject>
                         }
                    
                 </div>

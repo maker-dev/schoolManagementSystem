@@ -91,7 +91,7 @@ export default function SignUp(){
     const handleTypeFiliereChange = (e) =>{
         setFiliere(e.target.value);
     }
-
+    //Handling submit event function: 
     const handleSubmit = async (e) => {
         setLoading(true);
         setValidateCredentials([]);

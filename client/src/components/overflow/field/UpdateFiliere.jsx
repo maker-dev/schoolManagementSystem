@@ -4,14 +4,18 @@ import ShowList from "../../ui/ShowList";
 import UpdateButton from "../../buttons/UpdateButton";
 
 export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoading, eventHide }) {
-    //functionalities
+    // State for the new field name
     const [newFieldName, setNewFieldName] = useState("");
-    
-    //bac data collectors:
+
+    // State for bac options and selected bac
     const [bacOptions, setBacOptions] = useState([]);
     const [typeBac, setTypeBac] = useState([]);
 
-    // Fetching field data
+    // State for subject options and selected subjects
+    const [subjectOptions, setSubjectOptions] = useState([]);
+    const [subjectList, setSubjectList] = useState([]);
+
+    // Fetch field data
     useEffect(() => {
         const fetchField = async () => {
             try {
@@ -19,35 +23,49 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                     const response = await api.get(`showField/${fieldId}`);
                     setBacOptions(response.data.bacRequired || []);
                     setNewFieldName(response.data.fieldName);
+                    setSubjectOptions(response.data.subjects);
                 }
             } catch (error) {
-                console.error('Error');
+                console.error('Error fetching field data', error);
             }
         };
 
         fetchField();
     }, [fieldId]);
 
-    // Fetching bac type data
+    // Fetch bac type data
     useEffect(() => {
         const fetchBacType = async () => {
             try {
                 const response = await api.get('typesOfBac');
                 setTypeBac(response.data);
             } catch (error) {
-                console.error('Error');
+                console.error('Error fetching bac types', error);
             }
         };
 
         fetchBacType();
     }, []);
 
-    // Handling bac select in show list
+    // Fetch subject type data
+    useEffect(() => {
+        const fetchSubjectType = async () => {
+            try {
+                const response = await api.get('showSubjects');
+                setSubjectList(response.data);
+            } catch (error) {
+                console.error('Error fetching subjects', error);
+            }
+        };
+
+        fetchSubjectType();
+    }, []);
+
+    // Handle bac selection
     const handleSelectedBac = (e) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
         const newOption = { _id: selectedOption.value, typeName: selectedOption.text };
-        console.log(newOption);
-        if(newOption._id === ""){
+        if (newOption._id === "") {
             return;
         }
         setBacOptions((prevOptions) => {
@@ -59,18 +77,40 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
         });
     };
 
-    // Handling deleting bac from show list
+    // Handle subject selection
+    const handleSelectedSubject = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const newOption = { _id: selectedOption.value, subName: selectedOption.text };
+        console.log(newOption);
+        if (newOption._id === "") {
+            return;
+        }
+        setSubjectOptions((prevOptions) => {
+            const foundIndex = prevOptions.findIndex(sub => sub._id === selectedOption.value);
+            if (foundIndex === -1) {
+                return [...prevOptions, newOption];
+            }
+            return prevOptions;
+        });
+    };
+
+    // Handle deleting bac from the list
     const handleDeletedBac = useCallback((value) => {
         setBacOptions((prevItems) => prevItems.filter(item => item._id !== value));
     }, []);
 
-    // Memorize allData to prevent re-renders
+    // Handle deleting subject from the list
+    const handleDeletedSubject = useCallback((value) => {
+        setSubjectOptions((prevItems) => prevItems.filter(item => item._id !== value));
+    }, []);
+
+    // Memoize allData to prevent re-renders
     const allData = useMemo(() => ({
-        fieldId:fieldId,
+        fieldId: fieldId,
         newBacRequired: bacOptions.map(bac => bac._id),
-        newFieldName:newFieldName
-    }), [fieldId, bacOptions, newFieldName]);
-    
+        newFieldName: newFieldName,
+        newSubjects: subjectOptions.map(sub => sub._id),
+    }), [fieldId, bacOptions, newFieldName, subjectOptions]);
 
     return (
         <>
@@ -91,7 +131,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                     onChange={handleSelectedBac}
                     required={true}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
-                    <option value="">Seletionner type du Bac</option>
+                    <option value="">Sélectionner type du Bac</option>
                     {typeBac.length !== 0 &&
                         typeBac.map(typesOfBacSelect => {
                             return <option key={typesOfBacSelect._id} value={typesOfBacSelect._id}>{typesOfBacSelect.typeName}</option>
@@ -100,19 +140,37 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 </select>
             </div>
             <div className="col-span-2">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
+                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Sélectionné</label>
                 <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
             </div>
             <div className="col-span-2">
-            <UpdateButton 
-            eventHide={eventHide} 
-            updateApi="updateField" 
-            title="Filière" 
-            arrayData={allData} 
-            setValidateCredentials={setValidateCredentials} 
-            setLoading={setLoading}></UpdateButton>
+                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Modules</label>
+                <select
+                    onChange={handleSelectedSubject}
+                    required={true}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
+                    <option value="">Sélectionner Module</option>
+                    {subjectList.length !== 0 &&
+                        subjectList.map(subjectSelect => {
+                            return <option key={subjectSelect._id} value={subjectSelect._id}>{subjectSelect.subName}</option>
+                        })
+                    }
+                </select>
             </div>
-            
+            <div className="col-span-2">
+                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Sélectionné</label>
+                <ShowList array={subjectOptions} deleteEvent={handleDeletedSubject}></ShowList>
+            </div>
+            <div className="col-span-2">
+                <UpdateButton 
+                    eventHide={eventHide} 
+                    updateApi="updateField"
+                    title="Filière" 
+                    arrayData={allData} 
+                    setValidateCredentials={setValidateCredentials} 
+                    setLoading={setLoading}>
+                </UpdateButton>
+            </div>
         </>
     );
 }

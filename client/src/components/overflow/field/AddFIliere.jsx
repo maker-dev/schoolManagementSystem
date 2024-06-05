@@ -11,6 +11,8 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
     const [fieldName, setFieldName] = useState("");
     const [bacOptions, setBacOptions] = useState([]);
     const [typeBac, setTypeBac] = useState([]);
+    const [subjectOptions, setSubjectOptions] = useState([]);
+    const [subject, setSubject] = useState([]);
 
     //fetching for bac data:
     useEffect(() => {
@@ -25,6 +27,22 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
         };
     
         fetchBacType();
+      },[]);
+
+    //fetching for subject(module) data:
+    useEffect(() => {
+        const fetchSubject = async () => {
+          try {
+            const response = await api.get('showSubjects');
+            // setOptions(response.data);
+            
+            setSubject(response.data);  
+          } catch (error) {
+            console.error('Error');
+          }
+        };
+    
+        fetchSubject();
       },[]);
     
     // Handling bac select in show list
@@ -42,17 +60,39 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
             return prevOptions;
         });
     };
+    // Handling subject select in show list
+    const handleSelectedSubject = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const newOption = { _id: selectedOption.value, subName: selectedOption.text };
+        if(newOption._id === ""){
+            return;
+        }
+        setSubjectOptions((prevOptions) => {
+            const foundIndex = prevOptions.findIndex(subject => subject._id === selectedOption.value);
+            if (foundIndex === -1) {
+                return [...prevOptions, newOption];
+            }
+            
+            return prevOptions;
+        });
+    };
     
+    // Handling deleting subject from show list
+    const handleDeletedSubject = useCallback((value) => {
+        setSubjectOptions((prevItems) => prevItems.filter(item => item._id !== value));
+    }, []);
     // Handling deleting bac from show list
     const handleDeletedBac = useCallback((value) => {
         setBacOptions((prevItems) => prevItems.filter(item => item.value !== value));
     }, []);
+    
 
     // Memorize allData to prevent re-renders
     const allData = useMemo(() => ({
         fieldName:fieldName,
-        bacRequired: bacOptions.map(bac => bac.value)
-    }), [bacOptions, fieldName]);
+        bacRequired: bacOptions.map(bac => bac.value),
+        subjects: subjectOptions.map(subject => subject._id)
+    }), [bacOptions, fieldName, subjectOptions]);
 
     return(
     <>
@@ -68,6 +108,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         placeholder="Nom Filière"
                         required/>
                     </div>
+                    {/* INputs for bac select */}
                     <div className="col-span-2">
                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Bac</label>
                         <select 
@@ -86,9 +127,30 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
                         <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
                     </div>
+                    {/* INputs for subject select */}
+                    <div className="col-span-2">
+                        <label htmlFor="category"
+                        className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Module</label>
+                        <select 
+                        onChange={handleSelectedSubject}
+                        required={true}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
+                            <option  value="" >Seletionner type du Module</option>
+                            {subject.length !== 0 && 
+                                subject.map(typesOfSubjectSelect =>{
+                                    return <option key={typesOfSubjectSelect._id} value={typesOfSubjectSelect._id}>{typesOfSubjectSelect.subName}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="col-span-2">
+                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Selectionner</label>
+                        <ShowList array={subjectOptions} deleteEvent={handleDeletedSubject}></ShowList>
+                    </div>
+                    {/* Button of updating */}
                     <div className="col-span-2">
                         <AddButton 
-                        setInputs={[setFieldName,setBacOptions]}
+                        setInputs={[setFieldName,setBacOptions,setSubjectOptions]}
                         setLoading={setLoading} 
                         addApi="insertField" 
                         arrayData={allData} 

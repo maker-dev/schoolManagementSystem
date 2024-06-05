@@ -11,6 +11,7 @@ import AdminRoutes from "./components/utils/AdminRoutes";
 import GuestRoutes from "./components/utils/GuestRoutes";
 import FilierePage from "./components/pages/admin/FilierePage";
 import BacPage from "./components/pages/admin/BacPage";
+import SubjectPage from "./components/pages/admin/SubjectPage";
 
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/filiere" element={<FilierePage />} />
           <Route path="/bac" element={<BacPage />} />
+          <Route path="/subject" element={<SubjectPage />} />
         </Route>
         
 
