@@ -15,18 +15,6 @@ const validateInsertClass = [
         .custom(async (fieldId) => {
             const existingField = await FieldModel.findOne({_id: fieldId});
             if (!existingField) throw new Error("Field already exists !");
-        }),
-    check("teachers")
-        .notEmpty().withMessage("teachers is required").bail()
-        .custom(async (teacherIds) => {
-            if (!Array.isArray(teacherIds)) {
-                throw new Error("teachers should be an array");
-            }
-
-            for (let teacherId of teacherIds) {
-                const existingTeacher = await TeacherModel.findOne({ _id: teacherId });
-                if (!existingTeacher) throw new Error(`teacher with id ${teacherId} doesn't exist!`);
-            }
         })
 ];
 
@@ -50,20 +38,21 @@ const validateUpdateClass = [
         .custom(async (fieldId) => {
             const existingField = await FieldModel.findOne({_id: fieldId});
             if (!existingField) throw new Error("Field already exists !");
-        }),
-    check("newTeachers")
-        .notEmpty().withMessage("newTeachers is required").bail()
-        .custom(async (teacherIds) => {
-            if (!Array.isArray(teacherIds)) {
-                throw new Error("teachers should be an array");
-            }
-
-            for (let teacherId of teacherIds) {
-                const existingTeacher = await TeacherModel.findOne({ _id: teacherId });
-                if (!existingTeacher) throw new Error(`teacher with id ${teacherId} doesn't exist!`);
-            }
         })
+
 ];
 
+// check("newTeachers")
+// .notEmpty().withMessage("newTeachers is required").bail()
+// .custom(async (teacherIds) => {
+//     if (!Array.isArray(teacherIds)) {
+//         throw new Error("teachers should be an array");
+//     }
+
+//     for (let teacherId of teacherIds) {
+//         const existingTeacher = await TeacherModel.findOne({ _id: teacherId });
+//         if (!existingTeacher) throw new Error(`teacher with id ${teacherId} doesn't exist!`);
+//     }
+// })
 
 export {validateInsertClass, validateUpdateClass}

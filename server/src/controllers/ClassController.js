@@ -79,14 +79,13 @@ const insertClass = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {className, field, teachers} = req.body;
+    const {className, field} = req.body;
 
     try {
 
         const Class = new ClassModel({
             className,
-            field,
-            teachers
+            field
         });
 
         await Class.save();
@@ -105,11 +104,11 @@ const updateClass = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {classId, newClassName, newField, newTeachers} = req.body;
+    const {classId, newClassName, newField} = req.body;
 
     try {
         
-        await ClassModel.updateOne({_id: classId}, {className: newClassName, field: newField, teachers: newTeachers});
+        await ClassModel.updateOne({_id: classId}, {className: newClassName, field: newField});
 
         return res.json({message: "Class Updated Successfully !"});
 

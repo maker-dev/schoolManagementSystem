@@ -9,7 +9,8 @@ const validateInsertSubject = [
             if (existingSubName) throw new Error("Subject already exists!");
         }),
     check("labs")
-        .notEmpty().withMessage("labs is required")
+        .notEmpty().withMessage("labs is required").bail()
+        .isNumeric().withMessage('labs must be a number')
 ];
 
 const validateUpdateSubject = [
@@ -28,7 +29,8 @@ const validateUpdateSubject = [
             }
         }),
     check("newLabs")
-        .notEmpty().withMessage("newLabs is required")
+        .notEmpty().withMessage("newLabs is required").bail()
+        .isNumeric().withMessage('labs must be a number')
 ];
 
 

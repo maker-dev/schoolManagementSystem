@@ -24,7 +24,7 @@ const validateStudentRegister = [
         .custom(async (fieldId, {req}) => {
             const field = await FieldModel.findOne({_id: fieldId});
             if (!field) throw new Error("field doesn't exists !");
-            if (field.bacRequired.toString() !== req.body.typeOfBac) throw new Error("this field required another typeOfBac !");
+            if (!field.bacRequired.includes(req.body.typeOfBac)) throw new Error("this field required another typeOfBac !");
         }),
     check('email')
         .notEmpty().withMessage('Email is required').bail()
