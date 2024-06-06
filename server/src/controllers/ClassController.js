@@ -1,7 +1,10 @@
 import { ClassModel } from "../models/Class.js";
-import {validationResult} from 'express-validator';
+import { StudentModel } from '../models/Student.js';
+import { TeacherModel } from '../models/Teacher.js';
+import { validationResult } from 'express-validator';
 import mongoose from "mongoose";
 
+//class crud
 
 const showClasses = async (req, res) => {
     try {
@@ -142,7 +145,7 @@ const deleteClass = async (req, res) => {
                 {
                     type: "field",
                     value: classId,
-                    msg: "classId doesn't exists !",
+                    msg: "class doesn't exists !",
                     path: "classId",
                     location: "body"
                 }
@@ -158,4 +161,287 @@ const deleteClass = async (req, res) => {
     }
 }
 
-export {showClasses, showClass, insertClass, updateClass, deleteClass}
+//students
+
+const showClassStudents = async (req, res) => {
+
+    const {classId} = req.params;
+
+    try {
+
+        const students = await StudentModel.find({class: classId}).select('-password');
+
+        res.json(students);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const addStudentToClass = async (req, res) => {
+    const {classId, studentId} = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(classId) || !mongoose.Types.ObjectId.isValid(studentId)) {
+        return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: [classId, studentId],
+                    msg: "Invalid classId or studentId",
+                    path: "classId and studentId",
+                    location: "body"
+                }
+            ]
+        });
+    }
+
+    try {
+
+        const student = await StudentModel.findOne({_id: studentId});
+
+        if (!student) {
+            return res.status(404).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: studentId,
+                        msg: "Student not found",
+                        path: "studentId",
+                        location: "body"
+                    }
+                ]
+            });
+        }
+
+        if (student.class && student.class.toString() === classId) {
+            return res.status(400).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: [classId, studentId],
+                        msg: "Student is already in this class",
+                        path: "classId and studentId",
+                        location: "body"
+                    }
+                ]
+            });
+        }
+
+        await StudentModel.updateOne({_id: studentId}, {class: classId});
+
+        res.json("Student added successfully !");
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const removeStudentFromClass = async (req, res) => {
+    const {studentId} = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
+        return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: studentId,
+                    msg: "Invalid studentId",
+                    path: "studentId",
+                    location: "body"
+                }
+            ]
+        });
+    }
+
+
+    try {
+
+        await StudentModel.updateOne({_id: studentId}, { $set: { class: null } })
+
+        res.json("Student removed successfully !");
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+//teachers
+
+const showClassTeachers = async (req, res) => {
+
+    const {classId} = req.params
+
+    try {
+
+        const classWithTeachers = await ClassModel.findById(classId).populate({
+            path: 'teachers',
+            select: '-password'  // Exclude the password field
+        });
+
+        if (!classWithTeachers) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: classId,
+                    msg: "class doesn't exists !",
+                    path: "classId",
+                    location: "body"
+                }
+            ]
+        });
+
+        res.json(classWithTeachers.teachers);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const addTeacherToClass = async (req, res) => {
+    const {classId, teacherId} = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(classId) || !mongoose.Types.ObjectId.isValid(teacherId)) {
+        return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: [classId, teacherId],
+                    msg: "Invalid classId or teacherId",
+                    path: "classId and teacherId",
+                    location: "body"
+                }
+            ]
+        });
+    }
+
+    try {
+
+        const updateResult = await ClassModel.updateOne({_id: classId}, { $addToSet: { teachers: teacherId } });
+        
+        if (updateResult.modifiedCount === 0 ) {
+            return res.status(404).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: [classId, teacherId],
+                        msg: "Class not found or teacher already added",
+                        path: "classId and teacherId",
+                        location: "body"
+                    }
+                ]
+            });
+        }
+
+        res.json("Teacher added successfully !");
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const removeTeacherFromClass = async (req, res) => {
+    const {classId, teacherId} = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+        return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: teacherId,
+                    msg: "Invalid teacherId",
+                    path: "teacherId",
+                    location: "body"
+                }
+            ]
+        });
+    }
+
+
+    try {
+
+        const updateResult = await ClassModel.updateOne(
+            { _id: classId },
+            { $pull: { teachers: teacherId } }
+        );
+
+        if (updateResult.modifiedCount === 0) {
+            return res.status(404).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: { classId, teacherId },
+                        msg: "Class not found or teacher not in class",
+                        path: "classId and teacherId",
+                        location: "body"
+                    }
+                ]
+            });
+        }
+
+        res.json("Teacher removed successfully !");
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+//class's information
+
+const getClassInfo = async (req, res) => {
+
+    const { classId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(classId)) {
+        return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: classId,
+                    msg: "Invalid classId",
+                    path: "classId",
+                    location: "body"
+                }
+            ]
+        });
+    }
+
+    try {
+
+        const Class = await ClassModel.findById(classId);
+
+        if (!Class) {
+            return res.status(400).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: classId,
+                        msg: "Class not found",
+                        path: "classId",
+                        location: "body"
+                    }
+                ]
+            });
+        }
+
+        // Count the number of teachers
+        const numberOfTeachers = Class.teachers.length;
+
+        // Query the StudentModel to count the number of students in the class
+        const numberOfStudents = await StudentModel.countDocuments({ class: classId });
+
+        const className = Class.className;
+
+        res.json({ numberOfTeachers, numberOfStudents, className });
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+export {
+    showClasses, showClass, insertClass, updateClass, deleteClass,
+    showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass, 
+    removeStudentFromClass, removeTeacherFromClass, getClassInfo
+}

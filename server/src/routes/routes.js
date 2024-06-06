@@ -12,7 +12,10 @@ import { validateAdminLogin } from "../middlewares/validation/admin.js";
 import { user, resendEmail } from '../controllers/UserController.js';
 import { getTypesOfBac, showType, insertTypeOfBac, updateTypeOfBac, deleteTypeOfBac} from "../controllers/TypeBacController.js";
 import { getFields, showFields, showField, insertField, updateField, deleteField } from "../controllers/FieldController.js";
-import {showClasses, showClass, insertClass, updateClass, deleteClass} from '../controllers/ClassController.js';
+import { showClasses, showClass, insertClass, updateClass, deleteClass,
+        showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass,
+        removeStudentFromClass, removeTeacherFromClass, getClassInfo
+        } from '../controllers/ClassController.js';
 import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
@@ -59,6 +62,13 @@ routes.get("/showClass/:classId", verifyKey, verifyToken, verifyRole(['Admin']),
 routes.post("/insertClass", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertClass, insertClass);
 routes.put("/updateClass", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateClass, updateClass);
 routes.delete("/deleteClass", verifyKey, verifyToken, verifyRole(["Admin"]), deleteClass);
+routes.get("/showClassStudents/:classId", verifyKey, verifyToken, verifyRole(['Admin']), showClassStudents);
+routes.get("/showClassTeachers/:classId", verifyKey, verifyToken, verifyRole(['Admin']), showClassTeachers);
+routes.post("/addStudentToClass", verifyKey, verifyToken, verifyRole(["Admin"]), addStudentToClass);
+routes.post("/addTeacherToClass", verifyKey, verifyToken, verifyRole(["Admin"]), addTeacherToClass);
+routes.post("/removeStudentFromClass", verifyKey, verifyToken, verifyRole(["Admin"]), removeStudentFromClass)
+routes.post("/removeTeacherFromClass", verifyKey, verifyToken, verifyRole(["Admin"]), removeTeacherFromClass)
+routes.get("/getClassInfo/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), getClassInfo);
 
 //subject
 routes.get("/showSubjects", verifyKey, verifyToken, verifyRole(["Admin"]), showSubjects);
