@@ -8,7 +8,7 @@ export default function SubjectPage(){
         indexApi="showSubjects"
         deleteApi="deleteSubject"
         idName="subjectId"
-        title="Gestion Module"
+        title="Gestion Modules"
         objectName="Module"
         ></CrudPage>
     )

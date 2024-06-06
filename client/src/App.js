@@ -12,6 +12,9 @@ import GuestRoutes from "./components/utils/GuestRoutes";
 import FilierePage from "./components/pages/admin/FilierePage";
 import BacPage from "./components/pages/admin/BacPage";
 import SubjectPage from "./components/pages/admin/SubjectPage";
+import ClassPage from "./components/pages/admin/ClassPage";
+import ShowClassPage from "./components/overflow/class/ShowClassPage";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -27,6 +30,8 @@ function App() {
           <Route path="/filiere" element={<FilierePage />} />
           <Route path="/bac" element={<BacPage />} />
           <Route path="/subject" element={<SubjectPage />} />
+          <Route path="/class" element={<ClassPage />} />
+          <Route path="/class/show" element={<ShowClassPage />} />
         </Route>
         
 

@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import api from "../../../api/apiToken";
 import ShowList from "../../ui/ShowList";
 import UpdateButton from "../../buttons/UpdateButton";
+import { error } from "../../../helpers/Alerts";
 
 export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoading, eventHide }) {
     // State for the new field name
@@ -26,7 +27,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                     setSubjectOptions(response.data.subjects);
                 }
             } catch (error) {
-                console.error('Error fetching field data', error);
+                error('Error fetching field data', error);
             }
         };
 
@@ -40,7 +41,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 const response = await api.get('typesOfBac');
                 setTypeBac(response.data);
             } catch (error) {
-                console.error('Error fetching bac types', error);
+                error('Error fetching bac types', error);
             }
         };
 
@@ -54,7 +55,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 const response = await api.get('showSubjects');
                 setSubjectList(response.data);
             } catch (error) {
-                console.error('Error fetching subjects', error);
+                error('Error fetching subjects', error);
             }
         };
 
@@ -121,14 +122,16 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                     onChange={(e) => setNewFieldName(e.target.value)}
                     name="name"
                     id="name"
+                    autoComplete="on"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Nom Filière"
                     required />
             </div>
             <div className="col-span-2">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Bac</label>
+                <span  className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Bac</span>
                 <select
                     onChange={handleSelectedBac}
+                    name="bacA"
                     required={true}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
                     <option value="">Sélectionner type du Bac</option>
@@ -140,14 +143,15 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 </select>
             </div>
             <div className="col-span-2">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Sélectionné</label>
+                <span className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Sélectionné</span>
                 <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
             </div>
             <div className="col-span-2">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Modules</label>
+                <span className="block mb-2 text-sm font-medium text-gray-900 text-left">Modules</span>
                 <select
                     onChange={handleSelectedSubject}
                     required={true}
+                    name="module"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
                     <option value="">Sélectionner Module</option>
                     {subjectList.length !== 0 &&
@@ -158,7 +162,7 @@ export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoad
                 </select>
             </div>
             <div className="col-span-2">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Sélectionné</label>
+                <span  className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Sélectionné</span>
                 <ShowList array={subjectOptions} deleteEvent={handleDeletedSubject}></ShowList>
             </div>
             <div className="col-span-2">

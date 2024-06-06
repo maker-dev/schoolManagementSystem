@@ -3,7 +3,7 @@ import api from "../../../api/apiToken";
 import ShowList from "../../ui/ShowList";
 import AddButton from "../../buttons/AddButton";
 import { useCallback, useMemo } from "react";
-
+import { error } from "../../../helpers/Alerts";
 
 export default function AddFiliere({setValidateCredentials, setLoading, eventHide}){
     
@@ -22,7 +22,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
             // setOptions(response.data);
             setTypeBac(response.data);  
           } catch (error) {
-            console.error('Error');
+            error('Error');
           }
         };
     
@@ -38,7 +38,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
             
             setSubject(response.data);  
           } catch (error) {
-            console.error('Error');
+            error('Error');
           }
         };
     
@@ -102,6 +102,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         <input type="text"
                         value={fieldName}
                         onChange={(e) => setFieldName(e.target.value) }
+                        autoComplete="on"
                         name="name"
                         id="name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -110,9 +111,10 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                     </div>
                     {/* INputs for bac select */}
                     <div className="col-span-2">
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Bac</label>
+                        <span className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Bac</span>
                         <select 
                         onChange={handleSelectedBac}
+                        name="bacA"
                         required={true}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
                             <option  value="" >Seletionner type du Bac</option>
@@ -124,16 +126,17 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         </select>
                     </div>
                     <div className="col-span-2">
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</label>
+                        <span className="block mb-2 text-sm font-medium text-gray-900 text-left">Bac Selectionner</span>
                         <ShowList array={bacOptions} deleteEvent={handleDeletedBac}></ShowList>
                     </div>
                     {/* INputs for subject select */}
                     <div className="col-span-2">
-                        <label htmlFor="category"
-                        className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Module</label>
+                        <span
+                        className="block mb-2 text-sm font-medium text-gray-900 text-left">Type de Module</span>
                         <select 
                         onChange={handleSelectedSubject}
                         required={true}
+                        name="category"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 0">
                             <option  value="" >Seletionner type du Module</option>
                             {subject.length !== 0 && 
@@ -144,7 +147,7 @@ export default function AddFiliere({setValidateCredentials, setLoading, eventHid
                         </select>
                     </div>
                     <div className="col-span-2">
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Selectionner</label>
+                        <span  className="block mb-2 text-sm font-medium text-gray-900 text-left">Module Selectionner</span>
                         <ShowList array={subjectOptions} deleteEvent={handleDeletedSubject}></ShowList>
                     </div>
                     {/* Button of updating */}

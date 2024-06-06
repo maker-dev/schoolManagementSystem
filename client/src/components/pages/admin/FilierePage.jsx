@@ -8,7 +8,7 @@ export default function FilierePage(){
         indexApi="showFields"
         deleteApi="deleteField"
         idName="fieldId"
-        title="Gestion Filière"
+        title="Gestion Filières"
         objectName="Filière"
         ></CrudPage>
     )

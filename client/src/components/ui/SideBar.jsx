@@ -24,7 +24,7 @@ export default function SideBar(){
                 <MenuItem link="/filiere" icon={filliereIC} content="Filliere"/>
                 <MenuItem link="/bac" icon={BacIc} content="Bac"/>
                 <MenuItem link="/subject" icon={subjectIC} content="Module"/>
-                <MenuItem link="/classe" icon={classeIC} content="Classe"/>
+                <MenuItem link="/class" icon={classeIC} content="Classe"/>
                 <MenuItem link="/etudiant" icon={studentIC} content="Etudiantes"/>
                 <MenuItem link="/professeur" icon={teacherIC} content="Professeures"/>
                 <MenuItem link="/emploieTemps" icon={callendarIC} content="Emploie du temps"/>

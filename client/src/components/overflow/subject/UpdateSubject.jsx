@@ -45,6 +45,7 @@ export default function UpdateSubject({ subjectId, setValidateCredentials, setLo
                     onChange={(e) => setNewSubName(e.target.value)}
                     name="name"
                     id="name"
+                    autoComplete="no"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Nom Module"
                     required />
@@ -52,12 +53,12 @@ export default function UpdateSubject({ subjectId, setValidateCredentials, setLo
             
             {/* INput facteur du module */}
             <div className="col-span-2">
-                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 text-left ">Facteur Module</label>
+                        <label htmlFor="facteur" className="block mb-2 text-sm font-medium text-gray-900 text-left ">Facteur Module</label>
                         <input type="number"
                         value={newLabs}
                         onChange={(e) => setNewLabs(e.target.value) }
-                        name="name"
-                        id="name"
+                        name="facteur"
+                        id="facteur"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                         placeholder="Facteur"
                         required/>

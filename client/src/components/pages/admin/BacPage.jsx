@@ -8,7 +8,7 @@ export default function FilierePage(){
         indexApi="typesOfBac"
         deleteApi="deleteType"
         idName="typeId"
-        title="Gestion Bac"
+        title="Gestion Bacs"
         objectName="Bac"
         ></CrudPage>
     )

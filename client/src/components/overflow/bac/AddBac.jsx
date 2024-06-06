@@ -18,6 +18,7 @@ export default function AddBac({setValidateCredentials, setLoading, eventHide}){
                     <div className="col-span-2">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 text-left ">Nom Type Bac</label>
                         <input type="text"
+                        autoComplete="on"
                         value={typeName}
                         onChange={(e) => setTypeName(e.target.value) }
                         name="name"

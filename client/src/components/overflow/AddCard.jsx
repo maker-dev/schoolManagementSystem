@@ -3,6 +3,7 @@ import Loader from "../ui/Loader";
 import AddFiliere from "./field/AddFIliere";
 import AddBac from "./bac/AddBac";
 import AddSubject from "./subject/AddSubject";
+import AddClass from "./class/AddClass";
 
 export default function AddCard({display,eventHide,id,cardName}){
 
@@ -54,6 +55,9 @@ return(
                         {cardName === "Module" &&
                             <AddSubject setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddSubject>
 
+                        }
+                        {cardName === "Classe" &&
+                            <AddClass setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}></AddClass>
                         }
 
                    

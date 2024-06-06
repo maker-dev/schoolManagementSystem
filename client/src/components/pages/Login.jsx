@@ -62,6 +62,7 @@ export default function Login({ title , apiName, role}) {
         setLoading(false);
       }catch(e){
         console.log("error");
+        setLoading(false);
       }
     
       
@@ -107,6 +108,7 @@ export default function Login({ title , apiName, role}) {
                 <input
                   type="email"
                   name="email"
+                  autoComplete='on'
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -118,6 +120,7 @@ export default function Login({ title , apiName, role}) {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
+                  autoComplete='on'
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -133,7 +136,7 @@ export default function Login({ title , apiName, role}) {
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-teal-300 " required="" />
                   </div>
                   <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
-                    <label htmlFor="showpassword" className="text-gray-500 ">Afficher mot de passe</label>
+                    <label htmlFor="remember" className="text-gray-500 ">Afficher mot de passe</label>
                     <Link  to="#" className="text-sm font-medium text-teal-600 hover:underline ">Mot de passe oublier ?</Link>
                   </div>
                 </div>

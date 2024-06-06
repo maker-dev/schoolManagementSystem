@@ -3,6 +3,7 @@ import UpdateFiliere from "./field/UpdateFiliere";
 import Loader from "../ui/Loader";
 import UpdateBac from "./bac/UpdateBac";
 import UpdateSubject from "./subject/UpdateSubject";
+import UpdateClass from "./class/UpdateClass";
 
 export default function UpdateCard({display,eventHide,id,cardName}){
 
@@ -52,6 +53,9 @@ return(
                         }
                         {cardName === "Module" &&
                             <UpdateSubject subjectId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}/>
+                        }
+                        {cardName === "Classe" &&
+                            <UpdateClass classId={id} setValidateCredentials={setValidateCredentials} setLoading={setLoading} eventHide={eventHide}/>
                         }
                    
                 </div>
