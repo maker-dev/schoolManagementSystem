@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../../api/apiToken";
 import ShowList from "../../ui/ShowList";
-import { error } from "../../../helpers/Alerts";
-
 
 
 export default function ShowFiliere({id}){

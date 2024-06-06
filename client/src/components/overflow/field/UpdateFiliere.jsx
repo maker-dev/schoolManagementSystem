@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import api from "../../../api/apiToken";
 import ShowList from "../../ui/ShowList";
 import UpdateButton from "../../buttons/UpdateButton";
-import { error } from "../../../helpers/Alerts";
 
 export default function UpdateFiliere({ fieldId, setValidateCredentials, setLoading, eventHide }) {
     // State for the new field name

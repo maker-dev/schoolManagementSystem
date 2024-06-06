@@ -408,7 +408,7 @@ const getClassInfo = async (req, res) => {
 
     try {
 
-        const Class = await ClassModel.findById(classId);
+        const Class = await ClassModel.findById(classId).populate("field", "    fieldName");
 
         if (!Class) {
             return res.status(400).json({
@@ -431,8 +431,9 @@ const getClassInfo = async (req, res) => {
         const numberOfStudents = await StudentModel.countDocuments({ class: classId });
 
         const className = Class.className;
+        const field = Class.field;
 
-        res.json({ numberOfTeachers, numberOfStudents, className });
+        res.json({ numberOfTeachers, numberOfStudents, className, field });
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });

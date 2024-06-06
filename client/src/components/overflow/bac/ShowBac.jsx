@@ -14,7 +14,7 @@ export default function ShowBac({ id }) {
                     setNewTypeName(response.data.typeName);
                 }
             } catch (error) {
-                console.error('Error');
+                error('Error');
             }
         };
 

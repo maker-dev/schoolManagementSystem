@@ -16,7 +16,7 @@ export default function ShowBar({page,setPage}){
                 name="Informations" 
                 id="Informations"
                 className={((page==="Informations")?styleCondition:styleFalse) + style}>
-                    Information
+                    Informations
                 </button>
 
                 <button

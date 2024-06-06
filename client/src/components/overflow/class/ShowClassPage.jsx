@@ -3,20 +3,36 @@ import SideBar from "../../ui/SideBar";
 import ShowBar from "../../ui/ShowBar";
 import TitleCard from "../../cards/TitleCard";
 import { useState , useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import api from "../../../api/apiToken";
+import InfoCard from "./InfoCard";
+import { ToastContainer } from "react-toastify";
 
 
 export default function ShowClassPage(){
 
     const[page,setPage] = useState("Informations");
+    const navigate  = useNavigate();
     const location = useLocation();
     const { id } = location.state || {};
+    
+    // Fetching if there is a classe with  the following id:
     useEffect(() => {
-        if (id) {
-            // Use the id to fetch data or perform other actions
-            console.log("Received id:", id);
-        }
-    }, [id]);
+        const fetchClass = async () => {
+            try {
+                if (id !== "") {
+                    const response = await api.get(`showClass/${id}`);
+                    if(response.status !== 200){
+                        navigate("/");
+                    }
+                }
+            } catch (error) {
+                error('Error');
+            }
+        };
+
+        fetchClass();
+    }, [id, navigate]);
 
     return(
     <div className="flex flex-col h-screen">
@@ -34,8 +50,15 @@ export default function ShowClassPage(){
                     <div className="mx-0 md:mx-6  ">
                         <ShowBar page={page} setPage={setPage}></ShowBar>
                     </div>
+                    <div className="mx-0 md:mx-6  overflow-y-auto ">
+                        {page === "Informations" &&
+                            <InfoCard title="Informations sur Classe" id={id}></InfoCard>
+                        }
+                        
+                    </div>
             </div>
         </div>
+        <ToastContainer/>
     </div>
     )
 }
