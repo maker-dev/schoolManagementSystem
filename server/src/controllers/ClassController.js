@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 const showClasses = async (req, res) => {
     try {
-        const Classes = await ClassModel.find({});
+        const Classes = await ClassModel.find({}).populate("field", "    fieldName");
 
         res.json(Classes);
 
