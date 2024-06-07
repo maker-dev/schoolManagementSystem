@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../../api/apiToken";
 import InfoCard from "./InfoCard";
 import { ToastContainer } from "react-toastify";
+import StudentCard from "./StudentCard";
 
 
 export default function ShowClassPage(){
@@ -54,7 +55,9 @@ export default function ShowClassPage(){
                         {page === "Informations" &&
                             <InfoCard title="Informations sur Classe" id={id}></InfoCard>
                         }
-                        
+                        {page === "Etudiants" &&
+                            <StudentCard />
+                        }
                     </div>
             </div>
         </div>

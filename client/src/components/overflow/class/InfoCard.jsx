@@ -11,7 +11,6 @@ export default function InfoCard({ title, id }) {
       try {
         if (id !== "") {
           const response = await api.get(`getClassInfo/${id}`);
-          console.log(id);
           setInformations(response.data);
         }
       } catch (error) {
@@ -34,7 +33,7 @@ export default function InfoCard({ title, id }) {
             </tr>
             <tr className="odd:bg-gray-200">
               <td className="w-1/2 text-right px-6 py-4 font-bold text-gray-600">Nom Filière :</td>
-              <td className="w-1/2 text-left px-6 py-4 text-gray-600 font-bold">{informations.field.fieldName}</td>
+              <td className="w-1/2 text-left px-6 py-4 text-gray-600 font-bold">{informations.field}</td>
             </tr>
             <tr className="odd:bg-gray-200">
               <td className="w-1/2 text-right px-6 py-4 font-bold text-gray-600">Nombre des étudiants :</td>

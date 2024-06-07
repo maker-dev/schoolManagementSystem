@@ -431,7 +431,7 @@ const getClassInfo = async (req, res) => {
         const numberOfStudents = await StudentModel.countDocuments({ class: classId });
 
         const className = Class.className;
-        const field = Class.field;
+        const field = Class.field.fieldName;
 
         res.json({ numberOfTeachers, numberOfStudents, className, field });
 
