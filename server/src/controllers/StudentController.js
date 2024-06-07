@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import { validationResult } from "express-validator";
+import { ClassModel } from "../models/Class.js";
 
 const studentRegister = async (req, res) => {
 
@@ -123,5 +124,28 @@ const studentConfirmation = async (req, res) => {
     }
 }
 
+const showFieldStudents = async (req, res) => {
 
-export { studentRegister, studentLogin, studentConfirmation };
+    const {classId} = req.params;
+
+    try {
+
+        const Class = await ClassModel.findById(classId);
+
+        const students = await StudentModel.find({
+            field: Class.field,
+            verified: true,
+            $or: [
+            { class: null },
+            { class: { $exists: false } }
+        ]}).select('-password');
+
+        res.json(students);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+export { studentRegister, studentLogin, studentConfirmation, showFieldStudents };

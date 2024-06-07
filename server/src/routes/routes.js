@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { adminLogin } from "../controllers/AdminController.js";
-import { teacherRegister, teacherLogin, teacherConfirmation } from "../controllers/TeacherController.js";
-import { studentRegister, studentLogin, studentConfirmation } from "../controllers/StudentController.js";
+import { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass } from "../controllers/TeacherController.js";
+import { studentRegister, studentLogin, studentConfirmation, showFieldStudents } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
@@ -31,11 +31,13 @@ routes.post("/adminLogin", verifyKey, validateAdminLogin, adminLogin);
 routes.post("/teacherRegister", verifyKey, validateTeacherRegister, teacherRegister);
 routes.post("/teacherLogin", verifyKey, validateTeacherLogin, teacherLogin);
 routes.get("/teacherConfirmation/:token", teacherConfirmation);
+routes.get("/showTeachersNotInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showTeachersNotInClass);
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
 routes.post("/studentLogin", verifyKey, validateStudentLogin, studentLogin);
 routes.get("/studentConfirmation/:token", studentConfirmation);
+routes.get("/showFieldStudents/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showFieldStudents);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);

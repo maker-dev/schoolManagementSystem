@@ -154,6 +154,8 @@ const deleteClass = async (req, res) => {
 
         await Class.deleteOne();
 
+        await StudentModel.updateMany({class: classId}, {class: null});
+
         return res.json({message: "Class Deleted Successfully !"});
 
     } catch (err) {
