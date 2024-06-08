@@ -20,9 +20,18 @@ export default function DataHandlerButton({title, svgType, color, data, apiUsed,
 
         try {
 
-                const promises = data.map(item =>
-                    api.post(apiUsed, JSON.stringify({classId:id, studentId:item}))
-                );
+                const promises = data.map(item =>{
+                    if(apiUsed.toLowerCase().includes("student")){
+                        return api.post(apiUsed, JSON.stringify({classId:id, studentId:item}));
+                    } 
+                    if(apiUsed.toLowerCase().includes("teacher")){
+                        return api.post(apiUsed, JSON.stringify({classId:id, teacherId:item}));
+                    }  
+                    else return null;
+                    
+                }
+                    
+                ).filter(promise => promise !== null); ;
             
 
 
