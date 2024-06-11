@@ -1,6 +1,8 @@
 import { Router } from "express";
+import multer from 'multer';
+import path from 'path'
 import { adminLogin } from "../controllers/AdminController.js";
-import { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass } from "../controllers/TeacherController.js";
+import { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass, showAllTeachers } from "../controllers/TeacherController.js";
 import { studentRegister, studentLogin, studentConfirmation, showFieldStudents } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
@@ -17,12 +19,62 @@ import { showClasses, showClass, insertClass, updateClass, deleteClass,
         removeStudentFromClass, removeTeacherFromClass, getClassInfo
         } from '../controllers/ClassController.js';
 import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
+import { 
+        uploadClassSchedule, deleteClassSchedule, downloadClassSchedule, 
+        uploadTeacherSchedule, deleteTeacherSchedule, downloadTeacherSchedule
+        } from '../controllers/FileController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
+import {validateClassSchedule, validateTeacherSchedule} from '../middlewares/validation/file.js';
 
+//variables
 const routes = Router();
+
+const classesScheduleStorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+                cb(null, "./uploads/classesSchedule");
+        },
+        filename: (req, file, cb) => {
+                const extension = path.extname(file.originalname);
+                var fileNameWithoutExtension = path.basename(file.originalname, extension);
+                fileNameWithoutExtension = `${Date.now()}-${fileNameWithoutExtension}`; 
+                const generatedFileName = `${fileNameWithoutExtension}${extension}`;
+                cb(null, generatedFileName);
+                // Store both filename and extension in req.locals
+                req.locals = { 
+                    extension,
+                    fileNameWithoutExtension,
+                    generatedFileName
+                };
+        },
+});
+const teachersScheduleStorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+                cb(null, './uploads/teachersSchedule');
+        },
+        filename: (req, file, cb) => {
+                const extension = path.extname(file.originalname);
+                var fileNameWithoutExtension = path.basename(file.originalname, extension);
+                fileNameWithoutExtension = `${Date.now()}-${fileNameWithoutExtension}`; 
+                const generatedFileName = `${fileNameWithoutExtension}${extension}`;
+                cb(null, generatedFileName);
+                // Store both filename and extension in req.locals
+                req.locals = { 
+                    extension,
+                    fileNameWithoutExtension,
+                    generatedFileName
+                };
+        },
+})
+
+const classesScheduleUpload = multer({
+        storage: classesScheduleStorage
+});
+const teachersScheduleUpload = multer({
+        storage: teachersScheduleStorage
+})
 
 //admin
 routes.post("/adminLogin", verifyKey, validateAdminLogin, adminLogin);
@@ -32,6 +84,7 @@ routes.post("/teacherRegister", verifyKey, validateTeacherRegister, teacherRegis
 routes.post("/teacherLogin", verifyKey, validateTeacherLogin, teacherLogin);
 routes.get("/teacherConfirmation/:token", teacherConfirmation);
 routes.get("/showTeachersNotInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showTeachersNotInClass);
+routes.get("/showAllTeachers", verifyKey, verifyToken, verifyRole(["Admin"]), showAllTeachers)
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
@@ -78,5 +131,14 @@ routes.get("/showSubject/:subjectId", verifyKey, verifyToken, verifyRole(['Admin
 routes.post("/insertSubject", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertSubject, insertSubject);
 routes.put("/updateSubject", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateSubject, updateSubject);
 routes.delete("/deleteSubject", verifyKey, verifyToken, verifyRole(["Admin"]), deleteSubject);
+
+//file
+routes.post("/uploadClassSchedule/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), validateClassSchedule, classesScheduleUpload.single("file"), uploadClassSchedule);
+routes.delete("/deleteClassSchedule/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), validateClassSchedule,deleteClassSchedule)
+routes.get("/downloadClassSchedule/:classId", verifyKey, verifyToken, verifyRole(["Admin", "Student"]), downloadClassSchedule)
+routes.post("/uploadTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherSchedule, teachersScheduleUpload.single("file"), uploadTeacherSchedule);
+routes.delete("/deleteTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherSchedule, deleteTeacherSchedule)
+routes.get("/downloadTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), downloadTeacherSchedule)
+
 
 export {routes};

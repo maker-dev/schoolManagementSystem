@@ -13,7 +13,11 @@ const ClassSchema = new mongoose.Schema({
     teachers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "teachers"
-    }]
+    }],
+    schedule: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "files"
+    }
 })
 
 const ClassModel = mongoose.model("classes", ClassSchema);

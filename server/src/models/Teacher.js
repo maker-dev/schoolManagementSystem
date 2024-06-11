@@ -49,6 +49,10 @@ const TeacherSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    schedule: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "files"
+    },
     attendance: [{
         date: {
             type: Date,

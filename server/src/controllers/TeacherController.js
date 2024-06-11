@@ -140,5 +140,18 @@ const showTeachersNotInClass = async (req, res) => {
     }
 }
 
+const showAllTeachers = async (req, res) => {
 
-export { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass};
+    try {
+
+        const teachers = await TeacherModel.find({verified: true}).select("-password");
+        
+        res.json(teachers);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+export { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass, showAllTeachers};
