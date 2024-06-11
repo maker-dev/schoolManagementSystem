@@ -60,7 +60,7 @@ export default function ShowClassPage(){
                         <TitleCard title="Gestion Classe"></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6  ">
-                        <ShowBar page={page} setPage={setPage}></ShowBar>
+                        <ShowBar page={page} setPage={setPage} arrayPagesName={["Informations","Etudiants","Professeurs" ]}></ShowBar>
                     </div>
                     <div className="mx-0 md:mx-6 ">
                         {page === "Informations" &&
