@@ -37,17 +37,13 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    teacherSubject: {
+    teacherSubject: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "subjects"
-    },
+    }],
     role: {
         type: String,
         default: "Teacher"
-    },
-    verified: {
-        type: Boolean,
-        default: false
     },
     schedule: {
         type: mongoose.Schema.Types.ObjectId,

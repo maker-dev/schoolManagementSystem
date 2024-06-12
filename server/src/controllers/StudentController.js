@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import { validationResult } from "express-validator";
 import { ClassModel } from "../models/Class.js";
+import mongoose from 'mongoose';
 
 const studentRegister = async (req, res) => {
 
@@ -135,6 +136,7 @@ const showFieldStudents = async (req, res) => {
         const students = await StudentModel.find({
             field: Class.field,
             verified: true,
+            confirmation: true,
             $or: [
             { class: null },
             { class: { $exists: false } }
@@ -147,5 +149,55 @@ const showFieldStudents = async (req, res) => {
     }
 }
 
+const showNoConfirmedStudents = async (req, res) => {
+    try {
+        const students = await StudentModel.find({verified: true, confirmation: false}).select("-password");
+        
+        res.json(students);
 
-export { studentRegister, studentLogin, studentConfirmation, showFieldStudents };
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const showConfirmedStudents = async (req, res) => {
+    try {
+
+        const students = await StudentModel.find({verified: true, confirmation: true}).select("-password");
+
+        res.json(students);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const confirmStudent = async (req, res) => {
+    
+    const {studentId} = req.params;
+
+    if (!studentId || !mongoose.Types.ObjectId.isValid(studentId)) {
+        return res.status(400).json({
+            errors: [{
+                type: 'field',
+                value: studentId,
+                msg: 'Invalid student Id',
+                path: 'studentId',
+                location: 'body'
+            }]
+        });
+    }
+
+    try {
+
+        await StudentModel.updateOne({_id: studentId}, {confirmation: true});
+
+        return res.json({message: "student Confirmed Successfully !"});
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+export { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showNoConfirmedStudents, showConfirmedStudents, confirmStudent };

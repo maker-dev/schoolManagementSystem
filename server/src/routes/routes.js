@@ -2,8 +2,8 @@ import { Router } from "express";
 import multer from 'multer';
 import path from 'path'
 import { adminLogin } from "../controllers/AdminController.js";
-import { teacherRegister, teacherLogin, teacherConfirmation, showTeachersNotInClass, showAllTeachers } from "../controllers/TeacherController.js";
-import { studentRegister, studentLogin, studentConfirmation, showFieldStudents } from "../controllers/StudentController.js";
+import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher } from "../controllers/TeacherController.js";
+import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, confirmStudent } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
@@ -80,17 +80,22 @@ const teachersScheduleUpload = multer({
 routes.post("/adminLogin", verifyKey, validateAdminLogin, adminLogin);
 
 //teacher
-routes.post("/teacherRegister", verifyKey, validateTeacherRegister, teacherRegister);
 routes.post("/teacherLogin", verifyKey, validateTeacherLogin, teacherLogin);
-routes.get("/teacherConfirmation/:token", teacherConfirmation);
 routes.get("/showTeachersNotInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showTeachersNotInClass);
 routes.get("/showAllTeachers", verifyKey, verifyToken, verifyRole(["Admin"]), showAllTeachers)
+routes.get("/showTeacher/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), showTeacher);
+routes.post("/insertTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherRegister, insertTeacher);
+routes.put("/updateTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), updateTeacher)
+routes.delete("/deleteTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), deleteTeacher );
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
 routes.post("/studentLogin", verifyKey, validateStudentLogin, studentLogin);
 routes.get("/studentConfirmation/:token", studentConfirmation);
 routes.get("/showFieldStudents/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showFieldStudents);
+routes.get("/showConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"]), showConfirmedStudents);
+routes.get("/showNoConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"]), showNoConfirmedStudents);
+routes.post("/confirmStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin"]), confirmStudent);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);

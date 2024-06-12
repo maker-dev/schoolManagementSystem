@@ -69,6 +69,10 @@ const StudentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    confirmation: {
+        type: Boolean,
+        default: false
+    },
     examResults: [{
         date: {
             type: Date,

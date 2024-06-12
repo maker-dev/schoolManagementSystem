@@ -18,7 +18,12 @@ const validateTeacherRegister = [
     check('password')
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
         .matches(/\d/).withMessage('Password must contain at least one number')
-        .matches(/[a-zA-Z]/).withMessage('Password must contain at least one letter')
+        .matches(/[a-zA-Z]/).withMessage('Password must contain at least one letter'),
+    check('salary')
+        .notEmpty().withMessage("salary is required").bail()
+        .isNumeric().withMessage("salary should be a Number"),
+    check("teacherSubject")
+        .notEmpty().withMessage("teacherSubject is required").bail()
 ];
 
 const validateTeacherLogin = [
@@ -28,10 +33,19 @@ const validateTeacherLogin = [
         .custom(async (email) => {
             const existingTeacher = await TeacherModel.findOne({email});
             if (!existingTeacher) throw new Error("User doesn't exists !");
-            if (!existingTeacher.verified) throw new Error("User Not verified");
         }),
     check('password')
         .notEmpty().withMessage('Password is required')
 ];
 
-export {validateTeacherRegister, validateTeacherLogin}
+const validateTeacherUpdate = [
+    check("teacherId")
+        .notEmpty().withMessage("TeacherId is required"),
+    check('newSalary')
+        .notEmpty().withMessage("salary is required").bail()
+        .isNumeric().withMessage("salary should be a Number"),
+    check("newTeacherSubject")
+        .notEmpty().withMessage("teacherSubject is required")
+]
+
+export {validateTeacherRegister, validateTeacherLogin, validateTeacherUpdate}
