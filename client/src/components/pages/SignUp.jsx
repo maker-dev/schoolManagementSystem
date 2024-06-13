@@ -23,7 +23,6 @@ export default function SignUp(){
     const [loading, setLoading] = useState(false);
     const [typesOfBacSelect, setTypesOfBacSelect] = useState([]);
     const [filiereSelect, setFiliereSelect] = useState([]);
-    const [roleUser, setRoleUser] = useState("Etudiant");
     const [showPassword, setShowPassword] = useState(false);
     const [ValidateCredentials,setValidateCredentials] = useState([]);
     const [requiresVerification, setRequiresVerification] = useState(false);
@@ -62,23 +61,12 @@ export default function SignUp(){
     
         fetchFiliere();
       },[typeOfBac]);
-      
+
+    //handle the visibility of password:
     const handleVisiblePassword = () =>{
         setShowPassword(showPassword?false:true);
     }
-    
-    const handleChange = (e) => {
-
-        if(e.target.value === "Professeur"){
-            setRoleUser("Professeur");
-        }
-        else if(e.target.value === "Etudiant"){
-            setRoleUser("Etudiant");
-        }else{
-            return;
-        }
-    }
-
+    //hanlding changing bac
     const handleTypeBacChange = (e) =>{
         setLoading(true);
         setBac(e.target.value);
@@ -94,15 +82,8 @@ export default function SignUp(){
         setValidateCredentials([]);
         let response;
         e.preventDefault();
-        if(roleUser === "Professeur"){
-             response = await api.post("teacherRegister", JSON.stringify({ firstName, lastName, email, password }));
-            
-        } else if(roleUser === "Etudiant"){
-             response = await api.post("studentRegister", JSON.stringify({ firstName, lastName, tel, typeOfBac, field, email, password }));
-        }
+        response = await api.post("studentRegister", JSON.stringify({ firstName, lastName, tel, typeOfBac, field, email, password }));
     
-        
-          
           if(response.status === 401){
             console.log(response.data.message);
           }
@@ -119,13 +100,13 @@ export default function SignUp(){
           }else{
             error("Erreur!");
           }
+          if(ValidateCredentials.length > 0){
+            error("Erreur:Validation des champs!");
+          }
           setLoading(false);
       }
     
-      if (requiresVerification && roleUser === "Professeur") {
-    
-        return <VerifieAccount email={email} role="Teacher"/>;
-      }else if(requiresVerification && roleUser === "Etudiant"){
+      if(requiresVerification){
         return <VerifieAccount email={email} role="Student"/>;
       }
 
@@ -140,7 +121,7 @@ export default function SignUp(){
         <div className="w-full  bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
-                     {roleUser}
+                     Etudiant
                 </h1>
                 <form className="space-y-4 md:space-y-6" action="#">
                         {ValidateCredentials.length !== 0 &&
@@ -154,19 +135,7 @@ export default function SignUp(){
                             </ul>
                         </div>
                         }
-                    <div>
-                        <label htmlFor="role" className="block mb-2 text-left text-sm font-medium text-gray-900">Etes vous ?</label>
-                        <select name="role" 
-                        id="role" 
-                        defaultValue="Etudiant" 
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" 
-                        onChange={handleChange} 
-                        required>
-                            <option value="" >Selectionner votre situation</option>
-                            <option value="Professeur" >Professeur</option>
-                            <option value="Etudiant" >Etudiant</option>
-                        </select>
-                    </div>
+
                     <div>
                         <label htmlFor="nom" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Nom</label>
                         <input type="text"
@@ -185,9 +154,7 @@ export default function SignUp(){
                         id="prenom" 
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-teal-600 block w-full p-2.5 :bg-gray-700 " placeholder="prenom" required=""/>
                     </div>
-                    {roleUser === "Etudiant" && 
-                    // Etudiant Info form
-                    <>
+                    
                     <div>
                         <label htmlFor="tel" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Numero de téléphone</label>
                         <input type="text"
@@ -221,9 +188,6 @@ export default function SignUp(){
                         </select>
                     </div>
                     
-                    </>
-                    
-                    }
                     
                     <div>
                         <label htmlFor="email" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Email</label>
@@ -257,7 +221,7 @@ export default function SignUp(){
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleSubmit} className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
+                    <button onClick={handleSubmit} className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Inscription</button>
                     <p className="text-sm font-light text-gray-500 ">
                        Avez vous un compte ? <Link to="/userChoice" className="font-medium text-primary-600 hover:underline">Connectez vous!</Link>
                     </p>

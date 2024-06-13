@@ -16,6 +16,8 @@ import ClassPage from "./components/pages/admin/ClassPage";
 import ShowClassPage from "./components/overflow/class/ShowClassPage";
 import 'react-toastify/dist/ReactToastify.css';
 import PlainningPage from "./components/pages/PlainningPage";
+import ProfilePage from "./components/pages/ProfilePage";
+import TeacherPage from "./components/pages/admin/TeacherPage";
 
 
 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/class" element={<ClassPage />} />
           <Route path="/class/show" element={<ShowClassPage />} />
           <Route path="/emploieTemps" element={<PlainningPage/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/professeurs" element={<TeacherPage/>}/>
         </Route>
         
 

@@ -20,7 +20,7 @@ export default function PlainningAdmin(){
             </div>
             <div className="flex flex-col gap-4 h-screen max-h-min bg-gray-100 md:w-4/5 w-full overflow-y-auto">
                     <div className="mx-0 md:mx-6  mt-6">
-                        <TitleCard title="Gestion Painning"></TitleCard>
+                        <TitleCard title="Gestion d'Emploie du temps"></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6  ">
                         <ShowBar page={page} setPage={setPage} arrayPagesName={["Classes","Professeurs" ]}></ShowBar>

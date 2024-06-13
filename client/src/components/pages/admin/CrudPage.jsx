@@ -11,10 +11,9 @@ import UpdateCard from "../../overflow/UpdateCard";
 import AddCard from "../../overflow/AddCard";
 import TitleCard from "../../cards/TitleCard";
 import ShowCard from "../../overflow/ShowCard";
+import { getNestedProperty } from "../../../helpers/HelpersFunctions";
 
-const getNestedProperty = (obj, path) => {
-    return path.split('.').reduce((o, p) => (o ? o[p] : undefined), obj);
-}
+
 
 export default function CrudPage({ columns, indexApi, deleteApi, idName, title, objectName }) {
     // Data
@@ -157,7 +156,7 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
         setSearch(query);
         setSearchedData(data.filter((data) => {
             const fieldSearchBy = Object.keys(columns)[0];
-            const datas = getNestedProperty(data, fieldSearchBy).toLowerCase().includes(query.toLowerCase());
+            const datas =  getNestedProperty(data, fieldSearchBy).toLowerCase().includes(query.toLowerCase());
             return datas;
         }));
     }

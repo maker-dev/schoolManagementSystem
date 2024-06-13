@@ -47,7 +47,6 @@ export default function ShowPlainning({type, apiIndex}) {
     const showEvent = (value, item) =>{
         setShow('block');
         setIsFileExists((item.schedule === undefined || item.schedule === null)?false:true);
-        console.log(isFileExists);
         setId(value);
         if (type === "Professeurs") {
             setName(`${item.firstName} ${item.lastName}`);

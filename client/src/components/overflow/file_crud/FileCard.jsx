@@ -174,7 +174,7 @@ export default function FileCard({ display, eventHide, id, name, cardName, isFil
                                     onChange={handleFileChange}
                                     className="mt-1 block w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
-                            <div className="col-span-2 flex flex-col md:flex-row space-y-2 justify-around">
+                            <div className="col-span-2 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 justify-around">
                                 {isFileExists === true &&
                                     <>
                                         <button

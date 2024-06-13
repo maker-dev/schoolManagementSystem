@@ -110,7 +110,7 @@ const showTeacher = async (req, res) => {
                 ]
             });
         }
-        const teacher = await TeacherModel.findById(teacherId).select("-password");
+        const teacher = await TeacherModel.findById(teacherId).select("-password").populate("teacherSubject", "subName");
 
 
         res.json(teacher);
