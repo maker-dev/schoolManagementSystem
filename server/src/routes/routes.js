@@ -23,11 +23,13 @@ import {
         uploadClassSchedule, deleteClassSchedule, downloadClassSchedule, 
         uploadTeacherSchedule, deleteTeacherSchedule, downloadTeacherSchedule
         } from '../controllers/FileController.js';
+import {forgotPassword, resetPassword} from '../controllers/PasswordController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
 import {validateClassSchedule, validateTeacherSchedule} from '../middlewares/validation/file.js';
+import {validateResetPassword} from '../middlewares/validation/Password.js';
 
 //variables
 const routes = Router();
@@ -101,6 +103,10 @@ routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin
 //user
 routes.post("/user", verifyKey, verifyToken, user);
 routes.post("/resendEmail", verifyKey, validateEmail, resendEmail);
+
+//password
+routes.post("/forgotPassword", verifyKey, forgotPassword);
+routes.put("/resetPassword/:resetToken", verifyKey, validateResetPassword, resetPassword);
 
 //typeOfBac
 routes.get("/typesOfBac", verifyKey, getTypesOfBac);
