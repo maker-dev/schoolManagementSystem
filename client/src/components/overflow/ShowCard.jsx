@@ -4,6 +4,7 @@ import ShowSubject from "./subject/ShowSubject";
 import ShowTeacher from "./professeur/ShowTeacher";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import ShowStudent from "./student/ShowStudent";
 
 export default function ShowCard({ display, eventHide, id, cardName }) {
     const navigate = useNavigate();
@@ -64,6 +65,9 @@ export default function ShowCard({ display, eventHide, id, cardName }) {
                                         )}
                                         {cardName === "Professeur" && (
                                             <ShowTeacher id={id} />
+                                        )}
+                                        {cardName === "Etudiant" && (
+                                            <ShowStudent id={id} eventHide={eventHide}/>
                                         )}
                                     </div>
                                 </form>

@@ -82,7 +82,8 @@ export default function SignUp(){
         setValidateCredentials([]);
         let response;
         e.preventDefault();
-        response = await api.post("studentRegister", JSON.stringify({ firstName, lastName, tel, typeOfBac, field, email, password }));
+        try{
+            response = await api.post("studentRegister", JSON.stringify({ firstName, lastName, tel, typeOfBac, field, email, password }));
     
           if(response.status === 401){
             console.log(response.data.message);
@@ -94,16 +95,21 @@ export default function SignUp(){
                 arrErrors.push({key: i, msg: response.data.errors[i].msg});
             }
             setValidateCredentials(arrErrors);
+            error("Erreur:Validation des champs!");
+
           } else if (response.status === 200) {
             info("Verifier votre compte!");
             setRequiresVerification(true);
           }else{
             error("Erreur!");
           }
-          if(ValidateCredentials.length > 0){
-            error("Erreur:Validation des champs!");
-          }
-          setLoading(false);
+        }catch(error){
+            error(error);
+            setLoading(false);
+        }
+        setLoading(false);
+          
+          
       }
     
       if(requiresVerification){

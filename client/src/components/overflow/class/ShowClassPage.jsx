@@ -9,6 +9,7 @@ import InfoCard from "./InfoCard";
 import { ToastContainer } from "react-toastify";
 import StudentCard from "./StudentCard";
 import TeacherCard from "./TeacherCard";
+import SubjectCard from "./SubjectCard";
 
 
 export default function ShowClassPage(){
@@ -60,7 +61,7 @@ export default function ShowClassPage(){
                         <TitleCard title="Gestion Classe"></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6  ">
-                        <ShowBar page={page} setPage={setPage} arrayPagesName={["Informations","Etudiants","Professeurs" ]}></ShowBar>
+                        <ShowBar page={page} setPage={setPage} arrayPagesName={["Informations","Etudiants","Professeurs","Subject" ]}></ShowBar>
                     </div>
                     <div className="mx-0 md:mx-6 ">
                         {page === "Informations" &&
@@ -75,6 +76,10 @@ export default function ShowClassPage(){
                             <div ref={CardRef}>
                                 <TeacherCard id={id}/>
                             </div>
+                        }
+                        {page === "Subject" &&
+                            <SubjectCard/>
+
                         }
                     </div>
             </div>
