@@ -151,7 +151,10 @@ const showFieldStudents = async (req, res) => {
 
 const showNoConfirmedStudents = async (req, res) => {
     try {
-        const students = await StudentModel.find({verified: true, confirmation: false}).select("-password");
+        const students = await StudentModel.find({verified: true, confirmation: false})
+        .select("-password")
+        .populate("typeOfBac", "typeName")
+        .populate("field", "fieldName");
         
         res.json(students);
 
@@ -163,7 +166,30 @@ const showNoConfirmedStudents = async (req, res) => {
 const showConfirmedStudents = async (req, res) => {
     try {
 
-        const students = await StudentModel.find({verified: true, confirmation: true}).select("-password");
+        const students = await StudentModel.find({verified: true, confirmation: true})
+        .select("-password")
+        .populate("typeOfBac", "typeName")
+        .populate("field", "fieldName")
+        .populate("class", "className");
+
+        res.json(students);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const showStudent = async (req, res) => {
+
+    const {studentId} = req.params;
+
+    try {
+
+        const students = await StudentModel.findById(studentId)
+        .select("-password")
+        .populate("typeOfBac", "typeName")
+        .populate("field", "fieldName")
+        .populate("class", "className");
 
         res.json(students);
 
@@ -200,4 +226,4 @@ const confirmStudent = async (req, res) => {
 }
 
 
-export { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showNoConfirmedStudents, showConfirmedStudents, confirmStudent };
+export { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showNoConfirmedStudents, showConfirmedStudents, showStudent, confirmStudent };

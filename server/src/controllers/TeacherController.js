@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import { ClassModel } from "../models/Class.js";
 import mongoose from "mongoose";
+import nodemailer from 'nodemailer';
 
 
 const teacherLogin = async (req, res) => {
@@ -145,7 +146,38 @@ const insertTeacher = async (req,res) => {
     
         await newTeacher.save();
 
+        // Set up Nodemailer transporter
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail', // Use your email service provider
+            auth: {
+                user: process.env.EMAIL_USER, // Your email address
+                pass: process.env.EMAIL_PASS  // Your email password
+            }
+        });
 
+        // Email options
+        let mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Bienvenue à notre école',
+            html: `
+            <p>Bienvenue dans notre école !</p>
+            <p>Merci de vous être inscrit en tant qu'enseignant. Nous sommes ravis de vous accueillir parmi nous.</p>
+            <p>Votre mot de passe est : <strong>${password}</strong></p>
+            <p>Veuillez vous connecter avec votre adresse e-mail et ce mot de passe.</p>
+            <p>Meilleures salutations,</p>
+            <p>Votre équipe</p>
+            `
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
 
         return res.json({message: "teacher Registered Successfully !"});
 
@@ -199,6 +231,8 @@ const deleteTeacher = async (req, res) => {
     try {
 
         const teacher = await TeacherModel.findById(teacherId);
+
+        await ClassModel.updateMany({teachers: teacherId}, {$pull: {teachers: teacherId}})
 
         await teacher.deleteOne();
 

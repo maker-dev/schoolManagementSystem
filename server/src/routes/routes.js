@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path'
 import { adminLogin } from "../controllers/AdminController.js";
 import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher } from "../controllers/TeacherController.js";
-import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, confirmStudent } from "../controllers/StudentController.js";
+import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, showStudent, confirmStudent } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
@@ -96,6 +96,7 @@ routes.get("/showFieldStudents/:classId", verifyKey, verifyToken, verifyRole(["A
 routes.get("/showConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"]), showConfirmedStudents);
 routes.get("/showNoConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"]), showNoConfirmedStudents);
 routes.post("/confirmStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin"]), confirmStudent);
+routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin"]), showStudent);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
