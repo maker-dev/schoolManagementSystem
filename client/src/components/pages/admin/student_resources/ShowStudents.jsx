@@ -29,7 +29,6 @@ export default function ShowStudents({ type, apiIndex }) {
                     error("error authorization");
                 } else if (response.status === 200) {
                     setData(response.data);
-                    console.log(response.data)
                 } else {
                     error("Error: Une erreur est survenue!");
                 }
