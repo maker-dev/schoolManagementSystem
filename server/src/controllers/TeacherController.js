@@ -52,9 +52,11 @@ const showTeachersNotInClass = async (req, res) => {
 
         const Class = await ClassModel.findById(classId);
 
+        const teacherIdsInClass = Class.teachers.map(teacher => teacher.id);
+
         const teachers = await TeacherModel.find({
-            _id: { $nin: Class.teachers },
-        }).select("-password");
+            _id: { $nin: teacherIdsInClass },
+        }).select("-password"); 
         
         res.json(teachers);
 

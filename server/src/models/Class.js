@@ -11,8 +11,14 @@ const ClassSchema = new mongoose.Schema({
         ref: "fields"
     },
     teachers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "teachers"
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "teachers"
+        },
+        subjects: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "subjects"
+        }]
     }],
     schedule: {
         type: mongoose.Schema.Types.ObjectId,

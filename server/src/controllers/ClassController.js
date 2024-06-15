@@ -277,7 +277,7 @@ const showClassTeachers = async (req, res) => {
     try {
 
         const classWithTeachers = await ClassModel.findById(classId).populate({
-            path: 'teachers',
+            path: 'teachers.id',
             select: '-password'  // Exclude the password field
         });
 
@@ -293,7 +293,9 @@ const showClassTeachers = async (req, res) => {
             ]
         });
 
-        res.json(classWithTeachers.teachers);
+        const teacherDetails = classWithTeachers.teachers.map(teacher => teacher.id);
+
+        res.json(teacherDetails);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
@@ -319,7 +321,7 @@ const addTeacherToClass = async (req, res) => {
 
     try {
 
-        const updateResult = await ClassModel.updateOne({_id: classId}, { $addToSet: { teachers: teacherId } });
+        const updateResult = await ClassModel.updateOne({_id: classId}, { $addToSet: { teachers: {id: teacherId, subjects: []} } });
         
         if (updateResult.modifiedCount === 0 ) {
             return res.status(404).json({
@@ -364,7 +366,7 @@ const removeTeacherFromClass = async (req, res) => {
 
         const updateResult = await ClassModel.updateOne(
             { _id: classId },
-            { $pull: { teachers: teacherId } }
+            { $pull: { teachers: {id: teacherId} } }
         );
 
         if (updateResult.modifiedCount === 0) {
