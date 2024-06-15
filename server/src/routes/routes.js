@@ -17,7 +17,7 @@ import { getFields, showFields, showField, insertField, updateField, deleteField
 import { showClasses, showClass, insertClass, updateClass, deleteClass,
         showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass,
         removeStudentFromClass, removeTeacherFromClass, getClassInfo, showAvailableSubjectsInClass,
-        attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass
+        attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass, showSubjectTeacherInClass
         } from '../controllers/ClassController.js';
 import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
 import { 
@@ -140,6 +140,7 @@ routes.get("/getClassInfo/:classId", verifyKey, verifyToken, verifyRole(["Admin"
 routes.get("/showAvailableSubjectsInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showAvailableSubjectsInClass);
 routes.post("/attachSubjectToTeacherInClass", verifyKey, verifyToken, verifyRole(["Admin"]), attachSubjectToTeacherInClass);
 routes.post("/detachSubjectFromTeacherInClass", verifyKey, verifyToken, verifyRole(["Admin"]), detachSubjectFromTeacherInClass);
+routes.get("/showSubjectTeacherInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showSubjectTeacherInClass);
 
 //subject
 routes.get("/showSubjects", verifyKey, verifyToken, verifyRole(["Admin"]), showSubjects);

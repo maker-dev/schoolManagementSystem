@@ -416,18 +416,24 @@ const showAvailableSubjectsInClass = async (req, res) => {
         const Class = await ClassModel.findById(classId);
         const Field = await FieldModel.findById(Class.field);
 
-         const fieldSubjects = Field.subjects.map(subject => subject.toString());
+        const fieldSubjects = Field.subjects.map(subject => subject.toString());
 
-         const reservedSubjects = Class.teachers.reduce((acc, teacher) => {
+        const reservedSubjects = Class.teachers.reduce((acc, teacher) => {
              const teacherSubjects = teacher.subjects.map(subject => subject.toString());
              return [...acc, ...teacherSubjects];
          }, []);
  
-         const unreservedSubjects = fieldSubjects.filter(subject => {
+        const unreservedSubjects = fieldSubjects.filter(subject => {
              return !reservedSubjects.includes(subject);
          });
- 
-         res.json(unreservedSubjects);
+         
+        const resultPromises = unreservedSubjects.map(subjectId => SubjectModel.findById(subjectId));
+
+        // Wait for all subject fetching promises to resolve
+        const result = await Promise.all(resultPromises);
+
+
+        res.json(result);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
@@ -529,6 +535,31 @@ const detachSubjectFromTeacherInClass = async (req, res) => {
     }
 };
 
+const showSubjectTeacherInClass = async (req, res) => {
+
+    const {classId} = req.params;
+
+    try {
+        // Find the class by classId
+        const classData = await ClassModel.findById(classId)
+        .populate('teachers.id', 'firstName lastName email') // Populate teachers with their names
+        .populate('teachers.subjects', 'subName'); // Populate subjects with their names
+
+
+        // Transform data into desired format
+        const transformedData = classData.teachers.map(teacher => ({
+            teacher: teacher.id,
+            subjects: teacher.subjects
+        }));
+
+        // Respond with transformed data
+        res.json(transformedData);
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 //class's information
 
@@ -589,5 +620,6 @@ export {
     showClasses, showClass, insertClass, updateClass, deleteClass,
     showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass, 
     removeStudentFromClass, removeTeacherFromClass, getClassInfo,
-    showAvailableSubjectsInClass, attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass
+    showAvailableSubjectsInClass, attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass,
+    showSubjectTeacherInClass
 }
