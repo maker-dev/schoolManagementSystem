@@ -16,7 +16,7 @@ import { getTypesOfBac, showType, insertTypeOfBac, updateTypeOfBac, deleteTypeOf
 import { getFields, showFields, showField, insertField, updateField, deleteField } from "../controllers/FieldController.js";
 import { showClasses, showClass, insertClass, updateClass, deleteClass,
         showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass,
-        removeStudentFromClass, removeTeacherFromClass, getClassInfo, showAvailableSubjectsInClass,
+        removeStudentFromClass, removeTeacherFromClass, getClassInfo, showAllSubjectsInClass,
         attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass, showSubjectTeacherInClass
         } from '../controllers/ClassController.js';
 import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
@@ -137,7 +137,7 @@ routes.post("/addTeacherToClass", verifyKey, verifyToken, verifyRole(["Admin"]),
 routes.post("/removeStudentFromClass", verifyKey, verifyToken, verifyRole(["Admin"]), removeStudentFromClass)
 routes.post("/removeTeacherFromClass", verifyKey, verifyToken, verifyRole(["Admin"]), removeTeacherFromClass)
 routes.get("/getClassInfo/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), getClassInfo);
-routes.get("/showAvailableSubjectsInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showAvailableSubjectsInClass);
+routes.get("/showAllSubjectsInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showAllSubjectsInClass);
 routes.post("/attachSubjectToTeacherInClass", verifyKey, verifyToken, verifyRole(["Admin"]), attachSubjectToTeacherInClass);
 routes.post("/detachSubjectFromTeacherInClass", verifyKey, verifyToken, verifyRole(["Admin"]), detachSubjectFromTeacherInClass);
 routes.get("/showSubjectTeacherInClass/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), showSubjectTeacherInClass);

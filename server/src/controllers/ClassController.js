@@ -392,7 +392,7 @@ const removeTeacherFromClass = async (req, res) => {
     }
 }
 
-const showAvailableSubjectsInClass = async (req, res) => {
+const showAllSubjectsInClass = async (req, res) => {
 
     const {classId} = req.params;
 
@@ -414,26 +414,11 @@ const showAvailableSubjectsInClass = async (req, res) => {
     try {
 
         const Class = await ClassModel.findById(classId);
-        const Field = await FieldModel.findById(Class.field);
+        const Field = await FieldModel.findById(Class.field).populate("subjects", "subName labs");
 
-        const fieldSubjects = Field.subjects.map(subject => subject.toString());
+        const fieldSubjects = Field.subjects;
 
-        const reservedSubjects = Class.teachers.reduce((acc, teacher) => {
-             const teacherSubjects = teacher.subjects.map(subject => subject.toString());
-             return [...acc, ...teacherSubjects];
-         }, []);
- 
-        const unreservedSubjects = fieldSubjects.filter(subject => {
-             return !reservedSubjects.includes(subject);
-         });
-         
-        const resultPromises = unreservedSubjects.map(subjectId => SubjectModel.findById(subjectId));
-
-        // Wait for all subject fetching promises to resolve
-        const result = await Promise.all(resultPromises);
-
-
-        res.json(result);
+        res.json(fieldSubjects);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
@@ -620,6 +605,6 @@ export {
     showClasses, showClass, insertClass, updateClass, deleteClass,
     showClassStudents, showClassTeachers, addStudentToClass, addTeacherToClass, 
     removeStudentFromClass, removeTeacherFromClass, getClassInfo,
-    showAvailableSubjectsInClass, attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass,
+    showAllSubjectsInClass, attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass,
     showSubjectTeacherInClass
 }
