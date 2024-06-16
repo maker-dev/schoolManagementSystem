@@ -3,11 +3,11 @@ import Cookies from 'js-cookie';
 
 const TeacherRoutes  = () => {
     const user = Cookies.get('userRole');
-    if(user == "Teacher"){
+    if(user === "Teacher"){
         return  <Outlet />;
-    }else if(user == null || user == undefined || user == "null"|| user == ""){
+    }else if(user === null || user === undefined || user === "null"|| user === ""){
         return <Navigate to="/userChoice" />;
-    }else return <Navigate to="/dashboard"/>;
+    }else return <Navigate to={`/${user}/dashboard`}/>;
     
 }
 

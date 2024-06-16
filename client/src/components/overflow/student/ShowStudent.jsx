@@ -37,7 +37,7 @@ export default function ShowStudent({ id }) {
                         setEmail(response.data.email);
                         setConfirmation(response.data.confirmation);
                         setPhone(response.data.tel);
-                        setClasse((response.data.class === undefined)?null:response.data.class.className);
+                        setClasse((response.data.class === undefined || response.data.class === null)?null:response.data.class.className);
                     } else {
                         error("Erreur!");
                     }

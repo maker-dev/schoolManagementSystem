@@ -3,21 +3,26 @@ import { Outlet, Navigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import apiToken from '../../api/apiToken';
 
-const StudentRoutes = () => {
+
+const NonConfirmedRoute = () => {
   const [user, setUser] = useState(null);
   const userRole = Cookies.get('userRole');
 
+
   useEffect(() => {
     const fetchUser = async () => {
+
       try {
         const response = await apiToken.post('user');
         if (response.status === 200) {
           setUser(response.data);
         } else {
-          setUser({ role: null });
+          setUser({ confirmation: null });
         }
+
       } catch (e) {
-        setUser({ role: null });
+        setUser({ confirmation: null });
+
       }
     };
 
@@ -25,10 +30,9 @@ const StudentRoutes = () => {
   }, []);
 
 
-
   if (userRole === "Student") {
-    if (user && user.confirmation === false) {
-      return <Navigate to="/waiting" />;
+    if (user && user.confirmation === true) {
+      return <Navigate to="/student/dashboard" replace />;
     } else {
       return <Outlet />;
     }
@@ -37,6 +41,8 @@ const StudentRoutes = () => {
   } else {
     return <Navigate to={`/${userRole}/dashboard`} />;
   }
+  
+
 };
 
-export default StudentRoutes;
+export default NonConfirmedRoute;

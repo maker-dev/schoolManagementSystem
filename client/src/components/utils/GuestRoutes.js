@@ -3,10 +3,10 @@ import Cookies from 'js-cookie';
 
 const GuestRoutes  = () => {
     const user = Cookies.get('userRole');
-    if(user == null || user == undefined || user == "null"|| user == ""){
+    if(user === null || user === undefined || user === "null"|| user === ""){
         return  <Outlet />;
     }else{
-        return <Navigate to="/dashboard"/>;
+        return <Navigate to={`/${user}/dashboard`}/>;
     }
     
 }

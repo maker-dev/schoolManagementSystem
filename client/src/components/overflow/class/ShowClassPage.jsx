@@ -78,7 +78,7 @@ export default function ShowClassPage(){
                             </div>
                         }
                         {page === "Subject" &&
-                            <SubjectCard/>
+                            <SubjectCard id={id}/>
 
                         }
                     </div>

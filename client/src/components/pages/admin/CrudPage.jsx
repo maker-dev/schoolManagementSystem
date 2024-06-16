@@ -13,7 +13,8 @@ import TitleCard from "../../cards/TitleCard";
 import ShowCard from "../../overflow/ShowCard";
 import { getNestedProperty } from "../../../helpers/HelpersFunctions";
 
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default function CrudPage({ columns, indexApi, deleteApi, idName, title, objectName }) {
     // Data
@@ -156,7 +157,7 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
         setSearch(query);
         setSearchedData(data.filter((data) => {
             const fieldSearchBy = Object.keys(columns)[0];
-            const datas =  getNestedProperty(data, fieldSearchBy).toLowerCase().includes(query.toLowerCase());
+            const datas = getNestedProperty(data, fieldSearchBy).toLowerCase().includes(query.toLowerCase());
             return datas;
         }));
     }
@@ -251,9 +252,15 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
                                             <td className="flex gap-4 px-6 py-4">
                                                 <button
                                                     onClick={() => showInfoPage(field._id)}
-                                                    className="font-bold text-white hover:underline">Voir</button>
+                                                    className="font-bold text-white hover:underline hover:text-red-400 transition duration-300 ease-in-out">
+                                                    <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                                    Voir
+                                                </button>
                                                 <button onClick={() => showUpdatePage(field._id)}
-                                                    className="font-bold text-white hover:underline">Modifier</button>
+                                                    className="font-bold text-white hover:underline hover:text-yellow-400 transition duration-300 ease-in-out">
+                                                    <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                                                    Modifier
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}

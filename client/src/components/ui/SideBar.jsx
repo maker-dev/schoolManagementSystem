@@ -9,28 +9,37 @@ import teacherIC from '../../assets/icons/teacher.svg';
 import BacIc from '../../assets/icons/bac.svg';
 import MenuItem from './MenuItem';
 import subjectIC from "../../assets/icons/subject.svg"
-// import Cookies from 'js-cookie';
-// import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
 
 
 export default function SideBar(){
 
-    // let role = Cookies.get("userRole");
+    const [role,] = useState(Cookies.get("userRole"));
 
     return(
         
             <ul className='flex flex-col w-full p-2 bg-white'>
-                <MenuItem link="/dashboard" icon={dashboardIC} content="Dashboard"/>
-                <MenuItem link="/filiere" icon={filliereIC} content="Filliere"/>
-                <MenuItem link="/bac" icon={BacIc} content="Bac"/>
-                <MenuItem link="/subject" icon={subjectIC} content="Module"/>
-                <MenuItem link="/class" icon={classeIC} content="Classe"/>
-                <MenuItem link="/etudiants" icon={studentIC} content="Etudiants"/>
-                <MenuItem link="/professeurs" icon={teacherIC} content="Professeures"/>
-                <MenuItem link="/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
-                <MenuItem link="/notes" icon={gradesIC} content="Notes"/>
-                <MenuItem link="/abscence" icon={studentPresenceIC} content="Abscence"/>
-                <MenuItem link="/profile" icon={studentPresenceIC} content="Profile"/>
+                {role === "Student" &&
+                    <>
+                    <MenuItem link="/Student/dashboard" icon={dashboardIC} content="Dashboard"/>
+                    </>
+                }
+                {role === "Admin" && 
+                    <>
+                        <MenuItem link="/Admin/dashboard" icon={dashboardIC} content="Dashboard"/>
+                        <MenuItem link="/filiere" icon={filliereIC} content="Filliere"/>
+                        <MenuItem link="/bac" icon={BacIc} content="Bac"/>
+                        <MenuItem link="/subject" icon={subjectIC} content="Module"/>
+                        <MenuItem link="/class" icon={classeIC} content="Classe"/>
+                        <MenuItem link="/etudiants" icon={studentIC} content="Etudiants"/>
+                        <MenuItem link="/professeurs" icon={teacherIC} content="Professeures"/>
+                        <MenuItem link="/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
+                        <MenuItem link="/notes" icon={gradesIC} content="Notes"/>
+                        <MenuItem link="/abscence" icon={studentPresenceIC} content="Abscence"/>
+                        <MenuItem link="/profile" icon={studentPresenceIC} content="Profile"/>
+                    </>
+                }
             </ul>
         
     )

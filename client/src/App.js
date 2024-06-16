@@ -19,6 +19,10 @@ import PlainningPage from "./components/pages/PlainningPage";
 import ProfilePage from "./components/pages/ProfilePage";
 import TeacherPage from "./components/pages/admin/TeacherPage";
 import StudentPage from "./components/pages/admin/StudentPage";
+import WaitingConfirmationPage from "./components/pages/student/WaitingConfirmationPage";
+import StudentRoutes from "./components/utils/StudentRoutes";
+import DashboardStudent from "./components/pages/student/DashboardStudent";
+import NonConfirmedRoute from "./components/utils/NonConfirmedRoute";
 
 
 
@@ -29,8 +33,10 @@ function App() {
     <div className="App">
       
       <Routes>
+        
+
         <Route element={<AdminRoutes/>}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Admin/dashboard" element={<Dashboard />} />
           <Route path="/filiere" element={<FilierePage />} />
           <Route path="/bac" element={<BacPage />} />
           <Route path="/subject" element={<SubjectPage />} />
@@ -42,7 +48,13 @@ function App() {
           <Route path="/etudiants" element={<StudentPage/>}/>
         </Route>
         
+        <Route element={<StudentRoutes/>}>
+          <Route path="/Student/dashboard/" element={<DashboardStudent />} />
+        </Route>
 
+        <Route element={<NonConfirmedRoute/>}>
+          <Route path="/waiting" element={<WaitingConfirmationPage/>}/>
+        </Route>
        
         <Route element={<GuestRoutes/>}>
             <Route path="/userChoice" element={<UserChoice />} />
@@ -52,6 +64,8 @@ function App() {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/" element={<HomePage />} />
         </Route>
+
+        
             
           
         

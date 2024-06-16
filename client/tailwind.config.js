@@ -9,6 +9,7 @@ module.exports = {
       tahoma: ["Tahoma", "Verdana", "Segoe", "sans-serif"],
     },
     
+    
   },
   plugins: [],
 }
