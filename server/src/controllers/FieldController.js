@@ -1,6 +1,8 @@
 import { FieldModel } from "../models/Field.js";
 import {validationResult} from 'express-validator';
 import mongoose from "mongoose";
+import { ClassModel } from "../models/Class.js";
+import { StudentModel } from "../models/Student.js";
 
 const getFields = async (req, res) => {
     try {
@@ -177,6 +179,11 @@ const deleteField = async (req, res) => {
 
         const field = await FieldModel.findOne({_id: fieldId});
 
+        const Classes = await ClassModel.find({field: field._id});
+
+        const Student = await StudentModel.find({field: field._id})
+
+
         if (!field) return res.status(400).json({
             errors: [
                 {
@@ -188,6 +195,31 @@ const deleteField = async (req, res) => {
                 }
             ]
         });
+        
+        if (Classes.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: fieldId,
+                    msg: "Field already attached with Class",
+                    path: "fieldId",
+                    location: "body"
+                }
+            ]
+        });
+
+        if (Student.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: fieldId,
+                    msg: "Field already attached with Student",
+                    path: "fieldId",
+                    location: "body"
+                }
+            ]
+        });
+
 
         await field.deleteOne();
 

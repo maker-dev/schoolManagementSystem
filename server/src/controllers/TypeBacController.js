@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import {validationResult} from 'express-validator';
 import { TypeOfBacModel } from "../models/TypeOfBac.js";
+import { StudentModel } from "../models/Student.js";
+import { FieldModel } from "../models/Field.js";
 
 const getTypesOfBac = async (req, res) => {
     try {
@@ -131,6 +133,11 @@ const deleteTypeOfBac = async (req, res) => {
         
         const typeOfBac = await TypeOfBacModel.findOne({_id: typeId});
 
+        const fields    = await FieldModel.find({bacRequired: typeOfBac._id});
+        
+        const students  = await StudentModel.find({typeOfBac: typeOfBac._id});
+
+
         if (!typeOfBac) return res.status(400).json({
             errors: [
                 {
@@ -142,6 +149,33 @@ const deleteTypeOfBac = async (req, res) => {
                 }
             ]
         });
+
+        
+        if (fields.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: typeId,
+                    msg: "typeOfBac already attached with field",
+                    path: "typeId",
+                    location: "body"
+                }
+            ]
+        });
+
+        if (students.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: typeId,
+                    msg: "typeOfBac already attached with student",
+                    path: "typeId",
+                    location: "body"
+                }
+            ]
+        });
+
+
 
         await typeOfBac.deleteOne();
 

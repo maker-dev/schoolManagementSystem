@@ -1,6 +1,9 @@
 import { SubjectModel } from "../models/Subject.js";
 import {validationResult} from 'express-validator';
 import mongoose from "mongoose";
+import { TeacherModel } from "../models/Teacher.js";
+import { FieldModel } from "../models/Field.js";
+import { ClassModel } from "../models/Class.js";
 
 const showSubjects = async (req, res) => {
     try {
@@ -134,8 +137,14 @@ const deleteSubject = async (req, res) => {
 
     try {
 
-        const subject = await SubjectModel.findOne({_id: subjectId});
+        const subject  = await SubjectModel.findOne({_id: subjectId});
 
+        const teachers = await TeacherModel.find({teacherSubject: subject._id});
+
+        const fields   = await FieldModel.find({subjects: subject._id}); 
+
+        const Classes  = await ClassModel.find({"teachers.subjects": subject._id});
+        
         if (!subject) return res.status(400).json({
             errors: [
                 {
@@ -147,6 +156,44 @@ const deleteSubject = async (req, res) => {
                 }
             ]
         });
+
+        if (teachers.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: subjectId,
+                    msg: "subject already attached with teacher",
+                    path: "subjectId",
+                    location: "body"
+                }
+            ]
+        });
+
+        if (fields.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: subjectId,
+                    msg: "typeOfBac already attached with field",
+                    path: "subjectId",
+                    location: "body"
+                }
+            ]
+        });
+
+        if (Classes.length > 0) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: subjectId,
+                    msg: "subject already attached with Class",
+                    path: "subjectId",
+                    location: "body"
+                }
+            ]
+        });
+
+
 
         await subject.deleteOne();
 
