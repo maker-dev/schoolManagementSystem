@@ -5,18 +5,12 @@ import Cookies from 'js-cookie';
 import VerifieAccount from './VerifieAccount';
 import Loader from '../ui/Loader';
 
-
 export default function Login({ title, apiName, role }) {
-  // Functionalities:
   const [loading, setLoading] = useState(false);
   const [requiresVerification, setRequiresVerification] = useState(false);
   const navigate = useNavigate();
-
-  // Data controllers:
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Validation errors states:
   const [validateCredentials, setValidateCredentials] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -46,9 +40,7 @@ export default function Login({ title, apiName, role }) {
       } else if (response.status === 200) {
         Cookies.set('token', response.data.token, { sameSite: 'Lax' });
         Cookies.set('userRole', role, { sameSite: 'Lax' });
-        
         navigate(`/${role}/dashboard`);
-
       }
       setLoading(false);
     } catch (e) {
@@ -122,12 +114,17 @@ export default function Login({ title, apiName, role }) {
                       type="checkbox"
                       onChange={handleVisiblePassword}
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-teal-300"
-                      required
                     />
                   </div>
                   <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
                     <label htmlFor="remember" className="text-gray-500">Afficher mot de passe</label>
-                    <Link to="#" className="text-sm font-medium text-teal-600 hover:underline">Mot de passe oublier ?</Link>
+                    <Link 
+                      to="/forgetPassword"
+                      state= {{email:email, role:role}}
+                      className="text-sm font-medium text-teal-600 hover:underline"
+                    >
+                      Mot de passe oublier ?
+                    </Link>
                   </div>
                 </div>
               </div>

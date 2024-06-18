@@ -1,7 +1,6 @@
 import {  Route,  Routes } from "react-router-dom";
 import './App.css';
 import HomePage from "./components/pages/HomePage";
-import Dashboard from "./components/pages/Dashboard";
 import UserChoice from "./components/pages/UserChoice";
 import LoginStudent from "./components/pages/student/LoginStudent";
 import LoginAdmin from "./components/pages/admin/LoginAdmin";
@@ -23,12 +22,17 @@ import WaitingConfirmationPage from "./components/pages/student/WaitingConfirmat
 import StudentRoutes from "./components/utils/StudentRoutes";
 import DashboardStudent from "./components/pages/student/DashboardStudent";
 import NonConfirmedRoute from "./components/utils/NonConfirmedRoute";
+import AdminDashboard from "./components/pages/admin/AdminDashboard";
+import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
+import ChangePasswordPage from "./components/pages/ChangePasswordPage";
+import Cookies from "js-cookie";
+import { useState } from "react";
 
 
 
 function App() {
   
-  
+
   return (
     <div className="App">
       
@@ -36,7 +40,7 @@ function App() {
         
 
         <Route element={<AdminRoutes/>}>
-          <Route path="/Admin/dashboard" element={<Dashboard />} />
+          <Route path="/Admin/dashboard" element={<AdminDashboard />} />
           <Route path="/filiere" element={<FilierePage />} />
           <Route path="/bac" element={<BacPage />} />
           <Route path="/subject" element={<SubjectPage />} />
@@ -62,7 +66,9 @@ function App() {
             <Route path="/loginAdmin" element={<LoginAdmin />} />
             <Route path="/loginProf" element={<LoginTeacher />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/forgetPassword" element={<ForgotPasswordPage />} />
             <Route path="/" element={<HomePage />} />
+            <Route path={`/resetPassword/:resetToken`} element={<ChangePasswordPage />} />
         </Route>
 
         
