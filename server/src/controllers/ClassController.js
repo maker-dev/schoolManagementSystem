@@ -5,6 +5,8 @@ import { TeacherModel } from '../models/Teacher.js';
 import { validationResult } from 'express-validator';
 import mongoose from "mongoose";
 import { SubjectModel } from "../models/Subject.js";
+import { FileModel } from "../models/File.js";
+import fs from 'fs';
 
 //class crud
 
@@ -153,6 +155,12 @@ const deleteClass = async (req, res) => {
                 }
             ]
         });
+
+        if (Class.schedule) {
+            const file = await FileModel.findById(Class.schedule);
+            await fs.promises.unlink(`.${file.path}/${file.fileName}${file.extension}`);
+            await file.deleteOne(); 
+        }
 
         await Class.deleteOne();
 

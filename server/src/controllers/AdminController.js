@@ -2,6 +2,10 @@ import { AdminModel } from "../models/Admin.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
+import { StudentModel } from "../models/Student.js";
+import { TeacherModel } from "../models/Teacher.js";
+import { FieldModel } from "../models/Field.js";
+import { ClassModel } from "../models/Class.js";
 
 const adminLogin = async (req, res) => {
 
@@ -38,4 +42,24 @@ const adminLogin = async (req, res) => {
     }
 }
 
-export { adminLogin };
+const getDashboardInfo = async (req, res) => {
+
+    try {
+        const totalStudents = await StudentModel.countDocuments();
+        const totalTeachers = await TeacherModel.countDocuments();
+        const totalFields   = await FieldModel.countDocuments();
+        const totalClasses  = await ClassModel.countDocuments();
+
+        res.json({
+            totalStudents: totalStudents,
+            totalTeachers: totalTeachers,
+            totalFields: totalFields,
+            totalClasses: totalClasses
+        });
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export { adminLogin, getDashboardInfo };

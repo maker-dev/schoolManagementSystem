@@ -234,7 +234,19 @@ const deleteTeacher = async (req, res) => {
 
         const teacher = await TeacherModel.findById(teacherId);
 
-        await ClassModel.updateMany({teachers: teacherId}, {$pull: {teachers: teacherId}})
+        if (!teacher) return res.status(400).json({
+            errors: [
+                {
+                    type: "field",
+                    value: teacherId,
+                    msg: "TeacherId doesn't exists !",
+                    path: "subjectId",
+                    location: "body"
+                }
+            ]
+        });
+
+        await ClassModel.updateMany({"teachers.id": teacher._id}, {$pull: {teachers: {id: teacher._id}}})
 
         await teacher.deleteOne();
 

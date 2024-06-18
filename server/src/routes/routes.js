@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from 'multer';
 import path from 'path'
-import { adminLogin } from "../controllers/AdminController.js";
+import { adminLogin, getDashboardInfo } from "../controllers/AdminController.js";
 import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher } from "../controllers/TeacherController.js";
 import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, showStudent, confirmStudent } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
@@ -81,6 +81,7 @@ const teachersScheduleUpload = multer({
 
 //admin
 routes.post("/adminLogin", verifyKey, validateAdminLogin, adminLogin);
+routes.get("/getDashboardInfo", verifyKey, verifyToken, verifyRole(["Admin"]), getDashboardInfo);
 
 //teacher
 routes.post("/teacherLogin", verifyKey, validateTeacherLogin, teacherLogin);

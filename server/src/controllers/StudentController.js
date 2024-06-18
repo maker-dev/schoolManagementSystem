@@ -119,9 +119,97 @@ const studentConfirmation = async (req, res) => {
     try {
         const {id} = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
         await StudentModel.updateOne({_id: id}, {verified: true});
-        res.redirect("http://localhost:3000/loginEtudiant");
+        
+        res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Verification Success</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f0f0f0;
+                        color: #333;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                    }
+                    .container {
+                        background: white;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        text-align: center;
+                    }
+                    h1 {
+                        color: #4CAF50;
+                    }
+                    a {
+                        color: #4CAF50;
+                        text-decoration: none;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>Verification Successful</h1>
+                    <p>Your email has been successfully verified. You can now <a href="http://localhost:3000/loginEtudiant">login</a>.</p>
+                </div>
+            </body>
+            </html>
+        `);
+        
     } catch (err) {
-        res.status(500).json({ message: 'Internal server error' });
+        if (err.name === "TokenExpiredError") {
+            res.send(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Verification Expired</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f0f0f0;
+                            color: #333;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                        .container {
+                            background: white;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                            text-align: center;
+                        }
+                        h1 {
+                            color: #f44336;
+                        }
+                        a {
+                            color: #4CAF50;
+                            text-decoration: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1>Your verification link has expired.</h1>
+                        <p>Try to login <a href="http://localhost:3000/loginEtudiant">here</a> to request a new verification email.</p>
+                    </div>
+                </body>
+                </html>
+            `);
+        } else {
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
 }
 
