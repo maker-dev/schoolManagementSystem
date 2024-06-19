@@ -7,6 +7,7 @@ import LoginAdmin from "./components/pages/admin/LoginAdmin";
 import LoginTeacher from "./components/pages/teacher/LoginTeacher";
 import SignUp from "./components/pages/SignUp";
 import AdminRoutes from "./components/utils/AdminRoutes";
+import TeacherRoutes from "./components/utils/TeacherRoutes"
 import GuestRoutes from "./components/utils/GuestRoutes";
 import FilierePage from "./components/pages/admin/FilierePage";
 import BacPage from "./components/pages/admin/BacPage";
@@ -14,7 +15,6 @@ import SubjectPage from "./components/pages/admin/SubjectPage";
 import ClassPage from "./components/pages/admin/ClassPage";
 import ShowClassPage from "./components/overflow/class/ShowClassPage";
 import 'react-toastify/dist/ReactToastify.css';
-import PlainningPage from "./components/pages/PlainningPage";
 import ProfilePage from "./components/pages/ProfilePage";
 import TeacherPage from "./components/pages/admin/TeacherPage";
 import StudentPage from "./components/pages/admin/StudentPage";
@@ -25,8 +25,10 @@ import NonConfirmedRoute from "./components/utils/NonConfirmedRoute";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import ChangePasswordPage from "./components/pages/ChangePasswordPage";
-import Cookies from "js-cookie";
-import { useState } from "react";
+import PlainningAdmin from "./components/pages/admin/PlainningAdmin";
+import DashboardTeacher from "./components/pages/teacher/DashboardTeacher";
+import PlainningStudent from "./components/pages/student/PlainningStudent";
+import PlainningTeacher from "./components/pages/teacher/PlainningTeacher";
 
 
 
@@ -38,7 +40,7 @@ function App() {
       
       <Routes>
         
-
+        {/* Admin */}
         <Route element={<AdminRoutes/>}>
           <Route path="/Admin/dashboard" element={<AdminDashboard />} />
           <Route path="/filiere" element={<FilierePage />} />
@@ -46,20 +48,28 @@ function App() {
           <Route path="/subject" element={<SubjectPage />} />
           <Route path="/class" element={<ClassPage />} />
           <Route path="/class/show" element={<ShowClassPage />} />
-          <Route path="/emploieTemps" element={<PlainningPage/>}/>
+          <Route path="/Admin/emploieTemps" element={<PlainningAdmin/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/professeurs" element={<TeacherPage/>}/>
           <Route path="/etudiants" element={<StudentPage/>}/>
         </Route>
-        
-        <Route element={<StudentRoutes/>}>
-          <Route path="/Student/dashboard/" element={<DashboardStudent />} />
-        </Route>
+        {/* Teacher */}
+        <Route element={<TeacherRoutes/>}>
+          <Route path="/Teacher/dashboard" element={<DashboardTeacher />} />
+          <Route path="/Teacher/emploieTemps" element={<PlainningTeacher />} />
 
+        </Route>
+        {/* student */}
+        <Route element={<StudentRoutes/>}>
+          <Route path="/Student/dashboard" element={<DashboardStudent />} />
+          <Route path="/Student/emploieTemps" element={<PlainningStudent />} />
+        </Route>
+        {/* Student without admin confirmation */}
         <Route element={<NonConfirmedRoute/>}>
+          <Route path="/waitingConfirmation" element={<WaitingConfirmationPage />} />
           <Route path="/waiting" element={<WaitingConfirmationPage/>}/>
         </Route>
-       
+       {/* public */}
         <Route element={<GuestRoutes/>}>
             <Route path="/userChoice" element={<UserChoice />} />
             <Route path="/loginEtudiant" element={<LoginStudent />} />

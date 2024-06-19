@@ -23,6 +23,13 @@ export default function SideBar(){
                 {role === "Student" &&
                     <>
                     <MenuItem link="/Student/dashboard" icon={dashboardIC} content="Dashboard"/>
+                    <MenuItem link="/Student/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
+                    </>
+                }
+                {role === "Teacher" &&
+                    <>
+                    <MenuItem link="/Teacher/dashboard" icon={dashboardIC} content="Dashboard"/>
+                    <MenuItem link="/Teacher/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
                     </>
                 }
                 {role === "Admin" && 
@@ -34,7 +41,7 @@ export default function SideBar(){
                         <MenuItem link="/class" icon={classeIC} content="Classe"/>
                         <MenuItem link="/etudiants" icon={studentIC} content="Etudiants"/>
                         <MenuItem link="/professeurs" icon={teacherIC} content="Professeures"/>
-                        <MenuItem link="/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
+                        <MenuItem link="/Admin/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
                         <MenuItem link="/notes" icon={gradesIC} content="Notes"/>
                         <MenuItem link="/abscence" icon={studentPresenceIC} content="Abscence"/>
                         <MenuItem link="/profile" icon={studentPresenceIC} content="Profile"/>

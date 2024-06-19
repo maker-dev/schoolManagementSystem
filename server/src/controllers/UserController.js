@@ -14,8 +14,7 @@ const user = async (req, res) => {
             return res.json(admin);
         } else if (user.role === "Teacher") {
             const teacher = await TeacherModel.findOne({_id: user.id})
-            .populate("schedule")
-            .populate("teacherSubject");
+            
             return res.json(teacher);
         } else if (user.role === "Student") {
             const student = await StudentModel.findOne({_id: user.id})
