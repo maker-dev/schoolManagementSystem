@@ -13,10 +13,15 @@ const user = async (req, res) => {
             const admin = await AdminModel.findOne({_id: user.id});
             return res.json(admin);
         } else if (user.role === "Teacher") {
-            const teacher = await TeacherModel.findOne({_id: user.id});
+            const teacher = await TeacherModel.findOne({_id: user.id})
+            .populate("schedule")
+            .populate("teacherSubject");
             return res.json(teacher);
         } else if (user.role === "Student") {
-            const student = await StudentModel.findOne({_id: user.id});
+            const student = await StudentModel.findOne({_id: user.id})
+            .populate('typeOfBac')
+            .populate('field')
+            .populate('class');
             return res.json(student);
         }
 
