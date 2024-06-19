@@ -54,6 +54,7 @@ const forgotPassword = async (req, res) => {
             <p>Vous avez demandé une réinitialisation de mot de passe.</p>
             <p>Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :</p>
             <p><a href="${url}" target="_blank">${url}</a></p>
+            <p>Veuillez noter que ce lien expirera dans 10 minutes</p>
             <p>Si vous n'avez pas demandé cela, veuillez ignorer cet email et votre mot de passe restera inchangé.</p>
             <p>Cordialement,</p>
             <p>Votre équipe</p>
@@ -105,6 +106,31 @@ const resetPassword  = async (req, res) => {
         res.json({ message: 'Password changed successfully' });
 
     } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(400).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: resetToken,
+                        msg: "token expired !",
+                        path: "resetToken",
+                        location: "body"
+                    }
+                ]
+            });
+        } else if (err.name === "JsonWebTokenError") {
+            return res.status(400).json({
+                errors: [
+                    {
+                        type: "field",
+                        value: resetToken,
+                        msg: "invalid verification link !",
+                        path: "resetToken",
+                        location: "body"
+                    }
+                ]
+            });
+        }
         res.status(500).json({ message: 'Internal server error' });
     }
 }
