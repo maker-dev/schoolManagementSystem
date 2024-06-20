@@ -26,11 +26,16 @@ export default function PlainningStudent() {
       // Update the user state with the fetched user data
       if (response.status === 200) {
         setUser(response.data);
-      } else if (response.status === 400 || response.status === 401) {
-        setUser({ role: null });
+      } else if (response.status === 400 ) {
+        setUser(null);
+      }else if(response.status === 401){
+        DeconnectUser();
+      }else{
+        error("Erreur serveur");
       }
     } catch (e) {
-      setUser({ role: null });
+      error("Erreur serveur");
+      setUser(null);
       setLoading(false);
     }
     setLoading(false);
@@ -82,7 +87,7 @@ export default function PlainningStudent() {
             <TitleCard title="Emploie du temps d'Etudiant" />
           </div>
           <div className="mx-0 md:mx-6 mt-6">
-            {user && user.class && (
+            {user && user.class && user.class.schedule&& (
               <div className="bg-white shadow-md rounded p-6 flex flex-col md:flex-row items-center md:justify-between">
                 <div className="flex items-center space-x-4 mb-4 md:mb-0">
                   <div className="rounded-full bg-gray-300 w-16 h-16 flex items-center justify-center text-xl font-bold text-gray-700">
@@ -90,7 +95,7 @@ export default function PlainningStudent() {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800">{user.class?.className}</h2>
-                    <p className="text-gray-500">{user.lastName} {user.firstName}</p>
+                    <p className="text-gray-500 text-left">{user.lastName} {user.firstName}</p>
                   </div>
                 </div>
                 <div className="flex justify-center md:justify-start">
@@ -109,10 +114,17 @@ export default function PlainningStudent() {
                 </div>
               </div>
             )}
+            {user && (user.class.schedule === null || user.class.schedule === undefined ) && 
+              <div className="bg-white shadow-md rounded p-6">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-1">Votre classe n'a pas encore un emploie du temps!</h2>
+                </div>
+              </div>
+            }
             {user && (user.class === null || user.class === undefined) && (
               <div className="bg-white shadow-md rounded p-6">
                 <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-1">Vous n'étes pas dans une classe</h2>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-1">Vous n'étes pas dans une classe!</h2>
                 </div>
               </div>
             )}

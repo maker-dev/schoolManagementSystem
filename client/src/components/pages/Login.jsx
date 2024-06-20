@@ -134,9 +134,12 @@ export default function Login({ title, apiName, role }) {
               >
                 Se connecter
               </button>
-              <p className="text-sm font-light text-gray-500">
-                Vous n'avez pas encore un compte ? <Link to="/signUp" className="font-medium text-primary-600 hover:underline">Inscrivez vous!</Link>
-              </p>
+              {role === "Student" && 
+                    <p className="text-sm font-light text-gray-500">
+                    Vous n'avez pas encore un compte ? <Link to="/signUp" className="font-medium text-primary-600 hover:underline">Inscrivez vous!</Link>
+                    </p>
+              }
+              
             </form>
           </div>
         </div>

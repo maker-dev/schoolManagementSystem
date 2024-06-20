@@ -26,11 +26,16 @@ export default function PlainningTeacher() {
       // Update the user state with the fetched user data
       if (response.status === 200) {
         setUser(response.data);
-      } else if (response.status === 400 || response.status === 401) {
-        setUser({ role: null });
+      } else if (response.status === 400) {
+        setUser(null);
+      }else if(response.status === 401){
+        DeconnectUser();
+      }else{
+        error("Erreur serveur");
       }
     } catch (e) {
-      setUser({ role: null });
+      error("Erreur serveur");
+      setUser(null);
       setLoading(false);
     }
     setLoading(false);

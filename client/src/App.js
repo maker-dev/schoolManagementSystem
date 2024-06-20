@@ -15,7 +15,6 @@ import SubjectPage from "./components/pages/admin/SubjectPage";
 import ClassPage from "./components/pages/admin/ClassPage";
 import ShowClassPage from "./components/overflow/class/ShowClassPage";
 import 'react-toastify/dist/ReactToastify.css';
-import ProfilePage from "./components/pages/ProfilePage";
 import TeacherPage from "./components/pages/admin/TeacherPage";
 import StudentPage from "./components/pages/admin/StudentPage";
 import WaitingConfirmationPage from "./components/pages/student/WaitingConfirmationPage";
@@ -29,6 +28,9 @@ import PlainningAdmin from "./components/pages/admin/PlainningAdmin";
 import DashboardTeacher from "./components/pages/teacher/DashboardTeacher";
 import PlainningStudent from "./components/pages/student/PlainningStudent";
 import PlainningTeacher from "./components/pages/teacher/PlainningTeacher";
+import AdminProfile from "./components/pages/admin/AdminProfile";
+import StudentProfile from "./components/pages/student/StudentProfile";
+import TeacherProfile from "./components/pages/teacher/TeacherProfile";
 
 
 
@@ -49,7 +51,7 @@ function App() {
           <Route path="/class" element={<ClassPage />} />
           <Route path="/class/show" element={<ShowClassPage />} />
           <Route path="/Admin/emploieTemps" element={<PlainningAdmin/>}/>
-          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/Admin/profile" element={<AdminProfile/>}/>
           <Route path="/professeurs" element={<TeacherPage/>}/>
           <Route path="/etudiants" element={<StudentPage/>}/>
         </Route>
@@ -57,12 +59,14 @@ function App() {
         <Route element={<TeacherRoutes/>}>
           <Route path="/Teacher/dashboard" element={<DashboardTeacher />} />
           <Route path="/Teacher/emploieTemps" element={<PlainningTeacher />} />
+          <Route path="/Teacher/profile" element={<TeacherProfile />} />
 
         </Route>
         {/* student */}
         <Route element={<StudentRoutes/>}>
           <Route path="/Student/dashboard" element={<DashboardStudent />} />
           <Route path="/Student/emploieTemps" element={<PlainningStudent />} />
+          <Route path="/Student/profile" element={<StudentProfile />} />
         </Route>
         {/* Student without admin confirmation */}
         <Route element={<NonConfirmedRoute/>}>

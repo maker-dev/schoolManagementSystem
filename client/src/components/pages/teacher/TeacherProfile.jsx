@@ -8,16 +8,17 @@ import DeconnectUser from "../../../helpers/DeconnectUser";
 import api from "../../../api/apiToken";
 import Loader from "../../ui/Loader";
 
-export default function AdminProfile(){
+export default function TeacherProfile(){
     
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    //fetching connected user :
+  //fetching for connected user:
     const fetchUser = async () => {
         setLoading(true);
         try {
           const response = await api.post('user');
+
           if (response.status === 200) {
             setUser(response.data);
           } else if (response.status === 400 ) {
@@ -50,7 +51,7 @@ export default function AdminProfile(){
                 </div>
                 <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto">
                     <div className="mx-0 md:mx-6 mt-6">
-                        <TitleCard title={"Profile Admin"}></TitleCard>
+                        <TitleCard title={"Profile Etudiant"}></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6 mt-6 flex justify-center items-center  bg-gray-100 my-6 ">
                     <div className=" w-full bg-white p-8 rounded-lg shadow-lg">
@@ -68,11 +69,35 @@ export default function AdminProfile(){
                             <div>
                                 <span className="block text-sm font-medium text-gray-700 text-left">Role</span>
                                 <input type="text" 
-                                value={"Admin"}
+                                value={"Professeur"}
                                 readOnly
                                 className="mt-1 block w-full cursor-not-allowed  p-2 border bg-gray-100  border-gray-300 rounded-md" 
                                 placeholder="role" />
                             </div>
+                            <div>
+                                <span className="block text-sm font-medium text-gray-700 text-left">Nom</span>
+                                <input type="text" 
+                                value={user?.firstName || ""}
+                                readOnly
+                                className="mt-1 block w-full cursor-not-allowed  p-2 border bg-gray-100  border-gray-300 rounded-md" 
+                                placeholder="nom" />
+                            </div>
+                            <div>
+                                <span className="block text-sm font-medium text-gray-700 text-left">Prénom</span>
+                                <input type="text" 
+                                value={user?.lastName || ""}
+                                readOnly
+                                className="mt-1 block w-full cursor-not-allowed  p-2 border bg-gray-100  border-gray-300 rounded-md" 
+                                placeholder="prenom" />
+                            </div>    
+                            <div>
+                                <span className="block text-sm font-medium text-gray-700 text-left">Salaire (DHs/heure)</span>
+                                <input type="text" 
+                                value={user?.salary || ""}
+                                readOnly
+                                className="mt-1 block w-full cursor-not-allowed  p-2 border bg-gray-100  border-gray-300 rounded-md" 
+                                placeholder="salaire" />
+                            </div>             
                             
                         </div>
                         </form>
