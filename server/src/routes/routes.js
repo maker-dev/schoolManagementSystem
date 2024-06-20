@@ -2,12 +2,12 @@ import { Router } from "express";
 import multer from 'multer';
 import path from 'path'
 import { adminLogin, getDashboardInfo } from "../controllers/AdminController.js";
-import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher } from "../controllers/TeacherController.js";
+import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher, addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance } from "../controllers/TeacherController.js";
 import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, showStudent, confirmStudent } from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
-import { validateTeacherRegister, validateTeacherLogin } from '../middlewares/validation/teacher.js';
+import { validateTeacherRegister, validateTeacherLogin, validateTeacherUpdate, validateTeacherAttendance} from '../middlewares/validation/teacher.js';
 import { validateStudentRegister, validateStudentLogin } from "../middlewares/validation/student.js";
 import { validateEmail } from '../middlewares/validation/resendEmail.js';
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
@@ -89,8 +89,11 @@ routes.get("/showTeachersNotInClass/:classId", verifyKey, verifyToken, verifyRol
 routes.get("/showAllTeachers", verifyKey, verifyToken, verifyRole(["Admin"]), showAllTeachers)
 routes.get("/showTeacher/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), showTeacher);
 routes.post("/insertTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherRegister, insertTeacher);
-routes.put("/updateTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), updateTeacher)
+routes.put("/updateTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherUpdate, updateTeacher)
 routes.delete("/deleteTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), deleteTeacher );
+routes.post("/addTeacherAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherAttendance, addTeacherAttendance);
+routes.get("/calculateTeacherTotalAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherTotalAttendance)
+routes.get("/calculateTeacherMonthlyAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherMonthlyAttendance)
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);

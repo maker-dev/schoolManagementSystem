@@ -48,4 +48,24 @@ const validateTeacherUpdate = [
         .notEmpty().withMessage("teacherSubject is required")
 ]
 
-export {validateTeacherRegister, validateTeacherLogin, validateTeacherUpdate}
+const validateTeacherAttendance = [
+    check("date")
+        .notEmpty().withMessage("date is required").bail()
+        .custom(date => {
+            const inputDate = new Date(date);
+            const currentDate = new Date();
+            if (inputDate >= currentDate) {
+                throw new Error('Date must be before the current date');
+            }
+            return true;
+        }),
+    check("lessonHours")
+        .notEmpty().withMessage("lessonHours is required").bail()
+        .isNumeric().withMessage("lessonHours should be a number"),
+    check("status")
+        .notEmpty().withMessage("status is required").bail()
+        .isIn(["present", "absent"]).withMessage("status must be either present or absent")
+
+]
+
+export {validateTeacherRegister, validateTeacherLogin, validateTeacherUpdate, validateTeacherAttendance}

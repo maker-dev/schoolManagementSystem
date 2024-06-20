@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 const LessonSchema = new mongoose.Schema({
-    lessonNumber: {
-        type: Number,
-        required: true
-    },
     lessonHours: {
         type: Number,
         required: true
