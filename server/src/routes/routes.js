@@ -2,13 +2,20 @@ import { Router } from "express";
 import multer from 'multer';
 import path from 'path'
 import { adminLogin, getDashboardInfo } from "../controllers/AdminController.js";
-import { teacherLogin, showTeachersNotInClass, showAllTeachers, insertTeacher, updateTeacher, showTeacher, deleteTeacher, addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance } from "../controllers/TeacherController.js";
-import { studentRegister, studentLogin, studentConfirmation, showFieldStudents, showConfirmedStudents, showNoConfirmedStudents, showStudent, confirmStudent } from "../controllers/StudentController.js";
+import {teacherLogin, showTeachersNotInClass, showAllTeachers,
+        insertTeacher, updateTeacher, showTeacher, deleteTeacher,
+        addTeacherAttendance, calculateTeacherTotalAttendance,
+        calculateTeacherMonthlyAttendance , showTeacherClasses} 
+        from "../controllers/TeacherController.js";
+import {studentRegister, studentLogin, studentConfirmation,
+        showFieldStudents, showConfirmedStudents, showNoConfirmedStudents,
+        showStudent, confirmStudent, addStudentAttendance, calculateStudentTotalAttendance, calculateStudentMonthlyAttendance} 
+          from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import verifyKey from "../middlewares/verifyKey.js";
 import { validateTeacherRegister, validateTeacherLogin, validateTeacherUpdate, validateTeacherAttendance} from '../middlewares/validation/teacher.js';
-import { validateStudentRegister, validateStudentLogin } from "../middlewares/validation/student.js";
+import { validateStudentRegister, validateStudentLogin, validateStudentAttendance } from "../middlewares/validation/student.js";
 import { validateEmail } from '../middlewares/validation/resendEmail.js';
 import { validateAdminLogin } from "../middlewares/validation/admin.js";
 import { user, resendEmail } from '../controllers/UserController.js';
@@ -94,6 +101,7 @@ routes.delete("/deleteTeacher", verifyKey, verifyToken, verifyRole(["Admin"]), d
 routes.post("/addTeacherAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherAttendance, addTeacherAttendance);
 routes.get("/calculateTeacherTotalAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherTotalAttendance)
 routes.get("/calculateTeacherMonthlyAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherMonthlyAttendance)
+routes.get("/showTeacherClasses/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), showTeacherClasses)
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
@@ -104,6 +112,9 @@ routes.get("/showConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"
 routes.get("/showNoConfirmedStudents", verifyKey, verifyToken, verifyRole(["Admin"]), showNoConfirmedStudents);
 routes.post("/confirmStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin"]), confirmStudent);
 routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin"]), showStudent);
+routes.post("/addStudentAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateStudentAttendance, addStudentAttendance)
+routes.get("/calculateStudentTotalAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentTotalAttendance);
+routes.get("/calculateStudentMonthlyAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentMonthlyAttendance)
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);

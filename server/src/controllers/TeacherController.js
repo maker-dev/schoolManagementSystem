@@ -392,7 +392,23 @@ const calculateTeacherMonthlyAttendance = async (req, res) => {
     }
 }
 
+const showTeacherClasses = async (req, res) => {
+
+    const {teacherId} = req.params;
+
+    try {
+
+        const classes = await ClassModel.find({"teachers.id": teacherId});
+
+        res.json(classes);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 export { teacherLogin, showTeachersNotInClass, showAllTeachers,
         insertTeacher, showTeacher, updateTeacher, deleteTeacher,
-        addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance
+        addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance,
+        showTeacherClasses
 };
