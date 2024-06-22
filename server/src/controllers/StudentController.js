@@ -1,4 +1,5 @@
 import { StudentModel } from "../models/Student.js";
+import { FieldModel } from '../models/Field.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
@@ -439,6 +440,14 @@ const calculateStudentMonthlyAttendance = async (req, res) => {
             totalAbsent: totals.totalAbsent
         }));
 
+        // Sort the array in ascending order by date
+        monthlyAttendanceArray.sort((a, b) => {
+            const dateA = moment(a.monthYear, 'MMMM YYYY');
+            const dateB = moment(b.monthYear, 'MMMM YYYY');
+            return dateB - dateA;
+        });
+
+
         res.json(monthlyAttendanceArray);
 
  
@@ -448,8 +457,36 @@ const calculateStudentMonthlyAttendance = async (req, res) => {
     }
 }
 
+const getStudentDashboardInfo = async (req, res) => {
 
+    const {studentId} = req.params;
+
+    try {
+        
+        var totalSubjects = 0,
+            totalTeachers = 0
+
+        const student = await StudentModel.findById(studentId);
+
+        if (student?.class) {
+            const Class = await ClassModel.findById(student.class);
+            totalTeachers = Class.teachers.length;
+
+            const Field = await FieldModel.findById(Class.field);
+            totalSubjects = Field.subjects.length;
+        }
+
+
+        res.json({totalSubjects, totalTeachers});
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 export {studentRegister, studentLogin, studentConfirmation, 
         showFieldStudents, showNoConfirmedStudents, showConfirmedStudents,
-        showStudent, confirmStudent, addStudentAttendance, calculateStudentTotalAttendance, calculateStudentMonthlyAttendance };
+        showStudent, confirmStudent, addStudentAttendance, 
+        calculateStudentTotalAttendance, calculateStudentMonthlyAttendance,
+        getStudentDashboardInfo
+    };

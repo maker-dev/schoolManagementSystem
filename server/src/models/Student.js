@@ -13,7 +13,7 @@ const LessonSchema = new mongoose.Schema({
 });
 
 const examSchema = new mongoose.Schema({
-    subName: {
+    subject: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "subjects"
     },

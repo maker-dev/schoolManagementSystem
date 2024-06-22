@@ -6,6 +6,7 @@ import { ClassModel } from "../models/Class.js";
 import mongoose from "mongoose";
 import nodemailer from 'nodemailer';
 import moment from 'moment';
+import { StudentModel } from "../models/Student.js";
 
 const teacherLogin = async (req, res) => {
 
@@ -383,9 +384,14 @@ const calculateTeacherMonthlyAttendance = async (req, res) => {
             totalAbsent: totals.totalAbsent
         }));
 
-        res.json(monthlyAttendanceArray);
+        // Sort the array in ascending order by date
+        monthlyAttendanceArray.sort((a, b) => {
+            const dateA = moment(a.monthYear, 'MMMM YYYY');
+            const dateB = moment(b.monthYear, 'MMMM YYYY');
+            return dateB - dateA;
+        });
 
- 
+        res.json(monthlyAttendanceArray);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
@@ -407,8 +413,62 @@ const showTeacherClasses = async (req, res) => {
     }
 }
 
+const getTeacherDashboardInfo = async (req, res) => {
+
+    const {teacherId} = req.params;
+
+    try {
+        const teacher = await TeacherModel.findById(teacherId);
+
+
+        const classes = await ClassModel.find({"teachers.id": teacherId});
+        
+        // Calculate the total number of students for each class
+        const studentCounts = await Promise.all(classes.map(async (Cla) => {
+            const count = await StudentModel.find({ class: Cla._id }).countDocuments();
+            return count;
+        }));
+    
+        // Sum up the total number of students
+        const totalClassStudents = studentCounts.reduce((acc, count) => acc + count, 0);
+
+        // Get the start and end of the current month
+        const startOfMonth = moment().startOf('month');
+        const endOfMonth = moment().endOf('month');
+        
+        // Initialize a variable to store total present hours for the current month
+        let totalPresentHoursThisMonth = 0;
+        
+        // Iterate through each attendance record of the teacher
+        teacher.attendance.forEach(record => {
+            const recordDate = moment(record.date);
+            if (recordDate.isBetween(startOfMonth, endOfMonth, 'day', '[]')) { // Check if the record is within the current month
+                record.lessons.forEach(lesson => {
+                    // Accumulate hours based on lesson status
+                    if (lesson.status === 'present') {
+                        totalPresentHoursThisMonth += lesson.lessonHours;
+                    }
+                });
+            }
+        });
+        
+
+        const totalClasses = await ClassModel.find({"teachers.id": teacherId}).countDocuments();
+        const totalSubjects = teacher.teacherSubject.length;
+
+        res.json({totalClasses, totalSubjects, totalPresentHoursThisMonth, totalClassStudents});
+
+
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
+
+
 export { teacherLogin, showTeachersNotInClass, showAllTeachers,
         insertTeacher, showTeacher, updateTeacher, deleteTeacher,
         addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance,
-        showTeacherClasses
+        showTeacherClasses, getTeacherDashboardInfo
 };

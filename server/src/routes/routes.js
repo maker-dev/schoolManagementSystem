@@ -5,11 +5,15 @@ import { adminLogin, getDashboardInfo } from "../controllers/AdminController.js"
 import {teacherLogin, showTeachersNotInClass, showAllTeachers,
         insertTeacher, updateTeacher, showTeacher, deleteTeacher,
         addTeacherAttendance, calculateTeacherTotalAttendance,
-        calculateTeacherMonthlyAttendance , showTeacherClasses} 
+        calculateTeacherMonthlyAttendance , showTeacherClasses,
+        getTeacherDashboardInfo
+        } 
         from "../controllers/TeacherController.js";
 import {studentRegister, studentLogin, studentConfirmation,
         showFieldStudents, showConfirmedStudents, showNoConfirmedStudents,
-        showStudent, confirmStudent, addStudentAttendance, calculateStudentTotalAttendance, calculateStudentMonthlyAttendance} 
+        showStudent, confirmStudent, addStudentAttendance, calculateStudentTotalAttendance, calculateStudentMonthlyAttendance,
+        getStudentDashboardInfo
+        } 
           from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
@@ -102,6 +106,7 @@ routes.post("/addTeacherAttendance/:teacherId", verifyKey, verifyToken, verifyRo
 routes.get("/calculateTeacherTotalAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherTotalAttendance)
 routes.get("/calculateTeacherMonthlyAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherMonthlyAttendance)
 routes.get("/showTeacherClasses/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), showTeacherClasses)
+routes.get("/getTeacherDashboardInfo/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), getTeacherDashboardInfo);
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
@@ -115,6 +120,7 @@ routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin
 routes.post("/addStudentAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateStudentAttendance, addStudentAttendance)
 routes.get("/calculateStudentTotalAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentTotalAttendance);
 routes.get("/calculateStudentMonthlyAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentMonthlyAttendance)
+routes.get("/getStudentDashboardInfo/:studentId", verifyKey, verifyToken, verifyRole(["Student", "Teacher"]), getStudentDashboardInfo);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
