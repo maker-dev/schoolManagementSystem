@@ -145,7 +145,7 @@ routes.get("/showClass/:classId", verifyKey, verifyToken, verifyRole(['Admin']),
 routes.post("/insertClass", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertClass, insertClass);
 routes.put("/updateClass", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateClass, updateClass);
 routes.delete("/deleteClass", verifyKey, verifyToken, verifyRole(["Admin"]), deleteClass);
-routes.get("/showClassStudents/:classId", verifyKey, verifyToken, verifyRole(['Admin']), showClassStudents);
+routes.get("/showClassStudents/:classId", verifyKey, verifyToken, verifyRole(['Admin', 'Teacher']), showClassStudents);
 routes.get("/showClassTeachers/:classId", verifyKey, verifyToken, verifyRole(['Admin']), showClassTeachers);
 routes.post("/addStudentToClass", verifyKey, verifyToken, verifyRole(["Admin"]), addStudentToClass);
 routes.post("/addTeacherToClass", verifyKey, verifyToken, verifyRole(["Admin"]), addTeacherToClass);

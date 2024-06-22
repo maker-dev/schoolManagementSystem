@@ -5,8 +5,9 @@ import AddBac from "./bac/AddBac";
 import AddSubject from "./subject/AddSubject";
 import AddClass from "./class/AddClass";
 import AddTeacher from "./professeur/AddTeacher";
+import AddAbscence from "./abscence/AddAbscence";
 
-export default function AddCard({ display, eventHide, id, cardName }) {
+export default function AddCard({ display, eventHide, id, cardName, type }) {
     const [loading, setLoading] = useState(false);
     const [validateCredentials, setValidateCredentials] = useState([]);
 
@@ -88,6 +89,15 @@ export default function AddCard({ display, eventHide, id, cardName }) {
                                 )}
                                 {cardName === "Professeur" && (
                                     <AddTeacher
+                                        setValidateCredentials={setValidateCredentials}
+                                        setLoading={setLoading}
+                                        eventHide={eventHide}
+                                    />
+                                )}
+                                {cardName === "Abscence" && (
+                                    <AddAbscence
+                                        id={id}
+                                        type={type}
                                         setValidateCredentials={setValidateCredentials}
                                         setLoading={setLoading}
                                         eventHide={eventHide}

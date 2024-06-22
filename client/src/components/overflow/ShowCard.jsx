@@ -5,8 +5,9 @@ import ShowTeacher from "./professeur/ShowTeacher";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ShowStudent from "./student/ShowStudent";
+import ShowAbscence from "./abscence/ShowAbscence";
 
-export default function ShowCard({ display, eventHide, id, cardName }) {
+export default function ShowCard({ display, eventHide, id, cardName, type }) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,6 +16,8 @@ export default function ShowCard({ display, eventHide, id, cardName }) {
         }
     }, [cardName, display, navigate, id]);
 
+    const modalWidthClass = cardName === "Abscence" ? "max-w-4xl" : "max-w-md";
+
     return (
         <>
             {cardName !== "Classe" && (
@@ -22,7 +25,7 @@ export default function ShowCard({ display, eventHide, id, cardName }) {
                     aria-hidden="true"
                     className={`${display} fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur`}
                 >
-                    <div className="relative w-full max-w-md p-4">
+                    <div className={`relative w-full ${modalWidthClass} p-4`}>
                         <div className="relative bg-white rounded-lg shadow max-h-[calc(100vh-1rem)] flex flex-col">
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                                 <h3 className="text-lg font-semibold text-gray-900">
@@ -68,6 +71,9 @@ export default function ShowCard({ display, eventHide, id, cardName }) {
                                         )}
                                         {cardName === "Etudiant" && (
                                             <ShowStudent id={id} eventHide={eventHide}/>
+                                        )}
+                                        {cardName === "Abscence" && (
+                                            <ShowAbscence id={id} eventHide={eventHide} type={type}/>
                                         )}
                                     </div>
                                 </form>

@@ -1,55 +1,45 @@
-import dashboardIC from '../../assets/icons/dashboard.svg';
-import callendarIC from '../../assets/icons/callendar.svg';
-import filliereIC from '../../assets/icons/filliere.svg';
-import classeIC from '../../assets/icons/class.svg';
-import gradesIC from '../../assets/icons/grades.svg';
-import studentPresenceIC from '../../assets/icons/student_presence.svg';
-import studentIC from '../../assets/icons/student.svg';
-import teacherIC from '../../assets/icons/teacher.svg';
-import BacIc from '../../assets/icons/bac.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTachometerAlt, faCalendarAlt, faUniversity, faChalkboard, faGraduationCap, faUserGraduate, faUserTie, faBook, faUsers, faChartBar, faUser } from '@fortawesome/free-solid-svg-icons';
 import MenuItem from './MenuItem';
-import subjectIC from "../../assets/icons/subject.svg"
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 
+export default function SideBar() {
+  const [role, ] = useState(Cookies.get("userRole"));
 
-export default function SideBar(){
-
-    const [role,] = useState(Cookies.get("userRole"));
-
-    return(
-        
-            <ul className='flex flex-col w-full p-2 bg-white'>
-                {role === "Student" &&
-                    <>
-                    <MenuItem link="/Student/dashboard" icon={dashboardIC} content="Dashboard"/>
-                    <MenuItem link="/Student/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
-                    <MenuItem link="/Student/profile" icon={studentPresenceIC} content="Profile"/>
-                    </>
-                }
-                {role === "Teacher" &&
-                    <>
-                    <MenuItem link="/Teacher/dashboard" icon={dashboardIC} content="Dashboard"/>
-                    <MenuItem link="/Teacher/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
-                    <MenuItem link="/Teacher/profile" icon={studentPresenceIC} content="Profile"/>
-                    </>
-                }
-                {role === "Admin" && 
-                    <>
-                        <MenuItem link="/Admin/dashboard" icon={dashboardIC} content="Dashboard"/>
-                        <MenuItem link="/filiere" icon={filliereIC} content="Filliere"/>
-                        <MenuItem link="/bac" icon={BacIc} content="Bac"/>
-                        <MenuItem link="/subject" icon={subjectIC} content="Module"/>
-                        <MenuItem link="/class" icon={classeIC} content="Classe"/>
-                        <MenuItem link="/etudiants" icon={studentIC} content="Etudiants"/>
-                        <MenuItem link="/professeurs" icon={teacherIC} content="Professeures"/>
-                        <MenuItem link="/Admin/emploieTemps" icon={callendarIC} content="Emploie du temps"/>
-                        <MenuItem link="/notes" icon={gradesIC} content="Notes"/>
-                        <MenuItem link="/abscence" icon={studentPresenceIC} content="Abscence"/>
-                        <MenuItem link="/Admin/profile" icon={studentPresenceIC} content="Profile"/>
-                    </>
-                }
-            </ul>
-        
-    )
+  return (
+    <ul className='flex flex-col w-full p-2 bg-white'>
+      {role === "Student" && (
+        <>
+          <MenuItem link="/Student/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
+          <MenuItem link="/Student/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
+          <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
+          <MenuItem link="/Student/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
+        </>
+      )}
+      {role === "Teacher" && (
+        <>
+          <MenuItem link="/Teacher/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
+          <MenuItem link="/Teacher/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
+          <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
+          <MenuItem link="/Teacher/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
+          <MenuItem link="/Teacher/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
+        </>
+      )}
+      {role === "Admin" && (
+        <>
+          <MenuItem link="/Admin/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
+          <MenuItem link="/filiere" icon={<FontAwesomeIcon icon={faUniversity} className="text-xl" />} content="Filliere" />
+          <MenuItem link="/bac" icon={<FontAwesomeIcon icon={faGraduationCap} className="text-xl" />} content="Bac" />
+          <MenuItem link="/subject" icon={<FontAwesomeIcon icon={faBook} className="text-xl" />} content="Module" />
+          <MenuItem link="/class" icon={<FontAwesomeIcon icon={faChalkboard} className="text-xl" />} content="Classe" />
+          <MenuItem link="/etudiants" icon={<FontAwesomeIcon icon={faUserGraduate} className="text-xl" />} content="Etudiants" />
+          <MenuItem link="/professeurs" icon={<FontAwesomeIcon icon={faUserTie} className="text-xl" />} content="Professeures" />
+          <MenuItem link="/Admin/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
+          <MenuItem link="/Admin/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
+          <MenuItem link="/Admin/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
+        </>
+      )}
+    </ul>
+  );
 }

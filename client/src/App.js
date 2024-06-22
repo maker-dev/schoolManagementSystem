@@ -31,7 +31,10 @@ import PlainningTeacher from "./components/pages/teacher/PlainningTeacher";
 import AdminProfile from "./components/pages/admin/AdminProfile";
 import StudentProfile from "./components/pages/student/StudentProfile";
 import TeacherProfile from "./components/pages/teacher/TeacherProfile";
-
+import AbscenceAdmin from "./components/pages/admin/AbscenceAdmin";
+import ClassAbscencePage from "./components/pages/admin/abscence_resources/ClassAbscencePage";
+import StudentsAbscence from "./components/pages/teacher/StudentsAbscence";
+import AbscenceClassTeacher from "./components/pages/teacher/abscence_resources/AbscenceClassTeacher";
 
 
 function App() {
@@ -53,14 +56,17 @@ function App() {
           <Route path="/Admin/emploieTemps" element={<PlainningAdmin/>}/>
           <Route path="/Admin/profile" element={<AdminProfile/>}/>
           <Route path="/professeurs" element={<TeacherPage/>}/>
+          <Route path="/Admin/abscence" element={<AbscenceAdmin/>}/>
           <Route path="/etudiants" element={<StudentPage/>}/>
+          <Route path="/Admin/abscenceClass" element={<ClassAbscencePage/>}/>
         </Route>
         {/* Teacher */}
         <Route element={<TeacherRoutes/>}>
           <Route path="/Teacher/dashboard" element={<DashboardTeacher />} />
           <Route path="/Teacher/emploieTemps" element={<PlainningTeacher />} />
           <Route path="/Teacher/profile" element={<TeacherProfile />} />
-
+          <Route path="/Teacher/abscence" element={<StudentsAbscence/>}/>
+          <Route path="/Teacher/abscenceClass" element={<AbscenceClassTeacher/>}/>
         </Route>
         {/* student */}
         <Route element={<StudentRoutes/>}>
