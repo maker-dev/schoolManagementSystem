@@ -100,7 +100,7 @@ export default function NavBar() {
                         <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-xl text-white">
                             {userInitials}
                         </div>
-                        <span className="ml-2 text-white font-bold">{userName}</span>
+                        <span className="ml-2 text-white font-bold  hidden md:inline">{userName}</span>
                         {isDropdownOpen && (
                             <div ref={dropdownRef} className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
                                 {/* Profile Link */}
