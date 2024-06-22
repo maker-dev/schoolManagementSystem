@@ -204,4 +204,22 @@ const deleteSubject = async (req, res) => {
     }
 }
 
-export {showSubjects, showSubject, insertSubject, updateSubject, deleteSubject}
+const showFieldSubjects = async (req, res) => {
+    
+    const {classId} = req.params;
+
+    try {
+        
+        const Class = await ClassModel.findById(classId);
+        const Field = await FieldModel.findById(Class.field)
+        .populate("subjects")
+        .select("subjects");
+
+        res.json(Field);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export {showSubjects, showSubject, insertSubject, updateSubject, deleteSubject, showFieldSubjects}

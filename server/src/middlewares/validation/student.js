@@ -2,6 +2,7 @@ import { check } from 'express-validator';
 import {StudentModel} from '../../models/Student.js';
 import { TypeOfBacModel } from '../../models/TypeOfBac.js';
 import { FieldModel } from '../../models/Field.js';
+import { SubjectModel } from '../../models/Subject.js';
 
 const validateStudentRegister = [
     check('firstName')
@@ -60,6 +61,15 @@ const validateStudentAttendance = [
             const currentDate = new Date();
             if (inputDate >= currentDate) {
                 throw new Error('Date must be before the current date');
+            }
+            return true;
+        }),
+    check("subject")
+        .notEmpty().withMessage("subject is required").bail()
+        .custom(async (subjectId) =>  {
+            const subject = await SubjectModel.findById(subjectId);
+            if (!subject) {
+                throw new Error("subjectId isn't exist !");
             }
             return true;
         }),

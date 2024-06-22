@@ -30,7 +30,7 @@ import { showClasses, showClass, insertClass, updateClass, deleteClass,
         removeStudentFromClass, removeTeacherFromClass, getClassInfo, showAllSubjectsInClass,
         attachSubjectToTeacherInClass, detachSubjectFromTeacherInClass, showSubjectTeacherInClass
         } from '../controllers/ClassController.js';
-import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject } from '../controllers/SubjectController.js';
+import { showSubjects, showSubject, insertSubject, updateSubject, deleteSubject, showFieldSubjects} from '../controllers/SubjectController.js';
 import { 
         uploadClassSchedule, deleteClassSchedule, downloadClassSchedule, 
         uploadTeacherSchedule, deleteTeacherSchedule, downloadTeacherSchedule
@@ -169,6 +169,7 @@ routes.get("/showSubject/:subjectId", verifyKey, verifyToken, verifyRole(['Admin
 routes.post("/insertSubject", verifyKey, verifyToken, verifyRole(["Admin"]), validateInsertSubject, insertSubject);
 routes.put("/updateSubject", verifyKey, verifyToken, verifyRole(['Admin']), validateUpdateSubject, updateSubject);
 routes.delete("/deleteSubject", verifyKey, verifyToken, verifyRole(["Admin"]), deleteSubject);
+routes.get("/showFieldSubjects/:classId", verifyKey, verifyToken, verifyRole(['Teacher']), showFieldSubjects);
 
 //file
 routes.post("/uploadClassSchedule/:classId", verifyKey, verifyToken, verifyRole(["Admin"]), validateClassSchedule, classesScheduleUpload.single("file"), uploadClassSchedule);

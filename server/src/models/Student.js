@@ -5,6 +5,10 @@ const LessonSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    subject: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "subjects"
+    },
     status: {
         type: String,
         enum: ['present', 'absent'],

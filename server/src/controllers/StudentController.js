@@ -324,7 +324,7 @@ const addStudentAttendance = async (req, res) => {
 
     const {studentId} = req.params;
 
-    const {date, lessonHours, status} = req.body;
+    const {date, lessonHours, subject, status} = req.body;
 
     try {
 
@@ -356,6 +356,7 @@ const addStudentAttendance = async (req, res) => {
         if (existingAttendance) {
             existingAttendance.lessons.push({
                 lessonHours,
+                subject,
                 status
             });
         } else {
@@ -364,6 +365,7 @@ const addStudentAttendance = async (req, res) => {
                 lessons: [
                     {
                         lessonHours,
+                        subject,
                         status
                     }
                 ]

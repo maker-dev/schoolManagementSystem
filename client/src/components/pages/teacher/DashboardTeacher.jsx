@@ -70,8 +70,8 @@ export default function DashboardTeacher() {
         <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-4 ">
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
             <CardInfo 
-              title="Total Teachers" 
-              number={info.totalTeachers || 0} 
+              title="Total étudiants" 
+              number={info.totalClassStudents || 0} 
               color='bg-orange-400' 
               icon={<FontAwesomeIcon icon={faChalkboardTeacher} className="text-white text-4xl" />} 
             />
@@ -88,7 +88,7 @@ export default function DashboardTeacher() {
               icon={<FontAwesomeIcon icon={faSchool} className="text-white text-4xl" />} 
             />
             <CardInfo 
-              title="Total Présence Heures Par Mois" 
+              title="Total Présence Heures ce Mois" 
               number={info.totalPresentHoursThisMonth || 0} 
               color='bg-purple-400' 
               icon={<FontAwesomeIcon icon={faHourglassHalf} className="text-white text-4xl" />} 

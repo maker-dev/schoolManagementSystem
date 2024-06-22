@@ -70,7 +70,7 @@ export default function AdminDashboard() {
             />
           </div>
           <div className="bg-white p-6 shadow rounded-sm">
-            <h2>hi</h2>
+            <h2>Additional Content</h2>
           </div>
         </div>
       </div>
