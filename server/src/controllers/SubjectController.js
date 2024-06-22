@@ -207,15 +207,18 @@ const deleteSubject = async (req, res) => {
 const showFieldSubjects = async (req, res) => {
     
     const {classId} = req.params;
+    const {teacherId} = req.query;
 
     try {
         
-        const Class = await ClassModel.findById(classId);
-        const Field = await FieldModel.findById(Class.field)
-        .populate("subjects")
-        .select("subjects");
+        const Class = await ClassModel.findById(classId)
+        .populate("teachers.subjects")
 
-        res.json(Field);
+        const teacher = Class.teachers.find(teacher => {
+            return teacher.id.toString() === teacherId;
+        })
+
+        res.json(teacher);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
