@@ -91,8 +91,8 @@ export default function ShowAbscence({ id, type }) {
                 <Bar data={data} options={options} />
             </div>
             <div className="mt-4">
-                <p className="font-medium">Total Présence: {totalAttendance.totalAbsent}</p>
-                <p className="font-medium">Total Absence: {totalAttendance.totalPresent}</p>
+                <p className="font-medium">Total Présence: {totalAttendance.totalPresent}</p>
+                <p className="font-medium">Total Absence: {totalAttendance.totalAbsent}</p>
             </div>
         </div>
     );

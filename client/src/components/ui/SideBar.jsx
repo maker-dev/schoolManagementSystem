@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faCalendarAlt, faUniversity, faChalkboard, faGraduationCap, faUserGraduate, faUserTie, faBook, faUsers, faChartBar, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faCalendarAlt, faUniversity, faChalkboard, faGraduationCap, faUserGraduate, faUserTie, faBook, faUsers, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import MenuItem from './MenuItem';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
@@ -14,7 +14,6 @@ export default function SideBar() {
           <MenuItem link="/Student/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
           <MenuItem link="/Student/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
           <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
-          <MenuItem link="/Student/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
         </>
       )}
       {role === "Teacher" && (
@@ -23,7 +22,6 @@ export default function SideBar() {
           <MenuItem link="/Teacher/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
           <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
           <MenuItem link="/Teacher/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
-          <MenuItem link="/Teacher/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
         </>
       )}
       {role === "Admin" && (
@@ -37,7 +35,6 @@ export default function SideBar() {
           <MenuItem link="/professeurs" icon={<FontAwesomeIcon icon={faUserTie} className="text-xl" />} content="Professeures" />
           <MenuItem link="/Admin/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
           <MenuItem link="/Admin/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
-          <MenuItem link="/Admin/profile" icon={<FontAwesomeIcon icon={faUser} className="text-xl" />} content="Profile" />
         </>
       )}
     </ul>

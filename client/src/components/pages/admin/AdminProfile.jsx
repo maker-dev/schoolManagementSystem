@@ -58,6 +58,14 @@ export default function AdminProfile(){
                         <form className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
+                                <span className="block text-sm font-medium text-gray-700 text-left">Nom</span>
+                                <input type="text" 
+                                value={user?.name || ""}
+                                readOnly
+                                className="mt-1 block w-full cursor-not-allowed  p-2 border bg-gray-100  border-gray-300 rounded-md" 
+                                placeholder="Nom" />
+                            </div>
+                            <div>
                                 <span className="block text-sm font-medium text-gray-700 text-left">Email</span>
                                 <input type="text" 
                                 value={user?.email || ""}
