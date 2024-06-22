@@ -7,7 +7,7 @@ import AddClass from "./class/AddClass";
 import AddTeacher from "./professeur/AddTeacher";
 import AddAbscence from "./abscence/AddAbscence";
 
-export default function AddCard({ display, eventHide, id, cardName, type }) {
+export default function AddCard({ display, eventHide, id, cardName, type, idClass }) {
     const [loading, setLoading] = useState(false);
     const [validateCredentials, setValidateCredentials] = useState([]);
 
@@ -97,6 +97,7 @@ export default function AddCard({ display, eventHide, id, cardName, type }) {
                                 {cardName === "Abscence" && (
                                     <AddAbscence
                                         id={id}
+                                        idClass={idClass}
                                         type={type}
                                         setValidateCredentials={setValidateCredentials}
                                         setLoading={setLoading}

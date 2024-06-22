@@ -122,6 +122,7 @@ export default function ShowListStudents({ className, role, id }) {
               eventHide={hideEventAdd}
               type={role}
               cardName={"Abscence"}
+              idClass={id}
               id={idStudent}
               />
             }
