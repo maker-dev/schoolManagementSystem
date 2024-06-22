@@ -120,7 +120,7 @@ routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin
 routes.post("/addStudentAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateStudentAttendance, addStudentAttendance)
 routes.get("/calculateStudentTotalAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentTotalAttendance);
 routes.get("/calculateStudentMonthlyAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentMonthlyAttendance)
-routes.get("/getStudentDashboardInfo/:studentId", verifyKey, verifyToken, verifyRole(["Student", "Teacher"]), getStudentDashboardInfo);
+routes.get("/getStudentDashboardInfo/:studentId", verifyKey, verifyToken, verifyRole(["Student"]), getStudentDashboardInfo);
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);
