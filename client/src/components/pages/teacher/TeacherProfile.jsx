@@ -51,7 +51,7 @@ export default function TeacherProfile(){
                 </div>
                 <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto">
                     <div className="mx-0 md:mx-6 mt-6">
-                        <TitleCard title={"Profile Etudiant"}></TitleCard>
+                        <TitleCard title={"Profile Professeur"}></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6 mt-6 flex justify-center items-center  bg-gray-100 my-6 ">
                     <div className=" w-full bg-white p-8 rounded-lg shadow-lg">

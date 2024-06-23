@@ -12,7 +12,7 @@ import {teacherLogin, showTeachersNotInClass, showAllTeachers,
 import {studentRegister, studentLogin, studentConfirmation,
         showFieldStudents, showConfirmedStudents, showNoConfirmedStudents,
         showStudent, confirmStudent, addStudentAttendance, calculateStudentTotalAttendance, calculateStudentMonthlyAttendance,
-        getStudentDashboardInfo
+        getStudentDashboardInfo, calculateStudentSubjectAttendance
         } 
           from "../controllers/StudentController.js";
 import verifyToken from "../middlewares/verifyToken.js";
@@ -120,7 +120,9 @@ routes.get("/showStudent/:studentId", verifyKey, verifyToken, verifyRole(["Admin
 routes.post("/addStudentAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateStudentAttendance, addStudentAttendance)
 routes.get("/calculateStudentTotalAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentTotalAttendance);
 routes.get("/calculateStudentMonthlyAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentMonthlyAttendance)
+routes.get("/calculateStudentSubjectAttendance/:studentId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), calculateStudentSubjectAttendance)
 routes.get("/getStudentDashboardInfo/:studentId", verifyKey, verifyToken, verifyRole(["Student"]), getStudentDashboardInfo);
+
 
 //user
 routes.post("/user", verifyKey, verifyToken, user);

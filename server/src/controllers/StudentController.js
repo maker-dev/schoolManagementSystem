@@ -459,6 +459,45 @@ const calculateStudentMonthlyAttendance = async (req, res) => {
     }
 }
 
+const calculateStudentSubjectAttendance = async (req, res) => {
+    const {studentId} = req.params;
+
+    try {
+        
+        // Fetch the student document from the database
+        const student = await StudentModel.findById(studentId)
+        .populate("attendance.lessons.subject");
+
+        // Initialize a map to store attendance records grouped by subject
+        const subjectAttendance = new Map();
+
+        // Iterate through each attendance record of the student
+        student.attendance.forEach(record => {
+            record.lessons.forEach(lesson => {
+                if (!subjectAttendance.has(lesson.subject.subName)) {
+                    subjectAttendance.set(lesson.subject.subName, { totalHours: 0, presentHours: 0 });
+                }
+                const subjectRecord = subjectAttendance.get(lesson.subject.subName);
+                subjectRecord.totalHours += lesson.lessonHours; // Increment total hours
+                if (lesson.status === 'present') {
+                    subjectRecord.presentHours += lesson.lessonHours; // Increment present hours if the student was present
+                }
+            });
+        });
+
+        // Convert the map to an array of objects with present percentage based on hours
+        const subjectAttendanceArray = [...subjectAttendance].map(([subject, hours]) => ({
+            subject,
+            presentPercent: (hours.presentHours / hours.totalHours) * 100
+        }));
+
+        res.json(subjectAttendanceArray);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 const getStudentDashboardInfo = async (req, res) => {
 
     const {studentId} = req.params;
@@ -490,5 +529,5 @@ export {studentRegister, studentLogin, studentConfirmation,
         showFieldStudents, showNoConfirmedStudents, showConfirmedStudents,
         showStudent, confirmStudent, addStudentAttendance, 
         calculateStudentTotalAttendance, calculateStudentMonthlyAttendance,
-        getStudentDashboardInfo
+        getStudentDashboardInfo, calculateStudentSubjectAttendance
     };
