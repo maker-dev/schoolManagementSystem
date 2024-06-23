@@ -8,7 +8,7 @@ import ShowStudent from "./student/ShowStudent";
 import ShowAbscence from "./abscence/ShowAbscence";
 import ShowAbscenceBySubject from "./abscence/ShowAbscenceBySubject";
 
-export default function ShowCard({ display, eventHide, id, cardName, type, setLoading }) {
+export default function ShowCard({ display, eventHide, id, cardName, type }) {
     const navigate = useNavigate();
     useEffect(() => {
         if (cardName === "Classe" && display !== "hidden") {
@@ -73,10 +73,10 @@ export default function ShowCard({ display, eventHide, id, cardName, type, setLo
                                             <ShowStudent id={id} eventHide={eventHide}/>
                                         )}
                                         {(cardName === "Abscence" )&& (
-                                            <ShowAbscence id={id} eventHide={eventHide} setLoading={setLoading} type={type}/>
+                                            <ShowAbscence id={id} eventHide={eventHide} type={type}/>
                                         )}
                                         {(cardName === "Abscence Par Modules" )&& (
-                                            <ShowAbscenceBySubject id={id} eventHide={eventHide} setLoading={setLoading} type={type}/>
+                                            <ShowAbscenceBySubject id={id} eventHide={eventHide} type={type}/>
                                         )}
                                     </div>
                                 </form>

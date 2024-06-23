@@ -4,15 +4,14 @@ import SideBar from "../../../ui/SideBar";
 import NavBar from "../../../ui/NavBar";
 import ShowListStudents from "../../ShowListStudents";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import Loader from "../../../ui/Loader";
+import { useEffect } from "react";
 
 export default function AbscenceClassTeacher() {
     // Get the state from useLocation
     const location = useLocation();
     const { id, className } = location.state || {}; // Destructure className from the state
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         if(id === undefined || id === "" || id === null){
@@ -35,12 +34,11 @@ export default function AbscenceClassTeacher() {
                     </div>
                     {(id !== undefined && id !== null) &&
                             <div className="mx-0 md:mx-6">
-                                <ShowListStudents setLoading={setLoading} className={className} id={id} role={"Etudiants"} />
+                                <ShowListStudents  className={className} id={id} role={"Etudiants"} />
                             </div>
                     }
                 </div>
             </div>
-            {loading && <Loader/>}
             <ToastContainer />
         </div>
     );

@@ -6,7 +6,7 @@ import AddCard from '../overflow/AddCard';
 import ShowCard from "../overflow/ShowCard";
 import api from '../../api/apiToken';
 
-export default function ShowListStudents({ setLoading, className, role, id }) {
+export default function ShowListStudents({  className, role, id }) {
   // Functionalities:
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -145,7 +145,6 @@ export default function ShowListStudents({ setLoading, className, role, id }) {
               />
             }
             <ShowCard display={showDisplay}
-            setLoading={setLoading}
             type={role}
             isSubject={false}
             eventHide={hideEventDisplay}
@@ -154,7 +153,6 @@ export default function ShowListStudents({ setLoading, className, role, id }) {
 
             <ShowCard display={showSubject}
             type={role}
-            setLoading={setLoading}
             isSubject={true}
             eventHide={hideEventSubject}
             cardName={"Abscence Par Modules"}

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 // Register the required components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function ShowAbscenceBySubject({ id, setLoading }) {
+export default function ShowAbscenceBySubject({ id }) {
     // State variables for attendance data
     const [subjectAttendance, setSubjectAttendance] = useState([]);
     const navigate = useNavigate();
@@ -25,7 +25,6 @@ export default function ShowAbscenceBySubject({ id, setLoading }) {
 
     // Fetching attendance data by subject
     useEffect(() => {
-        setLoading(true);
         const fetchAttendance = async () => {
             try {
                 if (id !== "") {
@@ -43,8 +42,6 @@ export default function ShowAbscenceBySubject({ id, setLoading }) {
             } catch (error) {
                 console.error('Error fetching attendance data', error);
                 
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -54,7 +51,7 @@ export default function ShowAbscenceBySubject({ id, setLoading }) {
         return () => {
             setSubjectAttendance([]);
         };
-    }, [id, setLoading, navigate]);
+    }, [id, navigate]);
 
     // Generate colors based on the number of subjects
     const colors = generateColors(subjectAttendance.length);

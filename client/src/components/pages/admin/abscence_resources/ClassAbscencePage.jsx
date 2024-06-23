@@ -4,15 +4,15 @@ import SideBar from "../../../ui/SideBar";
 import NavBar from "../../../ui/NavBar";
 import ShowListStudents from "../../ShowListStudents";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import Loader from "../../../ui/Loader";
+import { useEffect } from "react";
+
 
 export default function ClassAbscencePage() {
     // Get the state from useLocation
     const location = useLocation();
     const { id, className, role } = location.state || {}; // Destructure className from the state
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         if(id === undefined || id === "" || id === null){
             navigate("/");
@@ -34,12 +34,11 @@ export default function ClassAbscencePage() {
                     </div>
                     {(id !== undefined && id !== null) &&
                             <div className="mx-0 md:mx-6">
-                                <ShowListStudents className={className} setLoading={setLoading} id={id} role={role} />
+                                <ShowListStudents className={className}  id={id} role={role} />
                             </div>
                     }
                 </div>
             </div>
-            {loading && <Loader/>}
             <ToastContainer />
         </div>
     );

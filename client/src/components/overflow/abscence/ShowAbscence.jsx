@@ -3,18 +3,20 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import api from "../../../api/apiToken";
 import DeconnectUser from "../../../helpers/DeconnectUser";
+import { useNavigate } from "react-router-dom";
 
 // Register the required components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function ShowAbscence({ id, type, setLoading }) {
+export default function ShowAbscence({ id, type }) {
+
     // State variables for attendance data
     const [monthlyAttendance, setMonthlyAttendance] = useState([]);
     const [totalAttendance, setTotalAttendance] = useState([]);
+    const navigate = useNavigate();
 
     // Fetching monthly attendance data
     useEffect(() => {
-        setLoading(true);
         const fetchMonthlyAttendance = async () => {
             try {
                 if (id !== "") {
@@ -25,15 +27,17 @@ export default function ShowAbscence({ id, type, setLoading }) {
                     const response = await api.get(endpoint);
                     if (response.status === 401) {
                         DeconnectUser();
-                        return;
+                        navigate("/");
+                    }else if ( response.status === 200){
+                        setMonthlyAttendance(response.data);
+                    }else{
+                        console.log("error!");
                     }
-                    setMonthlyAttendance(response.data);
+
                 }
             } catch (error) {
                 console.error('Error fetching monthly attendance data', error);
-            } finally {
-                setLoading(false);
-            }
+            } 
         };
 
         fetchMonthlyAttendance();
@@ -42,11 +46,10 @@ export default function ShowAbscence({ id, type, setLoading }) {
         return () => {
             setMonthlyAttendance([]);
         };
-    }, [id, type, setLoading]);
+    }, [id, type, navigate]);
 
     // Fetching total attendance data
     useEffect(() => {
-        setLoading(true);
         const fetchTotalAttendance = async () => {
             try {
                 if (id !== "") {
@@ -57,7 +60,7 @@ export default function ShowAbscence({ id, type, setLoading }) {
                     const response = await api.get(endpoint);
                     if (response.status === 401) {
                         DeconnectUser();
-                        return;
+                        navigate("/");
                     }else if ( response.status === 200){
                         setTotalAttendance(response.data);
                     }else{
@@ -67,8 +70,6 @@ export default function ShowAbscence({ id, type, setLoading }) {
                 }
             } catch (error) {
                 console.error('Error fetching total attendance data', error);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -78,7 +79,7 @@ export default function ShowAbscence({ id, type, setLoading }) {
         return () => {
             setTotalAttendance([]);
         };
-    }, [id, type, setLoading]);
+    }, [id, type, navigate]);
 
     // Preparing data for the chart
     const data = {
