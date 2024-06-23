@@ -6,17 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ShowStudent from "./student/ShowStudent";
 import ShowAbscence from "./abscence/ShowAbscence";
+import ShowAbscenceBySubject from "./abscence/ShowAbscenceBySubject";
 
-export default function ShowCard({ display, eventHide, id, cardName, type }) {
+export default function ShowCard({ display, eventHide, id, cardName, type, setLoading }) {
     const navigate = useNavigate();
-
     useEffect(() => {
         if (cardName === "Classe" && display !== "hidden") {
             navigate("/class/show", { state: { id } });
         }
     }, [cardName, display, navigate, id]);
 
-    const modalWidthClass = cardName === "Abscence" ? "max-w-4xl" : "max-w-md";
+    const modalWidthClass = (cardName === "Abscence" || cardName === "Abscence Par Modules") ? "max-w-4xl" : "max-w-md";
 
     return (
         <>
@@ -72,8 +72,11 @@ export default function ShowCard({ display, eventHide, id, cardName, type }) {
                                         {cardName === "Etudiant" && (
                                             <ShowStudent id={id} eventHide={eventHide}/>
                                         )}
-                                        {cardName === "Abscence" && (
-                                            <ShowAbscence id={id} eventHide={eventHide} type={type}/>
+                                        {(cardName === "Abscence" )&& (
+                                            <ShowAbscence id={id} eventHide={eventHide} setLoading={setLoading} type={type}/>
+                                        )}
+                                        {(cardName === "Abscence Par Modules" )&& (
+                                            <ShowAbscenceBySubject id={id} eventHide={eventHide} setLoading={setLoading} type={type}/>
                                         )}
                                     </div>
                                 </form>

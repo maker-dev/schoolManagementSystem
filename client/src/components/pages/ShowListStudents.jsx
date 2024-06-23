@@ -6,12 +6,13 @@ import AddCard from '../overflow/AddCard';
 import ShowCard from "../overflow/ShowCard";
 import api from '../../api/apiToken';
 
-export default function ShowListStudents({ className, role, id }) {
+export default function ShowListStudents({ setLoading, className, role, id }) {
   // Functionalities:
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAdd, setShowAdd] = useState('hidden');
   const [showDisplay, setShowDisplay] = useState('hidden');
+  const [showSubject, setShowSubject] = useState('hidden');
 
   // DataHandler:
   const [data, setData] = useState([]);
@@ -60,6 +61,17 @@ export default function ShowListStudents({ className, role, id }) {
     setShowDisplay('hidden');
     setIdStudent("");
   }
+  // Handling show event:
+  const showEventSubject = (value) => {
+    setShowSubject('block');
+    setIdStudent(value);
+  }
+
+  // Handling hide event:
+  const hideEventSubject = () => {
+    setShowSubject('hidden');
+    setIdStudent("");
+  }
 
   // Filtering data based on search term:
   const filteredData = data.filter(item => {
@@ -100,6 +112,12 @@ export default function ShowListStudents({ className, role, id }) {
                     >
                       Voir
                     </button>
+                    <button
+                      onClick={() => showEventSubject(item._id)}
+                      className="flex-1 py-2 px-4 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition-colors duration-300"
+                    >
+                      Voir Modules
+                    </button>
                     {role === "Etudiants" && 
                         <button
                         onClick={() => showEventAdd(item._id)}
@@ -127,9 +145,19 @@ export default function ShowListStudents({ className, role, id }) {
               />
             }
             <ShowCard display={showDisplay}
+            setLoading={setLoading}
             type={role}
+            isSubject={false}
             eventHide={hideEventDisplay}
             cardName={"Abscence"}
+            id={idStudent}/>
+
+            <ShowCard display={showSubject}
+            type={role}
+            setLoading={setLoading}
+            isSubject={true}
+            eventHide={hideEventSubject}
+            cardName={"Abscence Par Modules"}
             id={idStudent}/>
          </>
         

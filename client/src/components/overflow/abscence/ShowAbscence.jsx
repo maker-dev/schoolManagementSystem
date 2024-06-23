@@ -2,62 +2,83 @@ import { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import api from "../../../api/apiToken";
+import DeconnectUser from "../../../helpers/DeconnectUser";
 
 // Register the required components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function ShowAbscence({ id, type }) {
+export default function ShowAbscence({ id, type, setLoading }) {
     // State variables for attendance data
     const [monthlyAttendance, setMonthlyAttendance] = useState([]);
     const [totalAttendance, setTotalAttendance] = useState([]);
-    
 
-    // Fetching attendance data
+    // Fetching monthly attendance data
     useEffect(() => {
-        const fetchAttendance = async () => {
+        setLoading(true);
+        const fetchMonthlyAttendance = async () => {
             try {
                 if (id !== "") {
-                    if(type === "Professeurs"){
-                        const response = await api.get(`calculateTeacherMonthlyAttendance/${id}`);
-                        setMonthlyAttendance(response.data);
-                    }else {
-                        const response = await api.get(`calculateStudentMonthlyAttendance/${id}`);
-                        setMonthlyAttendance(response.data);
+                    const endpoint = type === "Professeurs" ?
+                        `calculateTeacherMonthlyAttendance/${id}` :
+                        `calculateStudentMonthlyAttendance/${id}`;
+
+                    const response = await api.get(endpoint);
+                    if (response.status === 401) {
+                        DeconnectUser();
+                        return;
                     }
-                    
+                    setMonthlyAttendance(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching attendance data', error);
+                console.error('Error fetching monthly attendance data', error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchAttendance();
-    }, [id, type]);
+        fetchMonthlyAttendance();
 
-    // Fetching attendance data
+        // Clear monthlyAttendance on component unmount or ID/type change
+        return () => {
+            setMonthlyAttendance([]);
+        };
+    }, [id, type, setLoading]);
+
+    // Fetching total attendance data
     useEffect(() => {
-        const fetchAttendance = async () => {
+        setLoading(true);
+        const fetchTotalAttendance = async () => {
             try {
                 if (id !== "") {
-                    if(type === "Professeurs"){
-                        const response = await api.get(`calculateTeacherTotalAttendance/${id}`);
+                    const endpoint = type === "Professeurs" ?
+                        `calculateTeacherTotalAttendance/${id}` :
+                        `calculateStudentTotalAttendance/${id}`;
+
+                    const response = await api.get(endpoint);
+                    if (response.status === 401) {
+                        DeconnectUser();
+                        return;
+                    }else if ( response.status === 200){
                         setTotalAttendance(response.data);
-                    }else {
-                        const response = await api.get(`calculateStudentTotalAttendance/${id}`);
-                        setTotalAttendance(response.data);
+                    }else{
+                        console.log("error!");
                     }
-                    
-                    
+
                 }
             } catch (error) {
-                console.error('Error fetching attendance data', error);
+                console.error('Error fetching total attendance data', error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchAttendance();
-    }, [id, type]);
+        fetchTotalAttendance();
 
-    
+        // Clear totalAttendance on component unmount or ID/type change
+        return () => {
+            setTotalAttendance([]);
+        };
+    }, [id, type, setLoading]);
 
     // Preparing data for the chart
     const data = {
