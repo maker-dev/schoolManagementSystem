@@ -36,14 +36,13 @@ import {
         uploadTeacherSchedule, deleteTeacherSchedule, downloadTeacherSchedule
         } from '../controllers/FileController.js';
 import {forgotPassword, resetPassword} from '../controllers/PasswordController.js';
-import {addExamMark, updateExamMark, deleteExamMark} from '../controllers/ExamController.js';
+import {addExamMarks} from '../controllers/ExamController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
 import {validateClassSchedule, validateTeacherSchedule} from '../middlewares/validation/file.js';
 import {validateResetPassword} from '../middlewares/validation/Password.js';
-import {validateExamInsert, validateExamUpdate} from '../middlewares/validation/exam.js';
 
 //variables
 const routes = Router();
@@ -185,8 +184,6 @@ routes.delete("/deleteTeacherSchedule/:teacherId", verifyKey, verifyToken, verif
 routes.get("/downloadTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), downloadTeacherSchedule)
 
 //exam
-routes.post("/addExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateExamInsert, addExamMark);
-routes.put("/updateExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateExamUpdate, updateExamMark);
-routes.delete("/deleteExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), deleteExamMark);
+routes.post("/addExamMarks/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), addExamMarks);
 
 export {routes};
