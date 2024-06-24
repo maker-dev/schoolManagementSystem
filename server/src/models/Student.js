@@ -21,10 +21,16 @@ const examSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "subjects"
     },
-    marksObtained: {
-        type: Number,
-        default: 0
-    }
+    exams: [{
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        marksObtained: {
+            type: Number,
+            default: 0
+        }
+    }]
 })
 
 const StudentSchema = new mongoose.Schema({
@@ -73,13 +79,7 @@ const StudentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    examResults: [{
-        date: {
-            type: Date,
-            default: Date.now
-        },
-        examInfo: [examSchema]
-    }],
+    examResults: [examSchema],
     attendance: [{
         date: {
             type: Date,

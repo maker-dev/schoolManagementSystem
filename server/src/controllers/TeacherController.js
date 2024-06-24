@@ -466,9 +466,35 @@ const getTeacherDashboardInfo = async (req, res) => {
 
 }
 
+const getTeacherSubjectInClasses = async (req, res) => {
+
+    const {teacherId} = req.params;
+
+    try {
+
+        // Find classes where the teacherId exists in the teachers array
+        const classes = await ClassModel.find({ "teachers.id": teacherId })
+        .populate({
+            path: "teachers",
+            match: { id: teacherId }, // Match only the desired teacher
+            populate: { path: "subjects" } // Populate subjects for the matched teacher
+        });
+
+        // Filter out other teachers from each class
+        classes.forEach(cls => {
+            cls.teachers = cls.teachers.filter(teacher => teacher.id.toString() === teacherId);
+        });
+
+        res.json(classes);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 
 export { teacherLogin, showTeachersNotInClass, showAllTeachers,
         insertTeacher, showTeacher, updateTeacher, deleteTeacher,
         addTeacherAttendance, calculateTeacherTotalAttendance, calculateTeacherMonthlyAttendance,
-        showTeacherClasses, getTeacherDashboardInfo
+        showTeacherClasses, getTeacherDashboardInfo, getTeacherSubjectInClasses
 };

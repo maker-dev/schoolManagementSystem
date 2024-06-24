@@ -6,7 +6,7 @@ import {teacherLogin, showTeachersNotInClass, showAllTeachers,
         insertTeacher, updateTeacher, showTeacher, deleteTeacher,
         addTeacherAttendance, calculateTeacherTotalAttendance,
         calculateTeacherMonthlyAttendance , showTeacherClasses,
-        getTeacherDashboardInfo
+        getTeacherDashboardInfo, getTeacherSubjectInClasses
         } 
         from "../controllers/TeacherController.js";
 import {studentRegister, studentLogin, studentConfirmation,
@@ -36,12 +36,14 @@ import {
         uploadTeacherSchedule, deleteTeacherSchedule, downloadTeacherSchedule
         } from '../controllers/FileController.js';
 import {forgotPassword, resetPassword} from '../controllers/PasswordController.js';
+import {addExamMark, updateExamMark, deleteExamMark} from '../controllers/ExamController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
 import {validateClassSchedule, validateTeacherSchedule} from '../middlewares/validation/file.js';
 import {validateResetPassword} from '../middlewares/validation/Password.js';
+import {validateExamInsert, validateExamUpdate} from '../middlewares/validation/exam.js';
 
 //variables
 const routes = Router();
@@ -107,6 +109,7 @@ routes.get("/calculateTeacherTotalAttendance/:teacherId", verifyKey, verifyToken
 routes.get("/calculateTeacherMonthlyAttendance/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), calculateTeacherMonthlyAttendance)
 routes.get("/showTeacherClasses/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), showTeacherClasses)
 routes.get("/getTeacherDashboardInfo/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), getTeacherDashboardInfo);
+routes.get("/getTeacherSubjectInClasses/:teacherId", verifyKey, verifyToken, verifyRole(["Teacher"]), getTeacherSubjectInClasses);
 
 //student
 routes.post("/studentRegister", verifyKey, validateStudentRegister, studentRegister);
@@ -181,5 +184,9 @@ routes.post("/uploadTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyR
 routes.delete("/deleteTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin"]), validateTeacherSchedule, deleteTeacherSchedule)
 routes.get("/downloadTeacherSchedule/:teacherId", verifyKey, verifyToken, verifyRole(["Admin", "Teacher"]), downloadTeacherSchedule)
 
+//exam
+routes.post("/addExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateExamInsert, addExamMark);
+routes.put("/updateExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), validateExamUpdate, updateExamMark);
+routes.delete("/deleteExamMark/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), deleteExamMark);
 
 export {routes};
