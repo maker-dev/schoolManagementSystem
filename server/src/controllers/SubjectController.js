@@ -81,13 +81,14 @@ const insertSubject = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { subName, labs } = req.body;
+    const { subName, labs, numberOfExams } = req.body;
 
     try {
 
         const subject = new SubjectModel({
             subName,
-            labs
+            labs,
+            numberOfExams
         })
 
         await subject.save();
@@ -106,11 +107,11 @@ const updateSubject = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {subjectId, newSubjectName, newLabs} = req.body;
+    const {subjectId, newSubjectName, newLabs, newNumberOfExams} = req.body;
 
     try {
         
-        await SubjectModel.updateOne({_id: subjectId}, {subName: newSubjectName, labs: newLabs});
+        await SubjectModel.updateOne({_id: subjectId}, {subName: newSubjectName, labs: newLabs, numberOfExams: newNumberOfExams});
 
         return res.json({message: "Subject Updated Successfully !"});
 

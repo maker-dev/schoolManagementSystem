@@ -9,6 +9,10 @@ const SubjectSchema = new mongoose.Schema({
     labs: {
         type: Number,
         required: true
+    },
+    numberOfExams: {
+        type: Number,
+        required: true
     }
 })
 

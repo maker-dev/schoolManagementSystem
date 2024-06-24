@@ -10,7 +10,10 @@ const validateInsertSubject = [
         }),
     check("labs")
         .notEmpty().withMessage("labs is required").bail()
-        .isNumeric().withMessage('labs must be a number')
+        .isNumeric().withMessage('labs must be a number'),
+    check("numberOfExams")
+        .notEmpty().withMessage("numberOfExams is required").bail()
+        .isNumeric().withMessage("numberOfExams must be a number")
 ];
 
 const validateUpdateSubject = [
@@ -30,7 +33,10 @@ const validateUpdateSubject = [
         }),
     check("newLabs")
         .notEmpty().withMessage("newLabs is required").bail()
-        .isNumeric().withMessage('labs must be a number')
+        .isNumeric().withMessage('labs must be a number'),
+    check("newNumberOfExams")
+        .notEmpty().withMessage("newNumberOfExams is required").bail()
+        .isNumeric().withMessage("newNumberOfExams must be a number")
 ];
 
 
