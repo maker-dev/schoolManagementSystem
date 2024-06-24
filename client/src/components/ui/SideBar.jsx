@@ -13,15 +13,15 @@ export default function SideBar() {
         <>
           <MenuItem link="/Student/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
           <MenuItem link="/Student/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
-          <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
+          
         </>
       )}
       {role === "Teacher" && (
         <>
           <MenuItem link="/Teacher/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
           <MenuItem link="/Teacher/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
-          <MenuItem link="/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
           <MenuItem link="/Teacher/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
+          <MenuItem link="/Teacher/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
         </>
       )}
       {role === "Admin" && (

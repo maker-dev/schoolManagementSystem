@@ -35,6 +35,8 @@ import AbscenceAdmin from "./components/pages/admin/AbscenceAdmin";
 import ClassAbscencePage from "./components/pages/admin/abscence_resources/ClassAbscencePage";
 import StudentsAbscence from "./components/pages/teacher/StudentsAbscence";
 import AbscenceClassTeacher from "./components/pages/teacher/abscence_resources/AbscenceClassTeacher";
+import TeacherGradesPage from "./components/pages/teacher/TeacherGradesPage";
+import StudentsMarksPage from "./components/pages/teacher/grade_resources/StudentsMarksPage";
 
 
 function App() {
@@ -67,6 +69,8 @@ function App() {
           <Route path="/Teacher/profile" element={<TeacherProfile />} />
           <Route path="/Teacher/abscence" element={<StudentsAbscence/>}/>
           <Route path="/Teacher/abscenceClass" element={<AbscenceClassTeacher/>}/>
+          <Route path="/Teacher/notes" element={<TeacherGradesPage/>}/>
+          <Route path="/Teacher/notes/etudiants" element={<StudentsMarksPage/>}/>
         </Route>
         {/* student */}
         <Route element={<StudentRoutes/>}>
