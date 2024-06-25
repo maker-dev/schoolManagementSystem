@@ -56,19 +56,19 @@ export default function Login({ title, apiName, role }) {
   }
 
   return (
-    <section className="bg-gray-50 h-lvh">
+    <section className="bg-teal-700 min-h-dvh">
       <div className="flex flex-col items-center justify-center mx-auto lg:py-0">
-        <Link to="/" className="flex mt-10 text-teal-600 items-center mb-6 text-3xl font-semibold text-gray-900">
+        <Link to="/" className="flex mt-10 text-white items-center mb-6 text-3xl font-semibold text-gray-900">
           Logo
         </Link>
-        <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div className="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="text-xl font-bold leading-tight tracking-tight flex justify-center text-white md:text-2xl">
               {title}
             </h1>
             <form className="space-y-4 md:space-y-6">
               {validateCredentials.length !== 0 &&
-                <div className='bg-red-300 text-red-900 p-4'>
+                <div className='bg-teal-300 text-red-700 p-4'>
                   <ul className='list-disc pl-20 pr-20'>
                     {validateCredentials.map(item => (
                       <li key={item.key}>{item.msg}</li>
@@ -78,7 +78,7 @@ export default function Login({ title, apiName, role }) {
               }
 
               <div>
-                <label htmlFor="email" className="block mb-2 text-left text-sm font-medium text-gray-900">Email</label>
+                <label htmlFor="email" className="block mb-2 text-left text-sm font-medium text-white">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -92,7 +92,7 @@ export default function Login({ title, apiName, role }) {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-gray-900">Password</label>
+                <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-white">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -116,14 +116,14 @@ export default function Login({ title, apiName, role }) {
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-teal-300"
                     />
                   </div>
-                  <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
-                    <label htmlFor="remember" className="text-gray-500">Afficher mot de passe</label>
+                  <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-8 sm:flex-row ml-3 text-sm">
+                    <label htmlFor="remember" className="text-gray-500 font-medium text-s">Afficher mot de passe</label>
                     <Link 
                       to="/forgetPassword"
                       state= {{email:email, role:role}}
                       className="text-sm font-medium text-teal-600 hover:underline"
                     >
-                      Mot de passe oublier ?
+                      Mot de passe oublier?
                     </Link>
                   </div>
                 </div>

@@ -5,9 +5,9 @@ import UserCard from '../cards/UserCard';
 
 export default function UserChoice() {
     return (
-        <div className='bg-blue-600 w-full md:h-lvh h-full'>
+        <div className='bg-teal-600 w-full md:h-lvh h-full'>
             <div className="">
-                <div className='flex flex-wrap justify-center bg-blue-600'>
+                <div className='flex flex-wrap justify-center bg-teal-600'>
                     <UserCard 
                         link="/loginEtudiant" 
                         icon={<FontAwesomeIcon icon={faUserGraduate} />} 

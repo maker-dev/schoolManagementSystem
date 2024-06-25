@@ -209,9 +209,9 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
                             </div>
                         </div>
 
-                        <div className="overflow-x-auto overflow-y-auto rounded-lg">
+                        <div className="overflow-x-auto overflow-y-auto">
                             <table className="w-full text-sm text-left rtl:text-right text-white">
-                                <thead className="text-white uppercase bg-teal-600">
+                                <thead className="text-white uppercase bg-gray-800">
                                     {/* Showing the columns of the page passing props */}
                                     <tr>
                                         {Object.keys(columns).map((key, index) => (
@@ -234,9 +234,9 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
                                 {/* Showing the data from API based on the columns of the targeted page */}
                                 <tbody>
                                     {searchedData.map((field) => (
-                                        <tr key={field._id} className="bg-teal-500 border-b text-white border-teal-400">
+                                        <tr key={field._id} className="bg-white border-b-2 text-gray-800 border-teal-400">
                                             {Object.keys(columns).map((key, index) => (
-                                                <td key={index} className="px-6 py-4 font-black text-white whitespace-nowrap">
+                                                <td key={index} className="px-6 py-4 font-black text-gray-800 whitespace-nowrap">
                                                     {index === 0 && (
                                                         <input type="checkbox"
                                                             className="p-4 mr-2"
@@ -252,12 +252,12 @@ export default function CrudPage({ columns, indexApi, deleteApi, idName, title, 
                                             <td className="flex gap-4 px-6 py-4">
                                                 <button
                                                     onClick={() => showInfoPage(field._id)}
-                                                    className="font-bold text-white hover:underline hover:text-red-400 transition duration-300 ease-in-out">
+                                                    className="font-bold text-gray-800 hover:underline hover:text-red-400 transition duration-300 ease-in-out">
                                                     <FontAwesomeIcon icon={faEye} className="mr-2" />
                                                     Voir
                                                 </button>
                                                 <button onClick={() => showUpdatePage(field._id)}
-                                                    className="font-bold text-white hover:underline hover:text-yellow-400 transition duration-300 ease-in-out">
+                                                    className="font-bold text-gray-800 hover:underline hover:text-yellow-400 transition duration-300 ease-in-out">
                                                     <FontAwesomeIcon icon={faEdit} className="mr-2" />
                                                     Modifier
                                                 </button>
