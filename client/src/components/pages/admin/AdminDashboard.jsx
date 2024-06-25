@@ -80,7 +80,7 @@ export default function AdminDashboard() {
   ];
   const [info, setInfo] = useState("");
   const navigate = useNavigate();
-
+  const [showAllNotifications, setShowAllNotifications] = useState(false);
   // Fetching informations about the cards:
   const fetchInfos = useCallback(async () => {
     try {
@@ -102,6 +102,9 @@ export default function AdminDashboard() {
     fetchInfos();
   }, [fetchInfos]);
 
+  const handleShowNotif = () => {
+    setShowAllNotifications(!showAllNotifications);
+  };
   return (
     <div className="flex flex-col h-screen">
       <div>
@@ -114,14 +117,14 @@ export default function AdminDashboard() {
         <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-4 ">
           <div className="flex justify-between p-2">
             <div className="">
-              <div className="text-2xl font-bold text-gray-800 ">DASHBOARD</div>
+              <div className="text-2xl font-bold text-gray-800 uppercase ">Dashboard</div>
               <div className="font-semibold text-gray-400 ">
                 Bienvenue sur votre dashboard
               </div>
             </div>
-            {/* <button className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold px-3 rounded-md flex items-center">
-          Download Reports
-        </button> */}
+            <button className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold px-3 rounded-md flex items-center" onClick={handleShowNotif}>
+            {showAllNotifications ? 'Hide Notifications' : 'Show All Notifications'}
+        </button>
           </div>
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
             <CardInfo
@@ -171,7 +174,7 @@ export default function AdminDashboard() {
           </div>
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 bg-white p-6 shadow rounded-lg">
-              <div className="font-bold text-gray-600">Latest Notifications</div>
+              <div className="font-bold text-gray-600">{!showAllNotifications ? 'Latest' : 'All'} Notifications</div>
               <table className="my-5 min-w-full bg-white">
                 <thead className="bg-gray-800 text-white">
                   <tr>
@@ -190,7 +193,7 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-700">
-                  {notificationsList?.slice(0, 5).map((e, index) => (
+                  {(showAllNotifications ? notificationsList : notificationsList.slice(0, 4)).map((e, index) => (
                     <tr key={index} className="border-b-2 ">
                       <td className="w-1/6 text-left py-3 px-4">{e.fname + ' ' + e.lname}</td>
                       <td className="w-2/6 text-left py-3 px-4">{e.title}</td>
