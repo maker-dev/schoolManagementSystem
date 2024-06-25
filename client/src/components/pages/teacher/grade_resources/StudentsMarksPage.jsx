@@ -13,15 +13,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function StudentsMarksPage() {
 
-  //functionalities:
+  // Functionalities:
   const location = useLocation();
   const navigate = useNavigate();
 
-  // data from TeaacherGradesPage:
+  // Data from TeacherGradesPage:
   const { state } = location;
   const { classId, className, subjectId, subjectName, numberOfExams } = state || {};
 
-  // data:
+  // Data:
   const [studentMarks, setStudentMarks] = useState({});
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState({}); // Loading state for each student
@@ -45,7 +45,7 @@ export default function StudentsMarksPage() {
         } else if (response.status === 200) {
           const studentsData = response.data.map(student => {
             const subjectResults = student.examResults.find(result => result.subject === subjectId);
-            const marks = subjectResults ? subjectResults.exams.map(exam => exam.marksObtained) : Array(numberOfExams).fill(0);
+            const marks = subjectResults ? subjectResults.exams.map(exam => exam.marksObtained) : Array(numberOfExams).fill(null);
             return {
               _id: student._id,
               firstName: student.firstName,
@@ -83,18 +83,27 @@ export default function StudentsMarksPage() {
 
   // Function to handle marks submission
   const submitMarks = async (studentId) => {
+    console.log(studentMarks);
     setLoading(prevLoading => ({ ...prevLoading, [studentId]: true }));
     try {
-      const marksData = studentMarks[studentId].marks.map((marksObtained, index) => ({
-        // Current date in YYYY-MM-DD format
-        date: new Date().toISOString().split('T')[0], 
-        marksObtained
-      }));
+      const marksData = studentMarks[studentId].marks.map((marksObtained, index) => {
+          return {
+            date: new Date().toISOString().split('T')[0], 
+            marksObtained: parseFloat(marksObtained)
+          };
+        
+      })
+      if (marksData.length === 0) {
+        error('Aucune note valide à soumettre.');
+        return;
+      }
+
       const payload = {
         subject: subjectId,
         arrOfExams: marksData
       };
-      const response = await api.post(`addExamMarks/${studentId}`, payload);
+
+      const response = await api.post(`addExamMarks/${studentId}`,payload);
       if (response.status === 200) {
         success('Les notes enregistrées avec succès');
       } else if (response.status === 400) {
@@ -117,15 +126,14 @@ export default function StudentsMarksPage() {
 
   // Function to update marks for a student and exam number
   const handleMarksChange = (studentId, examIndex, value) => {
-    
-    // Ensure the input value is within the range of 0 to 20
-    const parsedValue = value === '' ? '' : Math.min(20, Math.max(0, parseInt(value, 10)));
+    // Ensure the input value is within the range of 0 to 20 and allow decimals
+    const parsedValue = value.trim() === '' ? '' : parseFloat(value);
     setStudentMarks(prevMarks => ({
       ...prevMarks,
       [studentId]: {
         ...prevMarks[studentId],
         marks: prevMarks[studentId].marks.map((mark, index) =>
-          index === examIndex ? (isNaN(parsedValue) ? 0 : parsedValue) : mark
+          index === examIndex ? (isNaN(parsedValue) ? null : parsedValue) : mark
         )
       }
     }));
@@ -171,7 +179,8 @@ export default function StudentsMarksPage() {
                           <td key={`marks-${student._id}-${index}`} className="border px-4 py-2">
                             <input
                               type="number"
-                              value={mark === '' ? '' : parseInt(mark, 10)}
+                              step="0.1" // Allow decimal numbers
+                              value={mark === null ? '' : mark} // Display empty string instead of null
                               onChange={(e) => handleMarksChange(student._id, index, e.target.value)}
                               className="w-20 p-2 border border-gray-300 rounded-md text-center"
                               placeholder={`Note ${index + 1}`}

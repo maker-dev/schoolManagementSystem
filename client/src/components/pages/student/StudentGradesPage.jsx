@@ -48,20 +48,20 @@ export default function StudentGradesPage() {
 
         return user.examResults.map((result, index) => (
             <div key={index} className="bg-white p-6 my-4 rounded shadow-md">
-                <h3 className="text-xl font-semibold mb-4 bg-gray-200 p-4">{result.subject.subName}</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center bg-gray-200 p-4">{result.subject.subName}</h3>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-blue-500">
                             <tr>
-                                <th className="px-6 py-3  font-medium text-white uppercase tracking-wider">Exames</th>
-                                <th className="px-6 py-3  font-medium text-white uppercase tracking-wider">Notes</th>
+                                <th className="px-6 py-3 font-medium text-white uppercase tracking-wider">Exames</th>
+                                <th className="px-6 py-3 font-medium text-white uppercase tracking-wider">Notes</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {result.exams.map((exam, i) => (
                                 <tr key={i}>
-                                    <td className="px-6 py-4 whitespace-nowrap">Note {i + 1}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{exam.marksObtained}</td>
+                                    <td className="px-6 py-4 text-center whitespace-nowrap">Note {i + 1}</td>
+                                    <td className="px-6 py-4 text-center whitespace-nowrap">{exam.marksObtained || '--'}</td>
                                 </tr>
                             ))}
                         </tbody>
