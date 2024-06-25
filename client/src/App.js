@@ -37,6 +37,7 @@ import StudentsAbscence from "./components/pages/teacher/StudentsAbscence";
 import AbscenceClassTeacher from "./components/pages/teacher/abscence_resources/AbscenceClassTeacher";
 import TeacherGradesPage from "./components/pages/teacher/TeacherGradesPage";
 import StudentsMarksPage from "./components/pages/teacher/grade_resources/StudentsMarksPage";
+import StudentGradesPage from "./components/pages/student/StudentGradesPage";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
         <Route element={<StudentRoutes/>}>
           <Route path="/Student/dashboard" element={<DashboardStudent />} />
           <Route path="/Student/emploieTemps" element={<PlainningStudent />} />
+          <Route path="/Student/notes" element={<StudentGradesPage/>}/>
           <Route path="/Student/profile" element={<StudentProfile />} />
         </Route>
         {/* Student without admin confirmation */}

@@ -20,6 +20,7 @@ const user = async (req, res) => {
             const student = await StudentModel.findOne({_id: user.id})
             .populate('typeOfBac')
             .populate('field')
+            .populate('examResults.subject')
             .populate('class');
             return res.json(student);
         }

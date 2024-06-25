@@ -13,6 +13,7 @@ export default function SideBar() {
         <>
           <MenuItem link="/Student/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
           <MenuItem link="/Student/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
+          <MenuItem link="/Student/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
           
         </>
       )}
