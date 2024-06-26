@@ -14,7 +14,7 @@ import ShowCard from "../../overflow/ShowCard";
 import { getNestedProperty } from "../../../helpers/HelpersFunctions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function CrudPage({
   columns,
@@ -199,14 +199,9 @@ export default function CrudPage({
         </div>
         <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto">
           <div className="flex justify-between pt-6 pl-6">
-            <div>
-              <div className="text-2xl font-bold text-gray-800 uppercase">{title}</div>
-              <div className="font-semibold text-gray-400 ">
-                Espace {title}
-              </div>
-            </div>
+            <TitleCard title={title}/>
           </div>
-          <div className="shadow-md mx-0 md:mx-6 mt-6 p-6 bg-white rounded-lg">
+          <div className="shadow-md mx-0 md:mx-6 p-6 bg-white rounded-md">
             <div className="mb-4 flex flex-col md:flex-row justify-between">
               <input
                 type="text"
@@ -217,18 +212,20 @@ export default function CrudPage({
                 className="block p-2 text-sm md:mb-0 mb-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-200"
                 placeholder="Recherche des items"
               />
-              <div>
+              <div className="flex justify-center gap-4">
                 <button
                   onClick={showAddPage}
-                  className="px-4 py-2 rounded bg-green-600 text-white font-black hover:bg-green-800"
+                  className="flex items-center justify-center px-4 py-2 rounded bg-green-600 text-white font-semibold hover:bg-green-800"
                 >
-                  Ajouter
+                  Ajouter 
+                <FontAwesomeIcon icon={faAdd} className="ml-2 text-white w-5 h-5" />
                 </button>
                 <button
                   onClick={deleteDatas}
-                  className="px-4 py-2 ml-2 rounded bg-red-600 text-white font-black hover:bg-red-800"
+                  className="flex items-center justify-center px-4 py-2 ml-2 rounded bg-red-600 text-white font-semibold hover:bg-red-800"
                 >
                   Supprimer
+                <FontAwesomeIcon icon={faTrash} className="ml-2 text-white w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -270,7 +267,7 @@ export default function CrudPage({
                       {Object.keys(columns).map((key, index) => (
                         <td
                           key={index}
-                          className="px-6 py-4 font-black text-gray-800 whitespace-nowrap"
+                          className="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
                         >
                           {index === 0 && (
                             <input
