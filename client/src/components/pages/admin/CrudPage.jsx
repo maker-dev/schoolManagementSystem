@@ -220,13 +220,13 @@ export default function CrudPage({
               <div>
                 <button
                   onClick={showAddPage}
-                  className="px-4 py-2 rounded bg-green-600 text-white font-black hover:bg-green-800"
+                  className="px-4 py-2 rounded bg-green-600 text-white font-bold hover:bg-green-800"
                 >
                   Ajouter
                 </button>
                 <button
                   onClick={deleteDatas}
-                  className="px-4 py-2 ml-2 rounded bg-red-600 text-white font-black hover:bg-red-800"
+                  className="px-4 py-2 ml-2 rounded bg-red-600 text-white font-bold hover:bg-red-800"
                 >
                   Supprimer
                 </button>
@@ -270,7 +270,7 @@ export default function CrudPage({
                       {Object.keys(columns).map((key, index) => (
                         <td
                           key={index}
-                          className="px-6 py-4 font-black text-gray-800 whitespace-nowrap"
+                          className="px-6 py-4 text-md font-medium text-gray-800 whitespace-nowrap"
                         >
                           {index === 0 && (
                             <input

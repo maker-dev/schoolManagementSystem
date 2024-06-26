@@ -37,11 +37,9 @@ export default function ShowAbscenceBySubject({ id }) {
                     } else {
                         console.log("Error fetching data");
                     }
-                    
                 }
             } catch (error) {
                 console.error('Error fetching attendance data', error);
-                
             }
         };
 
@@ -60,7 +58,7 @@ export default function ShowAbscenceBySubject({ id }) {
     const data = {
         labels: subjectAttendance.map(record => record.subject),
         datasets: [
-            {
+            {       
                 label: 'Présence (%)',
                 data: subjectAttendance.map(record => record.presentPercent),
                 backgroundColor: colors,
@@ -88,6 +86,17 @@ export default function ShowAbscenceBySubject({ id }) {
                     },
                 },
             },
+            legend: {
+                display: true,
+                labels: {
+                    generateLabels: function(chart) {
+                        return chart.data.labels.map((label, index) => ({
+                            text: label,
+                            fillStyle: chart.data.datasets[0].backgroundColor[index],
+                        }));
+                    }
+                }
+            }
         },
     };
 
