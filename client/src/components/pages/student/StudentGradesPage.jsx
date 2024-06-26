@@ -47,7 +47,7 @@ export default function StudentGradesPage() {
         if (!user || !user.examResults) return null;
 
         return user.examResults.map((result, index) => (
-            <div key={index} className="bg-white p-6 my-4 rounded shadow-md">
+            <div key={index} className="bg-white p-6 my-2 rounded shadow-md">
                 <h3 className="text-xl font-semibold mb-4 text-center bg-gray-200 p-4">{result.subject.subName}</h3>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
@@ -81,10 +81,10 @@ export default function StudentGradesPage() {
                     <SideBar />
                 </div>
                 <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-6">
-                    <div className="mx-0 md:mx-6 mt-6">
+                    <div className="mx-0 md:mx-6 mt-2">
                         <TitleCard title={"Page des Notes"}></TitleCard>
                     </div>
-                    <div className="mx-0 md:mx-6 mt-6 flex justify-center items-center bg-gray-100 my-6">
+                    <div className="mx-0 md:mx-6 mt-2 flex justify-center items-center bg-gray-100 my-6">
                         <div className="w-full bg-white p-8 rounded-lg shadow-lg">
                             {/* Display Exam Results */}
                             {renderExamResults()}

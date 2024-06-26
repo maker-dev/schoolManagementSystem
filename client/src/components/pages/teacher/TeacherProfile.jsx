@@ -55,7 +55,7 @@ export default function TeacherProfile(){
                     </div>
                     <div className="mx-0 md:mx-6 mt-6 flex justify-center items-center  bg-gray-100 my-6 ">
                     <div className=" w-full bg-white p-8 rounded-lg shadow-lg">
-                        <h2 className="text-xl text-gray-600 bg-gray-100 p-4 font-bold mb-6">General informations</h2>
+                        <h2 className="text-xl text-gray-600 bg-gray-100 p-4 font-bold mb-6 text-center">General informations</h2>
                         <form className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>

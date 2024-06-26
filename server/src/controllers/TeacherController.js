@@ -404,7 +404,8 @@ const showTeacherClasses = async (req, res) => {
 
     try {
 
-        const classes = await ClassModel.find({"teachers.id": teacherId});
+        const classes = await ClassModel.find({"teachers.id": teacherId})
+        .populate('field');
 
         res.json(classes);
 

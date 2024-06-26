@@ -93,7 +93,7 @@ export default function ShowAbscenceBySubject({ id }) {
 
     return (
         <div className="col-span-2">
-            <label htmlFor="attendance" className="block mb-2 text-sm font-medium text-gray-900 text-left">Abscence par Sujet</label>
+            <label htmlFor="attendance" className="block mb-2 text-sm font-medium text-gray-900 text-left">Abscence par Modules</label>
             <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
                 <Bar data={data} options={options} />
             </div>

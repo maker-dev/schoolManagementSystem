@@ -50,6 +50,7 @@ export default function StudentsAbscence() {
       if (user && user._id) {
         try {
           const response = await api.get(`showTeacherClasses/${user._id}`);
+          console.log(response.data)
           if (response.status === 401) {
             DeconnectUser();
             navigate("/");
@@ -93,7 +94,7 @@ export default function StudentsAbscence() {
           <div className="mx-0 md:mx-6 mt-6">
           <div className="container mx-auto p-8 shadow-md bg-white rounded-lg">
             <div className='mb-6'>
-              <h3 className='text-gray-600 font-bold text-xl bg-gray-100 p-2'>Absence Etudiants</h3>
+              <h3 className='text-gray-600 text-center font-bold text-xl bg-gray-100 p-2'>Absence Etudiants</h3>
             </div>
             <div className="mb-4 flex justify-between">
               <input
@@ -110,7 +111,7 @@ export default function StudentsAbscence() {
                   key={item._id}
                   className="p-5 border border-gray-200 bg-gray-50 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
                 >
-                  <div className="mb-4">
+                  <div className="mb-4 text-center">
                     <h3 className="text-lg font-semibold text-gray-800">{item.className}</h3>
                     <p className="text-gray-600">{item.field.fieldName}</p>
                   </div>

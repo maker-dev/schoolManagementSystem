@@ -140,7 +140,7 @@ export default function StudentsMarksPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen text-center">
       <NavBar />
       <div className="flex">
         <div className="h-screen w-1/5 shadow-md hidden md:block overflow-y-auto">

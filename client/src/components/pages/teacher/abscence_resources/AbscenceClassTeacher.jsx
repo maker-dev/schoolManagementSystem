@@ -33,7 +33,7 @@ export default function AbscenceClassTeacher() {
                         <TitleCard title="Abscence"></TitleCard>
                     </div>
                     {(id !== undefined && id !== null) &&
-                            <div className="mx-0 md:mx-6">
+                            <div className="mx-0 md:mx-6 text-center">
                                 <ShowListStudents  className={className} id={id} role={"Etudiants"} />
                             </div>
                     }
