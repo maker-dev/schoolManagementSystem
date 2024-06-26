@@ -56,20 +56,20 @@ export default function Login({ title, apiName, role }) {
   }
 
   return (
-    <section className="bg-teal-700 min-h-dvh">
-      <div className="flex flex-col items-center justify-center mx-auto lg:py-0">
-        <Link to="/" className="flex mt-10 text-white items-center mb-6 text-3xl font-semibold text-gray-900">
-          Logo
+    <section className="bg-teal-600 min-h-dvh">
+      <div className="flex flex-col items-center justify-center mx-auto py-8 px-6">
+        <Link to="/" className="flex mt-10 text-white text-center mb-6 text-3xl font-semibold">
+          UNIVERTECH
         </Link>
-        <div className="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div className="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-md">
+          <div className="p-6 space-y-4 md:space-y-6 md:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight flex justify-center text-white md:text-2xl">
               {title}
             </h1>
             <form className="space-y-4 md:space-y-6">
               {validateCredentials.length !== 0 &&
-                <div className='bg-teal-300 text-red-700 p-4'>
-                  <ul className='list-disc pl-20 pr-20'>
+                <div className='border-red-500 border-4 rounded-md text-red-500 md:p-2 p-2 text-xl font-bold'>Please Correct the following :
+                  <ul className='list-disc md:px-20 px-8 text-sm font-normal'>
                     {validateCredentials.map(item => (
                       <li key={item.key}>{item.msg}</li>
                     ))}

@@ -118,21 +118,21 @@ export default function SignUp(){
 
 
     return(
-        <section className="bg-gray-50 h-full p-8">
+        <section className="bg-teal-600 min-h-dvh">
         
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0 my-4">
-        <Link to="/" className="flex  text-teal-600  items-center mb-6 text-3xl font-semibold text-gray-900 ">
-            Logo  
+        <div className="flex flex-col items-center justify-center mx-auto py-8 px-6">
+        <Link to="/" className="flex  text-white items-center mb-6 text-3xl font-semibold  ">
+            UNIVERTECH  
         </Link>
-        <div className="w-full  bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
+        <div className="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-lg md:p-0 px-6 ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl text-center">
                      Etudiant
                 </h1>
                 <form className="space-y-4 md:space-y-6" action="#">
                         {ValidateCredentials.length !== 0 &&
-                        <div className=' bg-red-300 text-red-900 p-4'>
-                            <ul className='list-disc pl-20 pr-20'>
+                        <div className='border-red-500 border-4 rounded-md text-red-500 md:p-2 p-2 text-xl font-bold'>Please Correct the following :
+                            <ul className='list-disc md:px-20 px-8 text-sm font-normal'>
                             { ValidateCredentials.map(item => (
                                 
                                 // Use the item's ID as the key for efficient rendering
@@ -143,7 +143,7 @@ export default function SignUp(){
                         }
 
                     <div>
-                        <label htmlFor="nom" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Nom</label>
+                        <label htmlFor="nom" className="block mb-2  text-left text-sm font-medium text-white ">Nom</label>
                         <input type="text"
                         value={firstName} 
                         onChange={(e) => setNom(e.target.value)} 
@@ -152,7 +152,7 @@ export default function SignUp(){
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-teal-600 block w-full p-2.5 :bg-gray-700 " placeholder="nom" required=""/>
                     </div>
                     <div>
-                        <label htmlFor="prenom" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Prénom</label>
+                        <label htmlFor="prenom" className="block mb-2  text-left text-sm font-medium text-white ">Prénom</label>
                         <input type="text" 
                         value={lastName} 
                         onChange={(e) => setPrenom(e.target.value)} 
@@ -162,7 +162,7 @@ export default function SignUp(){
                     </div>
                     
                     <div>
-                        <label htmlFor="tel" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Numero de téléphone</label>
+                        <label htmlFor="tel" className="block mb-2  text-left text-sm font-medium text-white ">Numero de téléphone</label>
                         <input type="text"
                         value={tel} 
                         onChange={(e) => setTel(e.target.value)} 
@@ -172,7 +172,7 @@ export default function SignUp(){
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-teal-600 block w-full p-2.5 :bg-gray-700 " placeholder="0612345678" required=""/>
                     </div>
                     <div>
-                        <label htmlFor="bac" className="block mb-2 text-left text-sm font-medium text-gray-900">Type de bac</label>
+                        <label htmlFor="bac" className="block mb-2 text-left text-sm font-medium text-white">Type de bac</label>
                         <select name="bac" id="bac" value={typeOfBac} onChange={handleTypeBacChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700"  required="">
                             <option value="">Selectionner type de bac</option>
                             {typesOfBacSelect.length !== 0 && 
@@ -183,7 +183,7 @@ export default function SignUp(){
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="filiere" className="block mb-2 text-left text-sm font-medium text-gray-900">Filière</label>
+                        <label htmlFor="filiere" className="block mb-2 text-left text-sm font-medium text-white ">Filière</label>
                         <select name="filiere" id="filiere" value={field} onChange={handleTypeFiliereChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-teal-600 block w-full p-2.5 :bg-gray-700" required="">
                             <option>Selectionner votre filière</option>
                             {filiereSelect.length !== 0 && 
@@ -196,7 +196,7 @@ export default function SignUp(){
                     
                     
                     <div>
-                        <label htmlFor="email" className="block mb-2  text-left text-sm font-medium text-gray-900 ">Email</label>
+                        <label htmlFor="email" className="block mb-2  text-left text-sm font-medium text-white ">Email</label>
                         <input type="email"
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
@@ -206,7 +206,7 @@ export default function SignUp(){
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-teal-600 block w-full p-2.5 :bg-gray-700 " placeholder="nom@domain.com" required=""/>
                     </div>
                     <div>
-                        <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-gray-900 ">Password</label>
+                        <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-white ">Password</label>
                         <input type={showPassword?"text":"password"} 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 

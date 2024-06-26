@@ -2,19 +2,44 @@ import ShowFiliere from "./field/ShowFiliere";
 import ShowBac from "./bac/ShowBac";
 import ShowSubject from "./subject/ShowSubject";
 import ShowTeacher from "./professeur/ShowTeacher";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import ShowStudent from "./student/ShowStudent";
 import ShowAbscence from "./abscence/ShowAbscence";
 import ShowAbscenceBySubject from "./abscence/ShowAbscenceBySubject";
+import ShowNotifModal from "./adminModals/ShowNotifModal";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function ShowCard({ display, eventHide, id, cardName, type }) {
     const navigate = useNavigate();
+    
     useEffect(() => {
         if (cardName === "Classe" && display !== "hidden") {
             navigate("/class/show", { state: { id } });
         }
     }, [cardName, display, navigate, id]);
+
+    const renderCardContent = () => {
+        switch (cardName) {
+            case "Filière":
+                return <ShowFiliere id={id} />;
+            case "Bac":
+                return <ShowBac id={id} />;
+            case "Module":
+                return <ShowSubject id={id} />;
+            case "Professeur":
+                return <ShowTeacher id={id} />;
+            case "Etudiant":
+                return <ShowStudent id={id} eventHide={eventHide} />;
+            case "Abscence":
+                return <ShowAbscence id={id} eventHide={eventHide} type={type} />;
+            case "Notification":
+                return <ShowNotifModal id={id} />;
+            case "Abscence Par Modules":
+                return <ShowAbscenceBySubject id={id} eventHide={eventHide} type={type} />;
+            default:
+                return null;
+        }
+    };
 
     const modalWidthClass = (cardName === "Abscence" || cardName === "Abscence Par Modules") ? "max-w-4xl" : "max-w-md";
 
@@ -53,31 +78,10 @@ export default function ShowCard({ display, eventHide, id, cardName, type }) {
                                     <span className="sr-only">Close</span>
                                 </button>
                             </div>
-
                             <div className="overflow-y-auto p-4 md:p-5">
                                 <form>
-                                    <div className="grid gap-4 mb-4 grid-cols-2">
-                                        {cardName === "Filière" && (
-                                            <ShowFiliere id={id} />
-                                        )}
-                                        {cardName === "Bac" && (
-                                            <ShowBac id={id} />
-                                        )}
-                                        {cardName === "Module" && (
-                                            <ShowSubject id={id} />
-                                        )}
-                                        {cardName === "Professeur" && (
-                                            <ShowTeacher id={id} />
-                                        )}
-                                        {cardName === "Etudiant" && (
-                                            <ShowStudent id={id} eventHide={eventHide}/>
-                                        )}
-                                        {(cardName === "Abscence" )&& (
-                                            <ShowAbscence id={id} eventHide={eventHide} type={type}/>
-                                        )}
-                                        {(cardName === "Abscence Par Modules" )&& (
-                                            <ShowAbscenceBySubject id={id} eventHide={eventHide} type={type}/>
-                                        )}
+                                    <div className="grid gap-4 mb-4">
+                                        {renderCardContent()}
                                     </div>
                                 </form>
                             </div>

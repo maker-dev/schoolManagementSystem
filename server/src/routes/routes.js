@@ -37,12 +37,14 @@ import {
         } from '../controllers/FileController.js';
 import {forgotPassword, resetPassword} from '../controllers/PasswordController.js';
 import {addExamMarks} from '../controllers/ExamController.js';
+import {addComplain, deleteComplain, showComplains} from '../controllers/ComplainController.js';
 import {validateInsertField, validateUpdateField} from '../middlewares/validation/field.js'
 import {validateInsertType, validateUpdateType} from '../middlewares/validation/typeOfBac.js';
 import { validateInsertClass, validateUpdateClass} from "../middlewares/validation/Class.js";
 import {validateInsertSubject, validateUpdateSubject} from '../middlewares/validation/subject.js';
 import {validateClassSchedule, validateTeacherSchedule} from '../middlewares/validation/file.js';
 import {validateResetPassword} from '../middlewares/validation/Password.js';
+import {validateComplainInsert} from '../middlewares/validation/complain.js';
 
 //variables
 const routes = Router();
@@ -185,5 +187,10 @@ routes.get("/downloadTeacherSchedule/:teacherId", verifyKey, verifyToken, verify
 
 //exam
 routes.post("/addExamMarks/:studentId", verifyKey, verifyToken, verifyRole(["Teacher"]), addExamMarks);
+
+//complain
+routes.post("/addComplain/:userId", verifyKey, verifyToken, verifyRole(["Teacher", "Student"]), validateComplainInsert, addComplain);
+routes.delete("/deleteComplain/:complainId", verifyKey, verifyToken, verifyRole(["Admin"]), deleteComplain);
+routes.get("/showComplains", verifyKey, verifyToken, verifyRole(["Admin"]), showComplains);
 
 export {routes};
