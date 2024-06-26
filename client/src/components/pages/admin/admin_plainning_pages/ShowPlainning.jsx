@@ -121,20 +121,20 @@ export default function ShowPlainning({type, apiIndex}) {
                         {type === "Professeurs" && 
                             <div className="w-full md:w-3/4 mb-2 md:mb-0 md:pr-4">
                                 <h3 className="font-semibold text-gray-800">{item.firstName} {item.lastName}</h3>
-                                <p className="text-gray-500 text-sm">{item.email}</p>
+                                <p className="text-gray-500 ">{item.email}</p>
                                 {!item.schedule 
-                                    ? <span className="text-red-500 text-xs">Vide</span> 
-                                    : <span className="text-green-500 text-xs">Plein</span>
+                                    ? <span className="text-red-500 ">Vide</span> 
+                                    : <span className="text-green-500 ">Plein</span>
                                 }
                             </div>
                         }
                         {type === "Classes" && 
                             <div className="w-full md:w-3/4 mb-2 md:mb-0 md:pr-4">
                                 <h3 className="font-semibold text-gray-800">{item.className}</h3>
-                                <p className="text-gray-500 text-sm">{item.field.fieldName}</p>
+                                <p className="text-gray-500 ">{item.field.fieldName}</p>
                                 {!item.schedule 
-                                    ? <span className="text-red-500 text-xs">Vide</span> 
-                                    : <span className="text-green-500 text-xs">Plein</span>
+                                    ? <span className="text-red-500 ">Vide</span> 
+                                    : <span className="text-green-500 ">Plein</span>
                                 }
                             </div>
                         }

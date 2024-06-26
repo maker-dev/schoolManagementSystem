@@ -303,6 +303,7 @@ export default function CrudPage({
                 </tbody>
               </table>
             </div>
+            <div className="text-center">
             <AddCard
               display={showAdd}
               eventHide={hideAddPage}
@@ -320,6 +321,7 @@ export default function CrudPage({
               id={id}
               cardName={objectName}
             />
+            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ export default function ShowBar({ page, setPage, arrayPagesName }) {
     const styleFalse = " text-gray-500";
     
     return (
-        <div className="w-full bg-white p-4 shadow-md">
+        <div className="w-full bg-white p-4 shadow-md text-center">
             {arrayPagesName.length !== 0 && 
                 <div>
                     {arrayPagesName.map((pageName, index) => {

@@ -9,7 +9,7 @@ export default function StudentPage(){
 
     const [page, setPage] = useState("Etudiants Confirmées");
     return(
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen text-center">
         <div className="">
             <NavBar/>
         </div>

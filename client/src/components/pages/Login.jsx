@@ -68,8 +68,8 @@ export default function Login({ title, apiName, role }) {
             </h1>
             <form className="space-y-4 md:space-y-6">
               {validateCredentials.length !== 0 &&
-                <div className='border-red-500 border-4 rounded-md text-red-500 md:p-2 p-2 text-xl font-bold'>Please Correct the following :
-                  <ul className='list-disc md:px-20 px-8 text-sm font-normal'>
+                <div className='border-red-400 border-2 text-center rounded-md text-red-400 md:p-2 p-2 text-md font-bold'>
+                  <ul className=' md:px-20 px-8'>
                     {validateCredentials.map(item => (
                       <li key={item.key}>{item.msg}</li>
                     ))}

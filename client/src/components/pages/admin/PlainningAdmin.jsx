@@ -10,7 +10,7 @@ export default function PlainningAdmin(){
 
     const [page, setPage] = useState("Classes");
     return(
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen text-center">
         <div className="">
             <NavBar/>
         </div>

@@ -10,7 +10,7 @@ export default function AbscenceAdmin(){
 
     const [page, setPage] = useState("Professeurs");
     return(
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen text-center">
         <div className="">
             <NavBar/>
         </div>

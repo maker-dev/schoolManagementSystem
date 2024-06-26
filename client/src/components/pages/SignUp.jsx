@@ -131,11 +131,10 @@ export default function SignUp(){
                 </h1>
                 <form className="space-y-4 md:space-y-6" action="#">
                         {ValidateCredentials.length !== 0 &&
-                        <div className='border-red-500 border-4 rounded-md text-red-500 md:p-2 p-2 text-xl font-bold'>Please Correct the following :
-                            <ul className='list-disc md:px-20 px-8 text-sm font-normal'>
+                        <div className='border-red-400 border-2 text-center rounded-md text-red-400 md:p-2 p-2 text-md font-bold'>
+                            <ul className='md:px-20 px-8'>
                             { ValidateCredentials.map(item => (
                                 
-                                // Use the item's ID as the key for efficient rendering
                                 <li key={item.key}>{item.msg}</li>
                             ))}
                             </ul>
