@@ -4,6 +4,7 @@ import ShowStudents from "./student_resources/ShowStudents";
 import ShowBar from "../../ui/ShowBar";
 import SideBar from "../../ui/SideBar";
 import NavBar from "../../ui/NavBar";
+import TitleCard from "../../cards/TitleCard";
 
 export default function StudentPage(){
 
@@ -18,12 +19,9 @@ export default function StudentPage(){
                 <SideBar/>
             </div>
             <div className="flex flex-col gap-4 h-screen max-h-min bg-gray-100 md:w-4/5 w-full overflow-y-auto">
-            <div className="flex justify-between pt-6 pl-6">
+            <div className="mx-0 md:mx-6 mt-6">
             <div>
-              <div className="text-2xl font-bold text-gray-800 uppercase">Gestion d'Etudiants</div>
-              <div className="font-semibold text-gray-400 ">
-                Espace Gestion D'Etudiants
-              </div>
+              <TitleCard title="Gestion d'Etudiants"></TitleCard>
             </div>
           </div>
                     <div className="mx-0 md:mx-6  ">

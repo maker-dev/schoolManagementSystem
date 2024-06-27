@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faCalendarAlt, faUniversity, faChalkboard, faGraduationCap, faUserGraduate, faUserTie, faBook, faUsers, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faExclamationCircle, faCalendarAlt, faUniversity, faChalkboard, faGraduationCap, faUserGraduate, faUserTie, faBook, faUsers, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import MenuItem from './MenuItem';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ export default function SideBar() {
           <MenuItem link="/Student/dashboard" icon={<FontAwesomeIcon icon={faTachometerAlt} className="text-xl" />} content="Dashboard" />
           <MenuItem link="/Student/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
           <MenuItem link="/Student/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
-          
+          <MenuItem link="/Student/complains" icon={<FontAwesomeIcon icon={faExclamationCircle} className="text-xl" />} content="Se Plaindre" />
         </>
       )}
       {role === "Teacher" && (
@@ -23,6 +23,7 @@ export default function SideBar() {
           <MenuItem link="/Teacher/emploieTemps" icon={<FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />} content="Emploie du temps" />
           <MenuItem link="/Teacher/abscence" icon={<FontAwesomeIcon icon={faUsers} className="text-xl" />} content="Abscence" />
           <MenuItem link="/Teacher/notes" icon={<FontAwesomeIcon icon={faChartBar} className="text-xl" />} content="Notes" />
+          <MenuItem link="/Teacher/complains" icon={<FontAwesomeIcon icon={faExclamationCircle} className="text-xl" />} content="Se Plaindre" />
         </>
       )}
       {role === "Admin" && (

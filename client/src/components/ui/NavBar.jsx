@@ -1,6 +1,6 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import menu_icon from '../../assets/icons/menu_icon.svg';
 import x from '../../assets/icons/x.svg';
-import { useState, useEffect, useRef, useCallback } from "react";
 import SideBar from './SideBar';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -85,22 +85,28 @@ export default function NavBar() {
 
     return (
         <div className="flex flex-col w-full relative">
-            <div className={isHidden ? "hidden" : "md:hidden"}>
+            <div className={`fixed inset-0 transition-transform duration-300 ease-in-out ${isHidden ? '-translate-x-full' : 'translate-x-0'} md:hidden z-50`}>
+                <div className="flex justify-between p-4 bg-teal-600">
+                    <div className="text-white font-bold text-2xl">UNIVERTECH</div>
+                    <button onClick={handleMenu}>
+                        <img src={x} alt="close icon" />
+                    </button>
+                </div>
                 <SideBar />
             </div>
             <div className="flex justify-between items-center px-6 py-4 w-full bg-teal-600 shadow-lg">
                 <div className="flex items-center">
                     <button onClick={handleMenu} className="md:hidden mr-4">
-                        <img src={isHidden ? menu_icon : x} alt="menu icon" />
+                        <img src={menu_icon} alt="menu icon" />
                     </button>
-                    <div className="text-white font-bold text-2xl ">UNIVERTECH</div>
+                    <div className="text-white font-bold text-2xl">UNIVERTECH</div>
                 </div>
                 <div className="relative flex items-center">
                     <div className="flex items-center cursor-pointer relative" onClick={toggleDropdown}>
                         <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-xl text-white">
                             {userInitials}
                         </div>
-                        <span className="ml-2 text-white font-bold  hidden md:inline">{userName}</span>
+                        <span className="ml-2 text-white font-bold hidden md:inline">{userName}</span>
                         {isDropdownOpen && (
                             <div ref={dropdownRef} className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
                                 {/* Profile Link */}

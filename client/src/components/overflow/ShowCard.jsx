@@ -8,8 +8,9 @@ import ShowAbscenceBySubject from "./abscence/ShowAbscenceBySubject";
 import ShowNotifModal from "./adminModals/ShowNotifModal";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import ShowComplain from "./complains/ShowComplain";
 
-export default function ShowCard({ display, eventHide, id, cardName, type }) {
+export default function ShowCard({ object, display, eventHide, id, cardName, type }) {
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -36,6 +37,8 @@ export default function ShowCard({ display, eventHide, id, cardName, type }) {
                 return <ShowNotifModal id={id} />;
             case "Abscence Par Modules":
                 return <ShowAbscenceBySubject id={id} eventHide={eventHide} type={type} />;
+            case "Plainte":
+                return <ShowComplain complain={object}/>
             default:
                 return null;
         }

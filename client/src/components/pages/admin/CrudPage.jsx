@@ -198,7 +198,7 @@ export default function CrudPage({
           <SideBar />
         </div>
         <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto">
-          <div className="flex justify-between pt-6 pl-6">
+          <div className="mx-0 md:mx-6 mt-6">
             <TitleCard title={title}/>
           </div>
           <div className="shadow-md mx-0 md:mx-6 p-6 bg-white rounded-md">

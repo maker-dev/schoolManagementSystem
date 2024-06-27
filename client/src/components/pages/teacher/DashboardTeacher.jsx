@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../../../api/apiToken";
 import SideBar from "../../ui/SideBar";
 import NavBar from "../../ui/NavBar";
@@ -60,14 +60,24 @@ export default function DashboardTeacher() {
 
   return (
     <div className="flex flex-col h-screen">
-      <div>
-        <NavBar />
-      </div>
+      <NavBar />
       <div className="flex">
         <div className="h-screen w-1/5 shadow-md hidden md:block overflow-y-auto">
           <SideBar />
         </div>
         <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-4 ">
+          <div className="bg-white p-6 shadow mb-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-2xl font-bold text-gray-800 uppercase">
+                  Tableau de Bord
+                </div>
+                <div className="font-semibold text-gray-400">
+                  Bienvenue sur votre tableau de bord
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
             <CardInfo 
               title="Total étudiants" 

@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../../../api/apiToken";
 import SideBar from "../../ui/SideBar";
 import NavBar from "../../ui/NavBar";
 import CardInfo from "../../cards/CardInfo";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faChalkboardTeacher, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardTeacher, faBook } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 
@@ -67,10 +67,18 @@ export default function DashboardStudent() {
         <div className="h-screen w-1/5 shadow-md hidden md:block overflow-y-auto">
           <SideBar />
         </div>
-        <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-4 ">
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+        <div className="flex flex-col gap-4 h-screen bg-gray-100 md:w-4/5 w-full overflow-y-auto p-4">
+          <div className="bg-white shadow p-6 mt-2">
+            <div className="text-2xl font-bold text-gray-800 uppercase">
+              Tableau de Bord
+            </div>
+            <div className="font-semibold text-gray-400">
+              Bienvenue sur votre tableau de bord
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 mt-4">
             <CardInfo 
-              title="Total Teachers" 
+              title="Total Professeurs" 
               number={info.totalTeachers || 0} 
               color='bg-orange-400' 
               icon={<FontAwesomeIcon icon={faChalkboardTeacher} className="text-white text-4xl" />} 
@@ -82,9 +90,7 @@ export default function DashboardStudent() {
               icon={<FontAwesomeIcon icon={faBook} className="text-white text-4xl" />} 
             />
           </div>
-          <div className="bg-white p-6 shadow rounded-sm">
-            <h2>Additional Content</h2>
-          </div>
+          
         </div>
       </div>
     </div>

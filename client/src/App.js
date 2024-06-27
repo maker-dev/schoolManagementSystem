@@ -38,6 +38,8 @@ import AbscenceClassTeacher from "./components/pages/teacher/abscence_resources/
 import TeacherGradesPage from "./components/pages/teacher/TeacherGradesPage";
 import StudentsMarksPage from "./components/pages/teacher/grade_resources/StudentsMarksPage";
 import StudentGradesPage from "./components/pages/student/StudentGradesPage";
+import ComplainsStudentPage from "./components/pages/student/ComplainsStudentPage";
+import ComplainsTeacherPage from "./components/pages/teacher/ComplainsTeacherPage";
 
 
 function App() {
@@ -72,6 +74,7 @@ function App() {
           <Route path="/Teacher/abscenceClass" element={<AbscenceClassTeacher/>}/>
           <Route path="/Teacher/notes" element={<TeacherGradesPage/>}/>
           <Route path="/Teacher/notes/etudiants" element={<StudentsMarksPage/>}/>
+          <Route path="/Teacher/complains" element={<ComplainsTeacherPage />} />
         </Route>
         {/* student */}
         <Route element={<StudentRoutes/>}>
@@ -79,6 +82,7 @@ function App() {
           <Route path="/Student/emploieTemps" element={<PlainningStudent />} />
           <Route path="/Student/notes" element={<StudentGradesPage/>}/>
           <Route path="/Student/profile" element={<StudentProfile />} />
+          <Route path="/Student/complains" element={<ComplainsStudentPage />} />
         </Route>
         {/* Student without admin confirmation */}
         <Route element={<NonConfirmedRoute/>}>

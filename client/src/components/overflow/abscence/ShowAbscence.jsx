@@ -112,7 +112,7 @@ export default function ShowAbscence({ id, type }) {
             <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
                 <Bar data={data} options={options} />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-center">
                 <p className="font-medium">Total Présence: {totalAttendance.totalPresent}</p>
                 <p className="font-medium">Total Absence: {totalAttendance.totalAbsent}</p>
             </div>
