@@ -56,20 +56,20 @@ export default function Login({ title, apiName, role }) {
   }
 
   return (
-    <section className="bg-teal-600 min-h-dvh">
+    <section className="bg-gray-50 h-lvh">
       <div className="flex flex-col items-center justify-center mx-auto py-8 px-6">
-        <Link to="/" className="flex mt-10 text-white text-center mb-6 text-3xl font-semibold">
-          UNIVERTECH
+        <Link to="/" className="flex mt-10 text-teal-600 text-center mb-6 text-3xl font-semibold">
+          UNIVERS-TIC
         </Link>
-        <div className="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-md">
+        <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md">
           <div className="p-6 space-y-4 md:space-y-6 md:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight flex justify-center text-white md:text-2xl">
+            <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900  text-center">
               {title}
             </h1>
             <form className="space-y-4 md:space-y-6">
               {validateCredentials.length !== 0 &&
-                <div className='border-red-400 border-2 text-center rounded-md text-red-400 md:p-2 p-2 text-md font-bold'>
-                  <ul className=' md:px-20 px-8'>
+                <div className='bg-red-300 text-red-900 p-4'>
+                  <ul className=' md:px-20 px-8 text-center'>
                     {validateCredentials.map(item => (
                       <li key={item.key}>{item.msg}</li>
                     ))}
@@ -78,7 +78,7 @@ export default function Login({ title, apiName, role }) {
               }
 
               <div>
-                <label htmlFor="email" className="block mb-2 text-left text-sm font-medium text-white">Email</label>
+                <label htmlFor="email" className="block mb-2 text-left text-sm font-medium text-gray-900">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -92,7 +92,7 @@ export default function Login({ title, apiName, role }) {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-white">Password</label>
+                <label htmlFor="password" className="block mb-2 text-left text-sm font-medium text-gray-900">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -116,8 +116,8 @@ export default function Login({ title, apiName, role }) {
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-teal-300"
                     />
                   </div>
-                  <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-8 sm:flex-row ml-3 text-sm">
-                    <label htmlFor="remember" className="text-gray-500 font-medium text-s">Afficher mot de passe</label>
+                  <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-16 sm:flex-row ml-3 text-sm">
+                    <label htmlFor="remember" className="text-gray-500">Afficher mot de passe</label>
                     <Link 
                       to="/forgetPassword"
                       state= {{email:email, role:role}}

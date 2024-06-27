@@ -92,10 +92,10 @@ export default function AdminDashboard() {
   // Delete a complaint
   const deleteComplaint = async (complaintId) => {
     try {
-      const response = await api.delete(`deleteComplaint/${complaintId}`); 
+      const response = await api.delete(`deleteComplain/${complaintId}`); 
       if (response.status === 200) {
         success("La réclamation a été supprimée avec succès."); 
-        fetchComplaints(); // Refresh complaints after deletion
+        fetchComplaints(); 
       } else if (response.status === 401) {
         DeconnectUser();
         navigate("/");

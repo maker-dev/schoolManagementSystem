@@ -99,7 +99,7 @@ export default function NavBar() {
                     <button onClick={handleMenu} className="md:hidden mr-4">
                         <img src={menu_icon} alt="menu icon" />
                     </button>
-                    <div className="text-white font-bold text-2xl">UNIVERTECH</div>
+                    <div className="text-white font-bold text-2xl">UNIVERS-TIC</div>
                 </div>
                 <div className="relative flex items-center">
                     <div className="flex items-center cursor-pointer relative" onClick={toggleDropdown}>
