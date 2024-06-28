@@ -50,7 +50,7 @@ export default function AdminDashboard() {
 
   const fetchComplaints = useCallback(async () => {
     try {
-      const response = await api.get("showComplains"); // Adjusted endpoint to "showComplaints"
+      const response = await api.get("showComplains");// Adjusted endpoint to "showComplaints"
       if (response.status === 200) {
         setComplaints(response.data);
       } else if (response.status === 401) {
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
                         Sujet
                       </th>
                       <th className="w-2/6 text-left py-3 md:px-4 px-2 uppercase font-semibold text-sm">
-                        Détails
+                        Nom d'Utilisateur
                       </th>
                       <th className="w-1/6 text-left py-3 md:px-4 px-2 uppercase font-semibold text-sm">
                         Date
@@ -212,7 +212,7 @@ export default function AdminDashboard() {
                       <tr key={index} className="border-b-2">
                         <td className="w-1/6 text-left py-3 md:px-4 px-2">{complaint.subject}</td>
                         <td className="w-2/6 text-left py-3 md:px-4 px-2 ">
-                          {complaint.details}
+                          {complaint.complainant.name}
                         </td>
                         <td className="w-1/6 text-left py-3 md:px-4 px-2">
                           {new Date(complaint.createdAt).toLocaleDateString()}

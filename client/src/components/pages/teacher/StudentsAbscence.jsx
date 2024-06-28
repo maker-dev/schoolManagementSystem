@@ -50,7 +50,6 @@ export default function StudentsAbscence() {
       if (user && user._id) {
         try {
           const response = await api.get(`showTeacherClasses/${user._id}`);
-          console.log(response.data)
           if (response.status === 401) {
             DeconnectUser();
             navigate("/");
