@@ -114,13 +114,6 @@ export default function PlainningStudent() {
                 </div>
               </div>
             )}
-            {user && (user.class.schedule === null || user.class.schedule === undefined ) && 
-              <div className="bg-white shadow-md rounded p-6">
-                <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-1">Votre classe n'a pas encore un emploie du temps!</h2>
-                </div>
-              </div>
-            }
             {user && (user.class === null || user.class === undefined) && (
               <div className="bg-white shadow-md rounded p-6">
                 <div className="mb-4">
@@ -128,6 +121,14 @@ export default function PlainningStudent() {
                 </div>
               </div>
             )}
+            {(user && (user.class !== null && user.class !== undefined) ) && (user.class?.schedule === null || user.class?.schedule === undefined ) && 
+              <div className="bg-white shadow-md rounded p-6">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-1">Votre classe n'a pas encore un emploie du temps!</h2>
+                </div>
+              </div>
+            }
+            
           </div>
         </div>
       </div>

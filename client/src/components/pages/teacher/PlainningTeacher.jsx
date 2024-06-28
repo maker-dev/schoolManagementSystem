@@ -116,7 +116,7 @@ export default function PlainningTeacher() {
               </div>
             )}
             {user && (user.schedule === null || user.schedule === undefined) && (
-              <div className="bg-white shadow-md rounded p-6">
+              <div className="bg-white shadow  p-6">
                 <div className="mb-4">
                   <h2 className="text-xl font-semibold text-gray-800 mb-1">Vous n'avez pas un emploie du temps</h2>
                 </div>

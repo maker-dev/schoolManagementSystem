@@ -44,7 +44,7 @@ export default function StudentGradesPage() {
 
     // Helper function to render exam results:
     const renderExamResults = () => {
-        if (!user || !user.examResults) return null;
+        if (!user || !user.examResults || !user.class) return null;
 
         return user.examResults.map((result, index) => (
             <div key={index} className="bg-white p-6 my-2 rounded shadow-md">
@@ -85,9 +85,14 @@ export default function StudentGradesPage() {
                         <TitleCard title={"Page des Notes"}></TitleCard>
                     </div>
                     <div className="mx-0 md:mx-6 mt-2 flex justify-center items-center bg-gray-100 my-6">
-                        <div className="w-full bg-white p-8 rounded-lg shadow-lg">
+                        <div className="w-full bg-white p-8 rounded shadow">
                             {/* Display Exam Results */}
                             {renderExamResults()}
+                            {renderExamResults() === null &&
+                            <div className="mb-4">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-1">Vous n'avez pas un classe!</h2>
+                          </div>
+                            }
                         </div>
                     </div>
                 </div>
