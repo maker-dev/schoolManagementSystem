@@ -1,5 +1,8 @@
 import { ComplainModel } from "../models/Complain.js";
 import {validationResult} from 'express-validator';
+import { TeacherModel } from "../models/Teacher.js";
+import { StudentModel } from "../models/Student.js";
+
 
 const addComplain = async (req, res) => {
     
@@ -52,9 +55,35 @@ const showComplains = async (req, res) => {
     
     try {
 
-        const complaints = await ComplainModel.find()
+       // Fetch complaints without population
+       const complaints = await ComplainModel.find();
 
-        res.json(complaints);
+       // Manually populate complainant details
+       const populatedComplaints = await Promise.all(complaints.map(async (complaint) => {
+           let complainantDetails;
+           if (complaint.complainant.model === 'Teacher') {
+               complainantDetails = await TeacherModel.findById(complaint.complainant.id).select('firstName lastName');
+           } else if (complaint.complainant.model === 'Student') {
+               complainantDetails = await StudentModel.findById(complaint.complainant.id).select('firstName lastName');
+           }
+
+           const fullName = complainantDetails ? `${complainantDetails.firstName} ${complainantDetails.lastName}` : 'Unknown';
+
+           return {
+               _id: complaint._id,
+               complainant: {
+                   id: complainantDetails ? complainantDetails._id : null,
+                   name: fullName,
+                   model: complaint.complainant.model
+               },
+               subject: complaint.subject,
+               details: complaint.details,
+               createdAt: complaint.createdAt,
+               updatedAt: complaint.updatedAt
+           };
+       }));
+
+       res.json(populatedComplaints);
 
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
