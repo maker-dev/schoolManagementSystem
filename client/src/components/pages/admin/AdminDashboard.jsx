@@ -20,6 +20,8 @@ import CountNum from "../../ui/CountNum";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { error, success } from "../../../helpers/Alerts";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default function AdminDashboard() {
   // State
@@ -50,7 +52,7 @@ export default function AdminDashboard() {
 
   const fetchComplaints = useCallback(async () => {
     try {
-      const response = await api.get("showComplains");// Adjusted endpoint to "showComplaints"
+      const response = await api.get("showComplains"); // Adjusted endpoint to "showComplaints"
       if (response.status === 200) {
         setComplaints(response.data);
       } else if (response.status === 401) {
@@ -90,22 +92,36 @@ export default function AdminDashboard() {
   };
 
   // Delete a complaint
-  const deleteComplaint = async (complaintId) => {
-    try {
-      const response = await api.delete(`deleteComplain/${complaintId}`); 
-      if (response.status === 200) {
-        success("La réclamation a été supprimée avec succès."); 
-        fetchComplaints(); 
-      } else if (response.status === 401) {
-        DeconnectUser();
-        navigate("/");
-      } else {
-        error("Erreur lors de la suppression de la réclamation.");
-      }
-    } catch (error) {
-      console.error("Server Error", error);
-      error("Erreur serveur lors de la suppression de la réclamation.");
-    }
+  const deleteComplaint = (complaintId) => {
+    confirmAlert({
+      title: 'Confirmer la suppression',
+      message: 'Êtes-vous sûr de vouloir supprimer cette réclamation ?',
+      buttons: [
+        {
+          label: 'Oui',
+          onClick: async () => {
+            try {
+              const response = await api.delete(`deleteComplain/${complaintId}`);
+              if (response.status === 200) {
+                success("La réclamation a été supprimée avec succès.");
+                fetchComplaints();
+              } else if (response.status === 401) {
+                DeconnectUser();
+                navigate("/");
+              } else {
+                error("Erreur lors de la suppression de la réclamation.");
+              }
+            } catch (error) {
+              console.error("Server Error", error);
+              error("Erreur serveur lors de la suppression de la réclamation.");
+            }
+          }
+        },
+        {
+          label: 'Non'
+        }
+      ]
+    });
   };
 
   return (
@@ -228,11 +244,7 @@ export default function AdminDashboard() {
                             />
                           </button>
                           <button
-                            onClick={() => {
-                              if (window.confirm("Êtes-vous sûr de vouloir supprimer cette réclamation ?")) {
-                                deleteComplaint(complaint._id);
-                              }
-                            }}
+                            onClick={() => deleteComplaint(complaint._id)}
                             className="font-bold text-red-500 hover:underline hover:text-red-400 transition duration-300 ease-in-out"
                           >
                             <FontAwesomeIcon icon={faTrash} className="" />

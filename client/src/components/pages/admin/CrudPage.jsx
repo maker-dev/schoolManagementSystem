@@ -12,9 +12,10 @@ import AddCard from "../../overflow/AddCard";
 import TitleCard from "../../cards/TitleCard";
 import ShowCard from "../../overflow/ShowCard";
 import { getNestedProperty } from "../../../helpers/HelpersFunctions";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEdit, faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default function CrudPage({
   columns,
@@ -24,13 +25,11 @@ export default function CrudPage({
   title,
   objectName,
 }) {
-  // Data
   const [data, setData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [search, setSearch] = useState("");
   const [id, setId] = useState("");
 
-  // Functionalities
   const [showAdd, setShowAdd] = useState("hidden");
   const [showInfo, setShowInfo] = useState("hidden");
   const [showUpdate, setShowUpdate] = useState("hidden");
@@ -38,7 +37,6 @@ export default function CrudPage({
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch data
   useEffect(() => {
     const fetchDatas = async () => {
       const response = await api.get(indexApi);
@@ -56,10 +54,8 @@ export default function CrudPage({
       }
     };
     fetchDatas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showAdd, loading, showUpdate]);
+  }, [showAdd, loading, showUpdate, navigate, indexApi]);
 
-  // Handle the checkbox of all rows
   const handleCheck = (e) => {
     if (e.target.checked === true) {
       setCheckedArr(
@@ -72,64 +68,76 @@ export default function CrudPage({
     }
   };
 
-  // Delete data event
-  const deleteDatas = async (e) => {
-    setLoading(true);
+  const deleteDatas = (e) => {
     e.preventDefault();
 
     if (checkedArr.length === 0) {
       error(`Sélectionnez une ${objectName}!`);
-      setLoading(false);
       return;
     }
 
-    try {
-      const deletePromises = checkedArr.map((id) =>
-        api.delete(deleteApi, {
-          data: { [idName]: id },
-        })
-      );
+    confirmAlert({
+      title: 'Confirmer la suppression',
+      message: `Êtes-vous sûr de vouloir supprimer les ${checkedArr.length} sélectionné(s)?`,
+      buttons: [
+        {
+          label: 'Oui',
+          onClick: async () => {
+            setLoading(true);
+            try {
+              const deletePromises = checkedArr.map((id) =>
+                api.delete(deleteApi, {
+                  data: { [idName]: id },
+                })
+              );
 
-      const responses = await Promise.all(deletePromises);
+              const responses = await Promise.all(deletePromises);
 
-      let successCount = 0;
-      let authError = false;
-      let selectionError = false;
+              let successCount = 0;
+              let authError = false;
+              let selectionError = false;
 
-      responses.forEach((response) => {
-        if (response.status === 401) {
-          authError = true;
-        } else if (response.status === 400) {
-          selectionError = true;
-        } else if (response.status === 200) {
-          successCount++;
+              responses.forEach((response) => {
+                if (response.status === 401) {
+                  authError = true;
+                } else if (response.status === 400) {
+                  selectionError = true;
+                } else if (response.status === 200) {
+                  successCount++;
+                }
+              });
+
+              if (authError) {
+                DeconnectUser();
+                navigate("/");
+                error("error authorization");
+                return;
+              }
+
+              if (selectionError) {
+                error(`Error ${objectName}!`);
+              } else if (successCount > 0) {
+                success(`${successCount} supprimé(s)!`);
+                setCheckedArr([]);
+              } else {
+                error("Error: something went wrong!");
+              }
+            } catch (e) {
+              console.log("error", e);
+              error("Error!");
+            }
+
+            setLoading(false);
+          }
+        },
+        {
+          label: 'Non',
+          onClick: () => {}
         }
-      });
-
-      if (authError) {
-        DeconnectUser();
-        navigate("/");
-        error("error authorization");
-        return;
-      }
-
-      if (selectionError) {
-        error(`Error ${objectName}!`);
-      } else if (successCount > 0) {
-        success(`${successCount} supprimé(s)!`);
-        setCheckedArr([]);
-      } else {
-        error("Error: something went wrong!");
-      }
-    } catch (e) {
-      console.log("error", e);
-      error("Error!");
-    }
-
-    setLoading(false);
+      ]
+    });
   };
 
-  // Handle show and hide add page
   const showAddPage = () => {
     setShowAdd("block");
   };
@@ -138,7 +146,6 @@ export default function CrudPage({
     setShowAdd("hidden");
   };
 
-  // Handle show and hide info page
   const showInfoPage = (id) => {
     setId(id);
     setShowInfo("block");
@@ -149,7 +156,6 @@ export default function CrudPage({
     setShowInfo("hidden");
   };
 
-  // Handle show and hide update page
   const showUpdatePage = (id) => {
     setId(id);
     setShowUpdate("block");
@@ -160,7 +166,6 @@ export default function CrudPage({
     setShowUpdate("hidden");
   };
 
-  // Search event
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearch(query);
@@ -175,7 +180,6 @@ export default function CrudPage({
     );
   };
 
-  // Handle checked checkbox solo
   const handleChangeChild = (e, id) => {
     if (checkedArr.includes(id) && e.target.checked === false) {
       setCheckedArr(
@@ -233,7 +237,6 @@ export default function CrudPage({
             <div className="overflow-x-auto overflow-y-auto">
               <table className="w-full text-sm text-left rtl:text-right text-white">
                 <thead className="text-white uppercase bg-gray-800">
-                  {/* Showing the columns of the page passing props */}
                   <tr>
                     {Object.keys(columns).map((key, index) => (
                       <th
@@ -257,7 +260,6 @@ export default function CrudPage({
                     </th>
                   </tr>
                 </thead>
-                {/* Showing the data from API based on the columns of the targeted page */}
                 <tbody>
                   {searchedData.map((field) => (
                     <tr
@@ -281,7 +283,6 @@ export default function CrudPage({
                           <span>{getNestedProperty(field, key)}</span>
                         </td>
                       ))}
-                      {/* Showing the actions (modifier and voir) */}
                       <td className="flex gap-4 px-6 py-4">
                         <button
                           onClick={() => showInfoPage(field._id)}

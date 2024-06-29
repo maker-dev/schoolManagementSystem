@@ -5,6 +5,8 @@ import { error, success } from "../../../helpers/Alerts";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 import { faUpload, faDownload, faTrash, faSpinner, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default function FileCard({ display, eventHide, id, name, cardName, isFileExists, apiArray }) {
     //functionallities:
@@ -114,26 +116,40 @@ export default function FileCard({ display, eventHide, id, name, cardName, isFil
 
     //handle delete file event:
     const handleDelete = async () => {
-        setDeleting(true);
-        setTimeout(() => {
-            setDeleting(false);
-        }, 1500);
-        try {
-            const response = await api.delete(`${apiArray[2]}/${id}`);
-            if (response.status === 401) {
-                DeconnectUser();
-                navigate("/");
-                error("error authorization");
-            } else if (response.status === 200) {
-                success("Suppression du fichier effectuée!");
-                setFile(null);
-                eventHide();
-            } else {
-                error("Error: Une erreur est survenue!");
-            }
-        } catch (e) {
-            error("Error: Une erreur est survenue!");
-        }
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this file?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        setDeleting(true);
+                        setTimeout(() => {
+                            setDeleting(false);
+                        }, 1500);
+                        try {
+                            const response = await api.delete(`${apiArray[2]}/${id}`);
+                            if (response.status === 401) {
+                                DeconnectUser();
+                                navigate("/");
+                                error("error authorization");
+                            } else if (response.status === 200) {
+                                success("Suppression du fichier effectuée!");
+                                setFile(null);
+                                eventHide();
+                            } else {
+                                error("Error: Une erreur est survenue!");
+                            }
+                        } catch (e) {
+                            error("Error: Une erreur est survenue!");
+                        }
+                    }
+                },
+                {
+                    label: 'No'
+                }
+            ]
+        });
     };
 
     return (
