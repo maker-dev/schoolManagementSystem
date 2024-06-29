@@ -79,7 +79,7 @@ export default function ComplainsStudentPage() {
                 </div>
                 <div className="flex flex-col gap-4 h-screen max-h-min bg-gray-100 md:w-4/5 w-full overflow-y-auto">
                     <div className="mx-0 md:mx-6 mt-6">
-                        <TitleCard title="Absence" />
+                        <TitleCard title="Coin des Plaintes" />
                     </div>
                     <div className="mx-0 md:mx-6">
                         {/* Form Section */}
