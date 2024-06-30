@@ -90,10 +90,47 @@ export default function ShowAbscenceBySubject({ id }) {
                 display: true,
                 labels: {
                     generateLabels: function(chart) {
-                        return chart.data.labels.map((label, index) => ({
-                            text: label,
-                            fillStyle: chart.data.datasets[0].backgroundColor[index],
-                        }));
+                        try {
+                            if (!chart.data.datasets.length || !chart.data.labels) {
+                                return [];
+                            }
+                            return chart.data.labels.map((label, index) => {
+                                // Check if the label exists and the corresponding backgroundColor exists
+                                if (chart.data.labels[index] && chart.data.datasets[0].backgroundColor[index]) {
+                                    return {
+                                        text: chart.data.labels[index],
+                                        fillStyle: chart.data.datasets[0].backgroundColor[index],
+                                        strokeStyle: chart.data.datasets[0].backgroundColor[index],
+                                        hidden: chart.getDatasetMeta(0).data[index].hidden,
+                                        lineCap: 'butt',
+                                        lineDash: [],
+                                        lineDashOffset: 0,
+                                        lineJoin: 'miter',
+                                        lineWidth: 1,
+                                        pointStyle: 'circle',
+                                        rotation: 0,
+                                    };
+                                }
+                                return null;
+                            }).filter(item => item !== null);
+                        } catch (error) {
+                            console.error("Error generating legend labels:", error);
+                            return [];
+                        }
+                    }
+                },
+                onClick: function (e, legendItem, legend) {
+                    try {
+                        const index = legendItem.index;
+                        const ci = legend.chart;
+                        const meta = ci.getDatasetMeta(0);
+                        const item = meta.data[index];
+                        if (item) {
+                            item.hidden = !item.hidden;
+                            ci.update();
+                        }
+                    } catch (error) {
+                        console.error("Error handling legend click:", error);
                     }
                 }
             }
@@ -102,9 +139,9 @@ export default function ShowAbscenceBySubject({ id }) {
 
     return (
         <div className="col-span-2">
-            <label htmlFor="attendance" className="block mb-2 text-sm font-medium text-gray-900 text-left">Abscence par Modules</label>
+            <label htmlFor="attendance" className="block mb-2 text-sm font-medium text-gray-900 text-left">Présence par Modules</label>
             <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
-                <Bar data={data} options={options} />
+                    <Bar data={data} options={options} />
             </div>
         </div>
     );

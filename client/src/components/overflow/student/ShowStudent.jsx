@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-export default function ShowStudent({ id }) {
+export default function ShowStudent({ id, eventHide }) {
     const [filiere, setFiliere] = useState(null); 
     const [nom, setNom] = useState(null); 
     const [prenom, setPrenom] = useState(null); 
@@ -71,7 +71,8 @@ export default function ShowStudent({ id }) {
                                 console.log("error authorization");
                             } else if (response.status === 200) {
                                 success("Confirmation effectuée!");
-                                setFetchTrigger(!fetchTrigger); 
+                                setFetchTrigger(!fetchTrigger);
+                                eventHide();
                             } else {
                                 error("Une erreur est survenue");
                             }
