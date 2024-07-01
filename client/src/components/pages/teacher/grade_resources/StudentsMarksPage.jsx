@@ -162,8 +162,9 @@ export default function StudentsMarksPage() {
                 <table className="min-w-full bg-white">
                   <thead className="bg-gray-800 text-white">
                     <tr>
-                      <th className="w-1/4 px-4 py-2">Prénom</th>
+
                       <th className="w-1/4 px-4 py-2">Nom</th>
+                      <th className="w-1/4 px-4 py-2">Prénom</th>
                       {[...Array(numberOfExams)].map((_, index) => (
                         <th key={`exam-${index}`} className="px-4 py-2">Note {index + 1}</th>
                       ))}
