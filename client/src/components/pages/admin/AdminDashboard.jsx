@@ -142,6 +142,7 @@ export default function AdminDashboard() {
                   Bienvenue sur votre tableau de bord
                 </div>
               </div>
+              { complaints.length > 5 &&
               <button 
                 className="bg-teal-600 hover:bg-teal-700 text-white text-sm p-3 font-bold rounded-md flex items-center"
                 onClick={handleShowNotif}
@@ -149,7 +150,7 @@ export default function AdminDashboard() {
                 {showAllNotifications
                   ? "Cacher les Notifications"
                   : "Afficher toutes les Notifications"}
-              </button>
+              </button>}
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
