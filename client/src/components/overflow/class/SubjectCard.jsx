@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DeconnectUser from "../../../helpers/DeconnectUser";
 import { success, error } from "../../../helpers/Alerts";
 import Loader from '../../ui/Loader';
+import { ToastContainer } from 'react-toastify';
 
 export default function SubjectCard({ id }) {
   // Data:
@@ -193,6 +194,7 @@ export default function SubjectCard({ id }) {
           ))}
         </tbody>
       </table>
+      <ToastContainer />
       {loading && <Loader/>}
     </div>
   );

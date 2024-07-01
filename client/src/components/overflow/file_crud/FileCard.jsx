@@ -53,9 +53,9 @@ export default function FileCard({ display, eventHide, id, name, cardName, isFil
             const promises = [];
     
             // If file exists, delete it
-            if (isFileExists === true) {
-                promises.push(api.delete(`${apiArray[2]}/${id}`));
-            }
+            // if (isFileExists === true) {
+            //     promises.push(api.delete(`${apiArray[2]}/${id}`));
+            // }
     
             // Upload new file
             const formData = new FormData();
